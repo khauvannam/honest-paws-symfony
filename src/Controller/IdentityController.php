@@ -28,7 +28,7 @@ class IdentityController extends AbstractController
     #[Route('/register', name: 'register')]
     public function CreateAsync(Request $request): RedirectResponse|Response
     {
-        $command = new RegisterUserCommand('', '', '');
+        $command = RegisterUserCommand::create('', '', '');
         $form = $this->createForm(RegisterType::class, $command);
 
         $form->handleRequest($request);
