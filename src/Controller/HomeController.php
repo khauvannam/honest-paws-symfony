@@ -2,7 +2,14 @@
 
 namespace App\Controller;
 
-class HomeController
-{
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Attribute\Route;
 
+class HomeController extends AbstractController
+{
+    #[Route('/', name: 'home')]
+    public function Index($request)
+    {
+
+    }
 }
