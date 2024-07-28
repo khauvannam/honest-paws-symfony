@@ -101,6 +101,35 @@ class ProductVariant
     {
         $this->product = $product;
     }
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function setVariantName(string $variantName): void
+    {
+        $this->variantName = $variantName;
+    }
+
+    public function setQuantity(int $quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
+    public function setOriginalPrice(OriginalPrice $originalPrice): void
+    {
+        $this->originalPrice = $originalPrice;
+    }
+
+    public function setDiscountedPrice(float $discountedPrice): void
+    {
+        $this->discountedPrice = $discountedPrice;
+    }
+
+    public function setProductId(string $productId): void
+    {
+        $this->productId = $productId;
+    }   
 }
 
 ?>
