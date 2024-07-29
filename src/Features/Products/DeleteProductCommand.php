@@ -30,12 +30,12 @@ class DeleteProductCommand
 class DeleteProductCommandHandler
 {
     private ProductRepository $productRepository;
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(ProductRepository $productRepository, EntityManagerInterface $entityManager)
+
+    public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
-        $this->entityManager = $entityManager;
+
     }
 
     public function __invoke(DeleteProductCommand $command): void
@@ -49,4 +49,5 @@ class DeleteProductCommandHandler
         $this->productRepository->deleteProduct($product);
     }
 }
+
 ?>

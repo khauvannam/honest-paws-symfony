@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Products;
 
 use App\Entity\Products\Product;
-use App\Features\Products\UpdateProductCommand;
 use App\Features\Products\CreateProductCommand;
 use App\Features\Products\CreateProductType;
 use App\Features\Products\DeleteProductCommand;
+use App\Features\Products\UpdateProductCommand;
 use App\Features\Products\UpdateProductType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -89,7 +89,7 @@ class ProductController extends AbstractController
     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, int $id): RedirectResponse|Response
     {
-        $product = UpdateProductCommand::create('', '', '', '', '','', new \DateTime(), []);
+        $product = UpdateProductCommand::create('', '', '', '', '', '', new \DateTime(), []);
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);
@@ -125,7 +125,10 @@ class ProductController extends AbstractController
     public function delete(Request $request, int $id): RedirectResponse
     {
         $command = DeleteProductCommand::create($id);
-        $this->bus->dispatch($command);
+        try {
+            $this->bus->dispatch($command);
+        } catch (ExceptionInterface $e) {
+        }
         return $this->redirectToRoute('product_index');
     }
 }
