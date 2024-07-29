@@ -2,7 +2,7 @@
 
 namespace App\Features\Products;
 
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

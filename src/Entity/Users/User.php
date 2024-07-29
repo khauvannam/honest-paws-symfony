@@ -2,9 +2,8 @@
 
 namespace App\Entity\Users;
 
-use App\Repository\IdentityRepository;
+use App\Repository\Identities\IdentityRepository;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
@@ -12,14 +11,12 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: IdentityRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public function __construct(string $username, string $email, string $passwordHash)
+    public function __construct(string $username, string $email)
     {
         $this->id = Uuid::v4();
         $this->username = $username;
         $this->email = $email;
-        $this->passwordHash = $passwordHash;
     }
-
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "UUID")]
@@ -34,14 +31,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    public static function Create(string $username, string $email, string $passwordHash): self
+    public static function Create(string $username, string $email): self
     {
-        return new self($username, $email, $passwordHash);
+        return new self($username, $email);
     }
 
     public function getPassword(): string
     {
         return $this->passwordHash;
+    }
+
+    public function setPassword($passwordHash): string
+    {
+        return $this->passwordHash = $passwordHash;
     }
 
     public function getRoles(): array

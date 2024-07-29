@@ -3,7 +3,7 @@
 namespace App\Features\Products;
 
 use App\Entity\Products\Product;
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 class GetProductQuery
@@ -36,4 +36,4 @@ class GetProductQueryHandler
         return $this->productRepository->find($query->getId());
     }
 }
-?>
+

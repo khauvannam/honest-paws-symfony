@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Products;
 
 use App\Entity\Products\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 
 /**
  * @extends ServiceEntityRepository<Product>
@@ -28,6 +27,13 @@ class ProductRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $entityManager->persist($product);
         $entityManager->flush();
+    }
+    public function update(Product $product): Product
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($product);
+        $entityManager->flush();
+        return $product;
     }
 
     public function update(Product $product): Product
