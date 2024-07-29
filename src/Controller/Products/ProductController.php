@@ -6,6 +6,7 @@ use App\Entity\Products\Product;
 use App\Features\Products\UpdateProductCommand;
 use App\Features\Products\CreateProductCommand;
 use App\Features\Products\CreateProductType;
+use App\Features\Products\DeleteProductCommand;
 use App\Features\Products\GetProductQuery;
 use App\Features\Products\UpdateProductType;
 use App\Repository\ProductRepository;
@@ -91,7 +92,7 @@ class ProductController extends AbstractController
     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, int $id): RedirectResponse|Response
     {
-        $product = CreateProductCommand::create('', '', '', '', '', new \DateTime(), new \DateTime(), []);
+        $product = UpdateProductCommand::create('', '', '', '', '','', new \DateTime(), []);
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);
@@ -126,9 +127,8 @@ class ProductController extends AbstractController
     #[Route('/products/{id}/delete', name: 'product_delete', methods: ['POST'])]
     public function delete(Request $request, int $id): RedirectResponse
     {
-
-        
-
+        $command = DeleteProductCommand::create($id);
+        $this->bus->dispatch($command);
         return $this->redirectToRoute('product_index');
     }
 }

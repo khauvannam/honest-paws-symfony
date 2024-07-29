@@ -46,8 +46,7 @@ class DeleteProductCommandHandler
             throw new \Exception('Product not found');
         }
 
-        $this->entityManager->remove($product);
-        $this->entityManager->flush();
+        $this->productRepository->deleteProduct($product);
     }
 }
 ?>

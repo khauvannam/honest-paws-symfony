@@ -36,14 +36,6 @@ class ProductRepository extends ServiceEntityRepository
         return $product;
     }
 
-    public function update(Product $product): Product
-    {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($product);
-        $entityManager->flush();
-        return $product;
-    }
-
     public function delete(Product $product): void
     {
         $entityManager = $this->getEntityManager();

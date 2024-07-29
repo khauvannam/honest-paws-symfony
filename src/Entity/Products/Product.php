@@ -86,7 +86,7 @@ class Product
             $this->addProductVariant($variant);
         }
     }
-    public function getId(): ?int
+    public function getId(): Uuid
     {
         return $this->id;
     }

@@ -3,7 +3,7 @@ namespace App\Features\Products;
 
 use App\Entity\Products\Product;
 use App\Entity\Products\ProductVariant; 
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection; 
 use Doctrine\ORM\EntityManagerInterface;
