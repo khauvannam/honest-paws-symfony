@@ -2,29 +2,32 @@
 
 namespace App\Features\Carts;
 
+use App\Entity\Carts\Cart;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CreateCartCommand
 {
-    private function __construct(string $customerId)
+    private function __construct(string $CustomerId)
     {
-        $this->customerId = $customerId;
+        $this->CustomerId = $CustomerId;
     }
 
-    private string $customerId;
+    private string $CustomerId;
 
-    public static function Create(string $customerId): self
+    public static function Create(string $CustomerId): self
     {
-        return new self($customerId);
+        return new self($CustomerId);
     }
 
     public function getCustomerId(): string
     {
-        return $this->customerId;
+        return $this->CustomerId;
     }
 }
 
@@ -33,7 +36,7 @@ class CartType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('customerId', TextType::class, [
+            ->add('CustomerId', TextType::class, [
                 'label' => 'Customer ID',
             ])
             ->add('createCart', SubmitType::class, [
@@ -46,5 +49,23 @@ class CartType extends AbstractType
         $resolver->setDefaults([
             'data_class' => CreateCartCommand::class,
         ]);
+    }
+}
+
+class CreateCartCommandHandler
+{
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    public function __invoke(CreateCartCommand $command)
+    {
+        $cart = Cart::Create($command->getCustomerId());
+
+        $this->entityManager->persist($cart);
+        $this->entityManager->flush();
     }
 }

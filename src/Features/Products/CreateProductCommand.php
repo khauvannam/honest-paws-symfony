@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Features\Products;
 
 use App\Entity\Products\Product;
-use App\Entity\Products\ProductVariant; 
+use App\Entity\Products\ProductVariant;
 use App\Repository\Products\ProductRepository;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection; 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,7 +26,7 @@ class CreateProductCommand
     private string $discountPercent;
     private DateTime $createdAt;
     private DateTime $updatedAt;
-    private ArrayCollection $productVariants; 
+    private ArrayCollection $productVariants;
 
     public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt, ArrayCollection $productVariants)
     {
@@ -36,7 +37,7 @@ class CreateProductCommand
         $this->discountPercent = $discountPercent;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
-        $this->productVariants = $productVariants; 
+        $this->productVariants = $productVariants;
     }
 
     public static function create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt, array $productVariants): self
@@ -143,8 +144,8 @@ class CreateProductType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Updated At',
             ])
-            ->add('productVariants', CollectionType::class, [ 
-                'entry_type' => CreateProductVariantType::class, 
+            ->add('productVariants', CollectionType::class, [
+                'entry_type' => CreateProductVariantType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -162,7 +163,3 @@ class CreateProductType extends AbstractType
         ]);
     }
 }
-
-
-
-?>
