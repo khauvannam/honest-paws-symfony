@@ -38,6 +38,8 @@ class OriginalPrice
         $this->currency = $currency;
     }
 
+    
+
     public function getValue(): float
     {
         return $this->value;
