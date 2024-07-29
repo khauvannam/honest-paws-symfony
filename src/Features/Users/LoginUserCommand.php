@@ -50,14 +50,14 @@ class LoginUserHandler
 
     private UserPasswordHasherInterface $passwordEncoder;
 
+
     public function __construct(
         IdentityRepository          $identityRepository,
-        Security                    $security,
         UserPasswordHasherInterface $passwordEncoder
     )
     {
         $this->identityRepository = $identityRepository;
-        $this->security = $security;
+
         $this->passwordEncoder = $passwordEncoder;
     }
 
