@@ -2,7 +2,7 @@
 
 namespace App\Entity\Products;
 
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;  
 use Doctrine\Common\Collections\ArrayCollection;

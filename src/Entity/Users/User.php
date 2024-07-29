@@ -2,9 +2,8 @@
 
 namespace App\Entity\Users;
 
-use App\Repository\IdentityRepository;
+use App\Repository\Identities\IdentityRepository;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;

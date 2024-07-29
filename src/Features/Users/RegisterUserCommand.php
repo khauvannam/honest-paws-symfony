@@ -3,7 +3,7 @@
 namespace App\Features\Users;
 
 use App\Entity\Users\User;
-use App\Repository\IdentityRepository;
+use App\Repository\Identities\IdentityRepository;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -15,27 +15,27 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegisterUserCommand
 {
-    private function __construct(string $username, string $email, string $passwordHash)
+    private function __construct(string $username, string $email, string $password)
     {
         $this->username = $username;
         $this->email = $email;
-        $this->passwordHash = $passwordHash;
+        $this->password = $password;
     }
 
     private string $username;
 
     private string $email;
 
-    private string $passwordHash;
+    private string $password;
 
-    public static function Create(string $username, string $email, string $passwordHash): self
+    public static function Create(string $username, string $email, string $password): self
     {
-        return new self($username, $email, $passwordHash);
+        return new self($username, $email, $password);
     }
 
     public function getPassword(): string
     {
-        return $this->passwordHash;
+        return $this->password;
     }
 
 
@@ -80,7 +80,7 @@ class RegisterType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email',
             ])
-            ->add('passwordHash', PasswordType::class, [
+            ->add('password', PasswordType::class, [
                 'label' => 'Password',
             ])
             ->add('register', SubmitType::class, [

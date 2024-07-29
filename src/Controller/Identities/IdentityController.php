@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Identities;
 
 use App\Features\Users\RegisterType;
 use App\Features\Users\RegisterUserCommand;

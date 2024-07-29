@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Products;
 
 use App\Entity\Products\Product;
 use App\Form\ProductType;
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,4 +86,4 @@ class ProductController extends AbstractController
     }
 }
 
-?>
+
