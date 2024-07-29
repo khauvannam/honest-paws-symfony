@@ -6,7 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+
 
 class CreateCartCommand
 {
@@ -46,5 +49,23 @@ class CartType extends AbstractType
         $resolver->setDefaults([
             'data_class' => CreateCartCommand::class,
         ]);
+    }
+}
+class CreateCartCommandHandler implements MessageHandlerInterface
+{
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    public function __invoke(CreateCartCommand $command)
+    {
+        $cart = new Cart();
+        $cart->setCustomerId($command->getCustomerId());
+
+        $this->entityManager->persist($cart);
+        $this->entityManager->flush();
     }
 }

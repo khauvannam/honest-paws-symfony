@@ -2,7 +2,7 @@
 
 namespace App\Entity\Products;
 
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;  
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,22 +15,22 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private Uuid $id; 
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $name ;
 
     #[ORM\Column(length: 2000)]
-    private ?string $description = null;
+    private ?string $description ;
 
     #[ORM\Column(length: 2000)]
-    private ?string $productUseGuide = null;
+    private ?string $productUseGuide ;
 
     #[ORM\Column(length: 500)]
-    private ?string $imageUrl = null;
+    private ?string $imageUrl ;
 
     #[ORM\Column(length: 500)]
-    private ?string $discountPercent = null;
+    private ?string $discountPercent ;
 
     #[ORM\Column(type: 'datetime')]
     private ?DateTime $createdAt;
@@ -86,7 +86,7 @@ class Product
             $this->addProductVariant($variant);
         }
     }
-    public function getId(): ?int
+    public function getId(): Uuid
     {
         return $this->id;
     }
@@ -121,19 +121,63 @@ class Product
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
     public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function getProductVariants(): Collection
+    {
+        return $this->productVariants;
+    }
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function setProductUseGuide(?string $productUseGuide): self
+    {
+        $this->productUseGuide = $productUseGuide;
+        return $this;
+    }
+
+    public function setImageUrl(?string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
+        return $this;
+    }
+
+    public function setDiscountPercent(?string $discountPercent): self
+    {
+        $this->discountPercent = $discountPercent;
+        return $this;
+    }
+
+    public function setCreatedAt(?DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function setUpdatedAt(?DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
+
+
 }
 
 ?>

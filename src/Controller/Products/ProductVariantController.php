@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Products\ProductVariant;
-use App\Features\Products\ProductVariantCommand;
-use App\Features\Products\ProductVariantType;
-use App\Repository\ProductRepository;
+use App\Features\Products\CreateProductVariantCommand;
+use App\Features\Products\CreateProductVariantType;
+use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,8 +39,8 @@ class ProductVariantController extends AbstractController
             throw $this->createNotFoundException('The product does not exist');
         }
 
-        $command = ProductVariantCommand::create('', 0, 0.0, 0.0, $productId, $product);
-        $form = $this->createForm(ProductVariantType::class, $command);
+        $command = CreateProductVariantCommand::create('', 0, 0.0, 0.0, $productId, $product);
+        $form = $this->createForm(CreateProductVariantType::class, $command);
 
         $form->handleRequest($request);
 
@@ -73,7 +73,7 @@ class ProductVariantController extends AbstractController
             throw $this->createNotFoundException('The product variant does not exist');
         }
 
-        $command = ProductVariantCommand::create(
+        $command = CreateProductVariantCommand::create(
             $productVariant->getVariantName(),
             $productVariant->getQuantity(),
             $productVariant->getOriginalPrice(),
@@ -82,7 +82,7 @@ class ProductVariantController extends AbstractController
             $product
         );
 
-        $form = $this->createForm(ProductVariantType::class, $command);
+        $form = $this->createForm(CreateProductVariantType::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

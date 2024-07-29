@@ -58,7 +58,7 @@ class ProductVariantRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('pv')
             ->andWhere('pv.productId = :productId')
-            ->setParameter('productId', $productId)
+            ->setParameter(key: 'productId', value: $productId)
             ->getQuery()
             ->getResult();
     }

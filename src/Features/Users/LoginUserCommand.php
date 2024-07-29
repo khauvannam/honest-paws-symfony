@@ -2,9 +2,8 @@
 
 namespace App\Features\Users;
 
-use App\Entity\Users\User;
 use App\Repository\Identities\IdentityRepository;
-use Doctrine\DBAL\Types\TextType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -13,25 +12,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class RegisterUserCommand
+class LoginUserCommand
 {
-    private function __construct(string $username, string $email, string $password)
+    private function __construct(string $email, string $password)
     {
-        $this->username = $username;
         $this->email = $email;
         $this->password = $password;
     }
 
-    private string $username;
-
     private string $email;
-
     private string $password;
 
-    public static function Create(string $username, string $email, string $password): self
+    public function getEmail(): string
     {
-        return new self($username, $email, $password);
+        return $this->email;
     }
 
     public function getPassword(): string
@@ -39,63 +35,62 @@ class RegisterUserCommand
         return $this->password;
     }
 
-
-    public function getUserIdentifier(): string
+    public static function Create(string $email, string $password): self
     {
-        return $this->email;
+        return new self($email, $password);
     }
 
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
+
 }
 
 #[AsMessageHandler]
-class RegisterUserHandler
+class LoginUserHandler
 {
     private IdentityRepository $identityRepository;
+    private Security $security;
+    private UserPasswordHasherInterface $passwordEncoder;
 
-    public function __construct(IdentityRepository $identityRepository)
-    {
+    public function __construct(
+        IdentityRepository $identityRepository,
+        Security $security,
+        UserPasswordHasherInterface $passwordEncoder
+    ) {
         $this->identityRepository = $identityRepository;
-
+        $this->security = $security;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function __invoke(RegisterUserCommand $command, UserPasswordHasherInterface $userPasswordHasher): void
+    public function __invoke(LoginUserCommand $command): void
     {
-        $plainTextPassword = $command->getPassword();
-        $user = User::Create($command->getUsername(), $command->getUserIdentifier());
-        $hashPassword = $userPasswordHasher->hashPassword($user, $plainTextPassword);
-        $user->setPassword($hashPassword);
-        $this->identityRepository->createAsync($user);
+        $user = $this->identityRepository->findOneByEmail($command->getEmail());
+
+        if (!$user || !$this->passwordEncoder->isPasswordValid($user, $command->getPassword())) {
+            throw new AuthenticationException('Invalid credentials.');
+        }
+
     }
 }
 
-
-class RegisterType extends AbstractType
+class LoginType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class, [
-                'label' => 'Username',
-            ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Password',
             ])
-            ->add('register', SubmitType::class, [
-                'label' => 'Register',
+            ->add('login', SubmitType::class, [
+                'label' => 'Login',
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => RegisterUserCommand::class,
+            'data_class' => LoginUserCommand::class,
         ]);
     }
 }
