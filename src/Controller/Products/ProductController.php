@@ -17,7 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Common\Collections\ArrayCollection; // Import ArrayCollection
+use Doctrine\Common\Collections\ArrayCollection;
+
+// Import ArrayCollection
 
 class ProductController extends AbstractController
 {
@@ -85,18 +87,12 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    
-     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
+
+    #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, int $id): RedirectResponse|Response
     {
-        $query = new GetProductQuery($id);
-        $product = $this->bus->dispatch($query);
+        $product = CreateProductCommand::create('', '', '', '', '', new \DateTime(), new \DateTime(), []);
 
-        if (!$product) {
-            throw $this->createNotFoundException('Product not found');
-        }
-
-        // Create the form with the product data
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);
 
@@ -112,7 +108,6 @@ class ProductController extends AbstractController
                 $data->getCategory(),
                 $data->getCreatedAt(),
                 $data->getUpdatedAt(),
-                $data->getTags(),
             );
 
             // Dispatch the command to update the product
@@ -131,16 +126,8 @@ class ProductController extends AbstractController
     #[Route('/products/{id}/delete', name: 'product_delete', methods: ['POST'])]
     public function delete(Request $request, int $id): RedirectResponse
     {
-        $product = $this->entityManager->getRepository(Product::class)->find($id);
 
-        if (!$product) {
-            throw $this->createNotFoundException('The product does not exist');
-        }
-
-        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
-            $this->entityManager->remove($product);
-            $this->entityManager->flush();
-        }
+        
 
         return $this->redirectToRoute('product_index');
     }

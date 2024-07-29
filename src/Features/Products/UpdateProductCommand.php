@@ -2,10 +2,10 @@
 
 namespace App\Features\Products;
 
-use App\Entity\Products\Product;
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -88,12 +88,15 @@ class UpdateProductCommandHandler
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @throws Exception
+     */
     public function __invoke(UpdateProductCommand $command): void
     {
         $product = $this->productRepository->find($command->getId());
 
         if (!$product) {
-            throw new \Exception('Product not found');
+            throw new Exception('Product not found');
         }
 
         $product->setName($command->getName());
