@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Products\Product;
+use App\Features\Products\UpdateProductCommand;
 use App\Features\Products\CreateProductCommand;
 use App\Features\Products\CreateProductType;
+use App\Features\Products\GetProductQuery;
+use App\Features\Products\UpdateProductType;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection; // Import ArrayCollection
 
 class ProductController extends AbstractController
 {
@@ -41,12 +46,13 @@ class ProductController extends AbstractController
     #[Route('/products/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $command = CreateProductCommand::create('', '', '', '', '', new \DateTime(), new \DateTime());
+        $command = CreateProductCommand::create('', '', '', '', '', new \DateTime(), new \DateTime(), []);
         $form = $this->createForm(CreateProductType::class, $command);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $command = $form->getData(); // Get updated data from the form
             $this->bus->dispatch($command);
             return $this->redirectToRoute('product_success');
         }
@@ -79,33 +85,44 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
+    
+     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, int $id): RedirectResponse|Response
     {
-        $product = $this->entityManager->getRepository(Product::class)->find($id);
+        $query = new GetProductQuery($id);
+        $product = $this->bus->dispatch($query);
 
         if (!$product) {
-            throw $this->createNotFoundException('The product does not exist');
+            throw $this->createNotFoundException('Product not found');
         }
 
-        $command = CreateProductCommand::create(
-            $product->getName(),
-            $product->getDescription(),
-            $product->getProductUseGuide(),
-            $product->getImageUrl(),
-            $product->getDiscountPercent(),
-            $product->getCreatedAt(),
-            $product->getUpdatedAt()
-        );
-
-        $form = $this->createForm(CreateProductType::class, $command);
+        // Create the form with the product data
+        $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            // Create an UpdateProductCommand with the form data
+            $command = new UpdateProductCommand(
+                $data->getId(),
+                $data->getName(),
+                $data->getDescription(),
+                $data->getPrice(),
+                $data->getCategory(),
+                $data->getCreatedAt(),
+                $data->getUpdatedAt(),
+                $data->getTags(),
+            );
+
+            // Dispatch the command to update the product
             $this->bus->dispatch($command);
+
+            // Redirect to the success page or product list
             return $this->redirectToRoute('product_success');
         }
 
+        // Render the form view for editing
         return $this->render('product/edit.html.twig', [
             'form' => $form->createView(),
         ]);
