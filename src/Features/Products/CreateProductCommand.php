@@ -1,14 +1,16 @@
 <?php
-
 namespace App\Features\Products;
 
 use App\Entity\Products\Product;
+use App\Entity\Products\ProductVariant; 
 use App\Repository\ProductRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection; 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -23,8 +25,9 @@ class CreateProductCommand
     private string $discountPercent;
     private DateTime $createdAt;
     private DateTime $updatedAt;
+    private ArrayCollection $productVariants; 
 
-    public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt)
+    public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt, ArrayCollection $productVariants)
     {
         $this->name = $name;
         $this->description = $description;
@@ -33,11 +36,12 @@ class CreateProductCommand
         $this->discountPercent = $discountPercent;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->productVariants = $productVariants; 
     }
 
-    public static function create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt): self
+    public static function create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt, array $productVariants): self
     {
-        return new self($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updatedAt);
+        return new self($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updatedAt, new ArrayCollection($productVariants));
     }
 
     public function getName(): string
@@ -74,6 +78,11 @@ class CreateProductCommand
     {
         return $this->updatedAt;
     }
+
+    public function getProductVariants(): ArrayCollection
+    {
+        return $this->productVariants;
+    }
 }
 
 #[AsMessageHandler]
@@ -97,7 +106,8 @@ class CreateProductCommandHandler
             $command->getImageUrl(),
             $command->getDiscountPercent(),
             $command->getCreatedAt(),
-            $command->getUpdatedAt()
+            $command->getUpdatedAt(),
+            $command->getProductVariants()->toArray()
         );
 
         $this->entityManager->persist($product);
@@ -133,6 +143,13 @@ class CreateProductType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Updated At',
             ])
+            ->add('productVariants', CollectionType::class, [ 
+                'entry_type' => CreateProductVariantType::class, 
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Save',
             ]);
@@ -145,4 +162,7 @@ class CreateProductType extends AbstractType
         ]);
     }
 }
+
+
+
 ?>

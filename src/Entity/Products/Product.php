@@ -125,6 +125,10 @@ class Product
     {
         return $this->updatedAt;
     }
+    public function getProductVariants(): Collection
+    {
+        return $this->productVariants;
+    }
     public function setId(?int $id): self
     {
         $this->id = $id;
