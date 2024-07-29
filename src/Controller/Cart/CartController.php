@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Cart;
 
-use App\Features\Carts;
 use App\Entity\Carts\Cart;
 use App\Features\Carts\CreateCartCommand;
 use App\Features\Carts\CartType;

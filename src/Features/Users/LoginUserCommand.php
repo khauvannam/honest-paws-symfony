@@ -47,22 +47,24 @@ class LoginUserCommand
 class LoginUserHandler
 {
     private IdentityRepository $identityRepository;
-    private Security $security;
+
     private UserPasswordHasherInterface $passwordEncoder;
 
+
     public function __construct(
-        IdentityRepository $identityRepository,
-        Security $security,
+        IdentityRepository          $identityRepository,
         UserPasswordHasherInterface $passwordEncoder
-    ) {
+    )
+    {
         $this->identityRepository = $identityRepository;
-        $this->security = $security;
+
         $this->passwordEncoder = $passwordEncoder;
     }
 
     public function __invoke(LoginUserCommand $command): void
     {
         $user = $this->identityRepository->findOneByEmail($command->getEmail());
+        $this->identityRepository->loginUser($user);
 
         if (!$user || !$this->passwordEncoder->isPasswordValid($user, $command->getPassword())) {
             throw new AuthenticationException('Invalid credentials.');
