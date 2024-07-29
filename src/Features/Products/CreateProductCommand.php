@@ -3,7 +3,8 @@
 namespace App\Features\Products;
 
 use App\Entity\Products\Product;
-use App\Repository\ProductRepository;
+use App\Entity\Products\ProductVariant;
+use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
@@ -33,6 +34,7 @@ class CreateProductCommand
         $this->discountPercent = $discountPercent;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+
     }
 
     public static function create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt): self

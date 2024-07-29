@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateProductVariantCommand
@@ -90,16 +89,15 @@ class CreateProductVariantCommandHandler
             'variantName' => $command->getVariantName()
         ]);
 
+        $originalPrice = OriginalPrice::create($command->getOriginalPrice());
         if ($productVariant) {
-            $originalPrice = OriginalPrice::create($command->getOriginalPrice());
             // Update existing product variant
             $productVariant->setQuantity($command->getQuantity());
             $productVariant->setOriginalPrice($originalPrice);
             $productVariant->setDiscountedPrice($command->getDiscountedPrice());
         } else {
-            $originalPrice = OriginalPrice::create($command->getOriginalPrice());
             // Create new product variant
-            $productVariant = new ProductVariant();
+            $productVariant = ProductVariant::create($command->getVariantName(),$command->getQuantity());
             $productVariant->setVariantName($command->getVariantName());
             $productVariant->setQuantity($command->getQuantity());
             $productVariant->setOriginalPrice($originalPrice);

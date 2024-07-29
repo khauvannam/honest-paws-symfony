@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterUserCommand
 {
@@ -61,10 +62,13 @@ class RegisterUserHandler
 
     }
 
-    public function __invoke(RegisterUserCommand $command): void
+    public function __invoke(RegisterUserCommand $command, UserPasswordHasherInterface $userPasswordHasher): void
     {
-        $user = User::Create($command->getUsername(), $command->getUserIdentifier(), $command->getPassword());
-        $this->identityRepository->CreateAsync($user);
+        $plainTextPassword = $command->getPassword();
+        $user = User::Create($command->getUsername(), $command->getUserIdentifier());
+        $hashPassword = $userPasswordHasher->hashPassword($user, $plainTextPassword);
+        $user->setPassword($hashPassword);
+        $this->identityRepository->createAsync($user);
     }
 }
 

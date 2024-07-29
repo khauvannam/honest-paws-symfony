@@ -15,22 +15,22 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private Uuid $id; 
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $name ;
 
     #[ORM\Column(length: 2000)]
-    private ?string $description = null;
+    private ?string $description ;
 
     #[ORM\Column(length: 2000)]
-    private ?string $productUseGuide = null;
+    private ?string $productUseGuide ;
 
     #[ORM\Column(length: 500)]
-    private ?string $imageUrl = null;
+    private ?string $imageUrl ;
 
     #[ORM\Column(length: 500)]
-    private ?string $discountPercent = null;
+    private ?string $discountPercent ;
 
     #[ORM\Column(type: 'datetime')]
     private ?DateTime $createdAt;

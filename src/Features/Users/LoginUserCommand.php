@@ -3,6 +3,7 @@
 namespace App\Features\Users;
 
 use App\Repository\Identities\IdentityRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -10,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class LoginUserCommand
 {
@@ -44,19 +47,27 @@ class LoginUserCommand
 class LoginUserHandler
 {
     private IdentityRepository $identityRepository;
+    private Security $security;
+    private UserPasswordHasherInterface $passwordEncoder;
 
-    public function __construct(IdentityRepository $identityRepository)
-    {
+    public function __construct(
+        IdentityRepository $identityRepository,
+        Security $security,
+        UserPasswordHasherInterface $passwordEncoder
+    ) {
         $this->identityRepository = $identityRepository;
-
+        $this->security = $security;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function __invoke(LoginUserCommand $command): void
     {
         $user = $this->identityRepository->findOneByEmail($command->getEmail());
 
+        if (!$user || !$this->passwordEncoder->isPasswordValid($user, $command->getPassword())) {
+            throw new AuthenticationException('Invalid credentials.');
+        }
 
-        // Authentication success logic here
     }
 }
 

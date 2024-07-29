@@ -2,6 +2,8 @@
 
 namespace App\Controller\Identities;
 
+use App\Features\Users\LoginType;
+use App\Features\Users\LoginUserCommand;
 use App\Features\Users\RegisterType;
 use App\Features\Users\RegisterUserCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class IdentityController extends AbstractController
 {
@@ -47,5 +50,29 @@ class IdentityController extends AbstractController
     public function registerSuccess(): Response
     {
         return $this->render('register/success.html.twig');
+    }
+    #[Route('/login',name: 'login')]
+    public function login(Request $request): Response
+    {
+        $command = LoginUserCommand::create('', '');
+        $form = $this->createForm(LoginType::class, $command);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->bus->dispatch($command);
+                // Redirect to the secured area
+                return $this->redirectToRoute('home');
+            } catch (AuthenticationException $e) {
+
+                $this->addFlash('error', 'Invalid credentials.');
+            } catch (ExceptionInterface $e) {
+            }
+        }
+
+        return $this->render('security/login.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
