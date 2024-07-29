@@ -40,9 +40,6 @@ class CartItem
     private DateTime $AddedAt;
 
     #[ORM\Column(length: 255)]
-    private float $OnSale;
-
-    #[ORM\Column(length: 255)]
     private string $Description;
 
     #[ORM\Column(length: 255)]
@@ -56,7 +53,7 @@ class CartItem
         float $price,
         string $imgUrl,
         string $description,
-        bool $onSale = false
+
     ) {
         $this->ProductId = $productId;
         $this->VariantId = $variantId;
@@ -65,7 +62,7 @@ class CartItem
         $this->Price = $price;
         $this->ImageUrl = $imgUrl;
         $this->Description = $description;
-        $this->OnSale = $onSale;
+
         $this->AddedAt = new \DateTime();
     }
 
@@ -78,9 +75,9 @@ class CartItem
         string $imageUrl,
         string $description,
         string $basketId,
-        bool $onSale = false
+
     ): self {
-        return new self($productId, $variantId, $name, $quantity, $price, $imageUrl, $description, $basketId, $onSale);
+        return new self($productId, $variantId, $name, $quantity, $price, $imageUrl, $description, $basketId);
     }
 
     public function getCart(): ?Cart
