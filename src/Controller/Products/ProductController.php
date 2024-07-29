@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Products\Controller;
 
 use App\Entity\Products\Product;
 use App\Features\Products\UpdateProductCommand;
