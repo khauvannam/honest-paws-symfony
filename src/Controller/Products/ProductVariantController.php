@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Products\ProductVariant;
 use App\Features\Products\CreateProductVariantCommand;
 use App\Features\Products\CreateProductVariantType;
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

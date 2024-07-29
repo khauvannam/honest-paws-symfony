@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Features\Products;
-
-use App\Repository\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 class ListProductsQuery
