@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegisterUserCommand
 {
-    public function __construct(string $username, string $email, string $passwordHash)
+    private function __construct(string $username, string $email, string $passwordHash)
     {
         $this->username = $username;
         $this->email = $email;
