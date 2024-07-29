@@ -6,13 +6,16 @@ use App\Entity\Users\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\Builder\Identity;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class IdentityRepository extends ServiceEntityRepository
 {
+    private Security $security;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Identity::class);
+        $this->security = $security;
     }
 
     public function createAsync(User $user): void
@@ -27,9 +30,10 @@ class IdentityRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['email' => $email]);
     }
-    public function loginUser(User $user): void 
+
+    public function loginUser(User $user): void
     {
-        
+        $this->security->login($user);
     }
 
 }
