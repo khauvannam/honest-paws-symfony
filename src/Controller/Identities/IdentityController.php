@@ -26,7 +26,7 @@ class IdentityController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/register.html.twig', name: 'register.html.twig')]
+    #[Route('/register', name: 'register')]
     public function CreateAsync(Request $request): RedirectResponse|Response
     {
         $command = RegisterUserCommand::create('', '', '');
@@ -39,7 +39,7 @@ class IdentityController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('security/register.html.twig.html.twig', [
+        return $this->render('security/register.html.twig', [
             'form' => $form->createView(),
         ]);
     }

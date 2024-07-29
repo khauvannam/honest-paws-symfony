@@ -4,7 +4,7 @@ namespace App\Features\Users;
 
 use App\Entity\Users\User;
 use App\Repository\Identities\IdentityRepository;
-use Doctrine\DBAL\Types\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -25,6 +25,21 @@ class RegisterUserCommand
 
     private string $username;
 
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
     private string $email;
 
     private string $password;
@@ -40,7 +55,7 @@ class RegisterUserCommand
     }
 
 
-    public function getUserIdentifier(): string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -50,28 +65,6 @@ class RegisterUserCommand
         return $this->username;
     }
 }
-
-#[AsMessageHandler]
-class RegisterUserHandler
-{
-    private IdentityRepository $identityRepository;
-
-    public function __construct(IdentityRepository $identityRepository)
-    {
-        $this->identityRepository = $identityRepository;
-
-    }
-
-    public function __invoke(RegisterUserCommand $command, UserPasswordHasherInterface $userPasswordHasher): void
-    {
-        $plainTextPassword = $command->getPassword();
-        $user = User::Create($command->getUsername(), $command->getUserIdentifier());
-        $hashPassword = $userPasswordHasher->hashPassword($user, $plainTextPassword);
-        $user->setPassword($hashPassword);
-        $this->identityRepository->createAsync($user);
-    }
-}
-
 
 class RegisterType extends AbstractType
 {
@@ -87,7 +80,7 @@ class RegisterType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'Password',
             ])
-            ->add('register.html.twig', SubmitType::class, [
+            ->add('register', SubmitType::class, [
                 'label' => 'Register',
             ]);
     }
