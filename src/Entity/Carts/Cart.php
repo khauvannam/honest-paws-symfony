@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Carts;
 
+use App\Entity\Carts;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CartRepository;
+use App\Repository\Carts\CartRepository;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
@@ -14,38 +16,36 @@ class Cart
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $CustomerId = null;
+    private string $CustomerId;
 
-    #[ORM\Column(length: 255)]
-    private ?string $CartId = null;
+
 
     #[ORM\OneToMany(length: 255)]
     private Collection $CartItemsList;
 
     #[ORM\Column(type: 'datetime')]
-    private ?DateTime $UpdateDate = null;
+    private DateTime $UpdateDate;
 
-    private function __construct(string $CustomerId, string $CartId, DateTime $UpdateDate)
+    private function __construct(string $CustomerId, string $CartId)
     {
+        $this->id = Uuid::v4();
         $this->CustomerId = $CustomerId;
-        $this->CartId = $CartId;
-        $this->UpdateDate = $UpdateDate;
+        $this->UpdateDate = new DateTime();
         $this->CartItemsList = new ArrayCollection();
     }
 
-    public static function Create(string $CustomerId, string $CartId, DateTime $UpdateDate): self
+    public static function Create(string $CustomerId, string $CartId): self
     {
-        return new self($CustomerId, $CartId, $UpdateDate);
+        return new self($CustomerId, $CartId);
     }
 
-    public function Update(string $CustomerId, string $CartId, DateTime $UpdateDate): self
+    public function Update(string $CustomerId, string $CartId): self
     {
         $this->CustomerId = $CustomerId;
-        $this->CartId = $CartId;
-        $this->UpdateDate = $UpdateDate;
+        $this->UpdateDate = new DateTime();
         return $this;
     }
 
@@ -58,29 +58,20 @@ class Cart
             }
         }
     }
-
-    public function getId(): ?int
+    public function addCartItem(CartItem $cartItem): void
     {
-        return $this->id;
+        if (!$this->CartItemsList->contains($cartItem)) {
+            $this->CartItemsList[] = $cartItem;
+            $cartItem->setCart($this);
+        }
     }
 
-    public function getCustomerId(): ?string
+    public function removeCartItem(CartItem $cartItem): void
     {
-        return $this->CustomerId;
-    }
-
-    public function getCartId(): ?string
-    {
-        return $this->CartId;
-    }
-
-    public function getUpdateDate(): ?DateTime
-    {
-        return $this->UpdateDate;
-    }
-
-    public function getCartItemsList(): Collection
-    {
-        return $this->CartItemsList;
+        if ($this->CartItemsList->removeElement($cartItem)) {
+            if ($cartItem->getCart() === $this) {
+                $cartItem->setCart(null);
+            }
+        }
     }
 }
