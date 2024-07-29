@@ -121,19 +121,59 @@ class Product
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
     public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function setProductUseGuide(?string $productUseGuide): self
+    {
+        $this->productUseGuide = $productUseGuide;
+        return $this;
+    }
+
+    public function setImageUrl(?string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
+        return $this;
+    }
+
+    public function setDiscountPercent(?string $discountPercent): self
+    {
+        $this->discountPercent = $discountPercent;
+        return $this;
+    }
+
+    public function setCreatedAt(?DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function setUpdatedAt(?DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
+
+
 }
 
 ?>

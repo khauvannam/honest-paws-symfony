@@ -3,7 +3,6 @@
 namespace App\Features\Products;
 
 use App\Entity\Products\OriginalPrice;
-use App\Entity\Products\Product;
 use App\Entity\Products\ProductVariant;
 use App\Repository\ProductVariantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,31 +11,33 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductVariantCommand
+class UpdateProductVariantCommand
 {
+    private int $id;
     private string $variantName;
     private int $quantity;
     private float $originalPrice;
     private float $discountedPrice;
-    private string $productId;
-    private Product $product;
 
-    public function __construct(string $variantName, int $quantity, float $originalPrice, float $discountedPrice, string $productId, Product $product)
+    public function __construct(int $id, string $variantName, int $quantity, float $originalPrice, float $discountedPrice)
     {
+        $this->id = $id;
         $this->variantName = $variantName;
         $this->quantity = $quantity;
         $this->originalPrice = $originalPrice;
         $this->discountedPrice = $discountedPrice;
-        $this->productId = $productId;
-        $this->product = $product;
     }
 
-    public static function create(string $variantName, int $quantity, float $originalPrice, float $discountedPrice, string $productId, Product $product): self
+    public static function create(int $id, string $variantName, int $quantity, float $originalPrice, float $discountedPrice): self
     {
-        return new self($variantName, $quantity, $originalPrice, $discountedPrice, $productId, $product);
+        return new self($id, $variantName, $quantity, $originalPrice, $discountedPrice);
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getVariantName(): string
@@ -58,20 +59,10 @@ class ProductVariantCommand
     {
         return $this->discountedPrice;
     }
-
-    public function getProductId(): string
-    {
-        return $this->productId;
-    }
-
-    public function getProduct(): Product
-    {
-        return $this->product;
-    }
 }
 
 #[AsMessageHandler]
-class ProductVariantCommandHandler
+class UpdateProductVariantCommandHandler
 {
     private EntityManagerInterface $entityManager;
     private ProductVariantRepository $productVariantRepository;
@@ -82,41 +73,34 @@ class ProductVariantCommandHandler
         $this->productVariantRepository = $productVariantRepository;
     }
 
-    public function __invoke(ProductVariantCommand $command): void
+    public function __invoke(UpdateProductVariantCommand $command): void
     {
-        // Check if the product variant exists
-        $productVariant = $this->productVariantRepository->findOneBy([
-            'product' => $command->getProduct(),
-            'variantName' => $command->getVariantName()
-        ]);
+        $productVariant = $this->productVariantRepository->find($command->getId());
 
-        if ($productVariant) {
-            $originalPrice = OriginalPrice::create($command->getOriginalPrice());
-            // Update existing product variant
-            $productVariant->setQuantity($command->getQuantity());
-            $productVariant->setOriginalPrice($originalPrice);
-            $productVariant->setDiscountedPrice($command->getDiscountedPrice());
-        } else {
-            $originalPrice = OriginalPrice::create($command->getOriginalPrice());
-            // Create new product variant
-            $productVariant = new ProductVariant();
-            $productVariant->setVariantName($command->getVariantName());
-            $productVariant->setQuantity($command->getQuantity());
-            $productVariant->setOriginalPrice($originalPrice);
-            $productVariant->setDiscountedPrice($command->getDiscountedPrice());
-            $productVariant->setProduct($command->getProduct());
-            $this->entityManager->persist($productVariant);
+        if (!$productVariant) {
+            throw new \Exception('Product variant not found');
         }
+
+        $originalPrice = OriginalPrice::create($command->getOriginalPrice());
+
+        $productVariant->setVariantName($command->getVariantName());
+        $productVariant->setQuantity($command->getQuantity());
+        $productVariant->setOriginalPrice($originalPrice);
+        $productVariant->setDiscountedPrice($command->getDiscountedPrice());
 
         $this->entityManager->flush();
     }
 }
 
-class ProductVariantType extends AbstractType
+class UpdateProductVariantType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('id', NumberType::class, [
+                'label' => 'ID',
+                'disabled' => true,
+            ])
             ->add('variantName', TextType::class, [
                 'label' => 'Variant Name',
             ])
@@ -128,16 +112,14 @@ class ProductVariantType extends AbstractType
             ])
             ->add('discountedPrice', NumberType::class, [
                 'label' => 'Discounted Price',
-            ])
-            ->add('productId', TextType::class, [
-                'label' => 'Product ID',
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ProductVariantCommand::class,
+            'data_class' => UpdateProductVariantCommand::class,
         ]);
     }
 }
+?>

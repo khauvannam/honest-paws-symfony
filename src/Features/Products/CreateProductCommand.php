@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddProductCommand
+class CreateProductCommand
 {
     private string $name;
     private string $description;
@@ -77,7 +77,7 @@ class AddProductCommand
 }
 
 #[AsMessageHandler]
-class ProductCommandHandler
+class CreateProductCommandHandler
 {
     private ProductRepository $productRepository;
     private EntityManagerInterface $entityManager;
@@ -88,7 +88,7 @@ class ProductCommandHandler
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke(AddProductCommand $command): void
+    public function __invoke(CreateProductCommand $command): void
     {
         $product = Product::create(
             $command->getName(),
@@ -105,7 +105,7 @@ class ProductCommandHandler
     }
 }
 
-class ProductType extends AbstractType
+class CreateProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -141,7 +141,7 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => AddProductCommand::class,
+            'data_class' => CreateProductCommand::class,
         ]);
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Products\Product;
-use App\Features\Products\AddProductCommand;
-use App\Features\Products\ProductType;
+use App\Features\Products\CreateProductCommand;
+use App\Features\Products\CreateProductType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -41,8 +41,8 @@ class ProductController extends AbstractController
     #[Route('/products/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $command = AddProductCommand::create('', '', '', '', '', new \DateTime(), new \DateTime());
-        $form = $this->createForm(ProductType::class, $command);
+        $command = CreateProductCommand::create('', '', '', '', '', new \DateTime(), new \DateTime());
+        $form = $this->createForm(CreateProductType::class, $command);
 
         $form->handleRequest($request);
 
@@ -88,7 +88,7 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('The product does not exist');
         }
 
-        $command = AddProductCommand::create(
+        $command = CreateProductCommand::create(
             $product->getName(),
             $product->getDescription(),
             $product->getProductUseGuide(),
@@ -98,7 +98,7 @@ class ProductController extends AbstractController
             $product->getUpdatedAt()
         );
 
-        $form = $this->createForm(ProductType::class, $command);
+        $form = $this->createForm(CreateProductType::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
