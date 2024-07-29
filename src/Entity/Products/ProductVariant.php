@@ -2,12 +2,13 @@
 
 namespace App\Entity\Products;
 
-use App\Repository\Products\ProductVariantRepository;
+use App\Repository\Products\ProductRepository;
+use App\Repository\ProductVariantRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;   
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: ProductVariantRepository::class)]
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
 class ProductVariant
 {
     #[ORM\Id]

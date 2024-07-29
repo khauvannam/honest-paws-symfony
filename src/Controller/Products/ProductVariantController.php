@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Products;
 
 use App\Entity\Products\ProductVariant;
 use App\Features\Products\CreateProductVariantCommand;
