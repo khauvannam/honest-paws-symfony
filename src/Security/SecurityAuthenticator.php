@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Repository\Identities\IdentityRepository;
+use App\Repository\Products\Identities\IdentityRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

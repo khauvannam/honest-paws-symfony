@@ -2,17 +2,17 @@ version: '3'
 
 services:
   database:
-    image: postgres 
-    ports:
-      - "8018:5432"
-    environment:
-      POSTGRES_DB: ShopDatabase
-      POSTGRES_USER: root 
-      POSTGRES_PASSWORD: Ex@mple12345
+    image: mysql
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - database_data:/var/lib/mysql
+    ports:
+      - '8008:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: Ex@mple12345 
 
 volumes:
-###> doctrine/doctrine-bundle ###
   database_data:
-###< doctrine/doctrine-bundle ###
+

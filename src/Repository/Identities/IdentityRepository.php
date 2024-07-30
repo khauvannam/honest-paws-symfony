@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Repository\Identities;
+namespace App\Repository\Products\Identities;
 
 use App\Entity\Users\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\MockObject\Builder\Identity;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class IdentityRepository extends ServiceEntityRepository

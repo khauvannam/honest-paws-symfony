@@ -2,11 +2,11 @@
 
 namespace App\Entity\Products;
 
-use App\Repository\Products\ProductRepository;
+use App\Repository\Products\Products\ProductRepository;
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Features\Carts\Command\Commands\Handlers;
+namespace App\Features\Carts\CommandHandler;
 
 use App\Entity\Carts\Cart;
 use App\Features\Carts\Command\Commands\UpdateCartCommand;
-use App\Repository\CartRepository;
+use App\Repository\Products\CartRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 

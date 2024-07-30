@@ -2,7 +2,7 @@
 
 namespace App\Entity\Users;
 
-use App\Repository\Identities\IdentityRepository;
+use App\Repository\Products\Identities\IdentityRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

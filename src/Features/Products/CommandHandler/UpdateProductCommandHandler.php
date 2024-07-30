@@ -3,8 +3,7 @@
 namespace App\Features\Products\CommandHandler;
 
 use App\Features\Products\Command\UpdateProductCommand;
-use App\Repository\Products\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Products\Products\ProductRepository;
 use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

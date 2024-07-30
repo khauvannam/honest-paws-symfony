@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Features\Carts\Command\CommandHandler;
+namespace App\Features\Carts\CommandHandler;
 
 use App\Entity\Carts\Cart;
 use App\Features\Carts\Command\CreateCartCommand;
-use App\Repository\Carts\CartRepository;
+use App\Repository\Products\Carts\CartRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler]
 class CreateCartCommandHandler
 {
     private CartRepository $cartRepository;

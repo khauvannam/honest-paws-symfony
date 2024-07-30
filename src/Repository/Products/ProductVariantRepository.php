@@ -1,20 +1,12 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Products;
 
 use App\Entity\Products\ProductVariant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<ProductVariant>
- *
- * @method ProductVariant|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductVariant|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductVariant[]    findAll()
- * @method ProductVariant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ProductVariantRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

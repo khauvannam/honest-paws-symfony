@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Carts;
+namespace App\Repository\Products\Carts;
 
 use App\Entity\Carts\CartItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

@@ -3,10 +3,9 @@
 namespace App\Controller\Products;
 
 use App\Entity\Products\ProductVariant;
-use App\Features\Products\Queries\CreateProductVariantCommand;
-use App\Features\Products\Queries\CreateProductVariantType;
-use App\Repository\Products\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Features\Products\Command\CreateProductVariantCommand;
+use App\Features\Products\Command\CreateProductVariantType;
+use App\Repository\Products\Products\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,14 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductVariantController extends AbstractController
 {
     private MessageBusInterface $bus;
-    private EntityManagerInterface $entityManager;
-    private ProductRepository $productRepository;
-
-    public function __construct(MessageBusInterface $bus, EntityManagerInterface $entityManager, ProductRepository $productRepository)
+    public function __construct(MessageBusInterface $bus)
     {
         $this->bus = $bus;
-        $this->entityManager = $entityManager;
-        $this->productRepository = $productRepository;
     }
 
     /**
@@ -60,6 +54,9 @@ class ProductVariantController extends AbstractController
         return $this->render('product_variant/success.html.twig');
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/products/{productId}/variants/{variantId}/edit', name: 'product_variant_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, string $productId, string $variantId): RedirectResponse|Response
     {

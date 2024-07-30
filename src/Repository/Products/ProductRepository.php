@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository\Products;
+namespace App\Repository\Products\Products;
 
 use App\Entity\Products\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Product>

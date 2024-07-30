@@ -2,7 +2,7 @@
 
 namespace App\Entity\Carts;
 
-use App\Repository\Carts\CartItemRepository;
+use App\Repository\Products\Carts\CartItemRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;

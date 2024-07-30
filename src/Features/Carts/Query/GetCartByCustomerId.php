@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Features\Carts\Command\Queries;
+namespace App\Features\Carts\Query;
 
-class GetCartByCustomerIdQuery
+class GetCartByCustomerId
 {
     private string $customerId;
 

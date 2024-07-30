@@ -2,11 +2,11 @@
 
 namespace App\Entity\Carts;
 
+use App\Repository\Products\Carts\CartRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\Carts\CartRepository;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]

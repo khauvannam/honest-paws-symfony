@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Features\Carts\Command\Handlers;
+namespace App\Features\Carts\QueryHandler;
 
 use App\Entity\Carts\Cart;
-use App\Features\Carts\Command\Queries\GetCartByCustomerIdQuery;
-use App\Repository\Carts\CartRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use App\Features\Carts\Query\GetCartByCustomerId;
+use App\Repository\Products\Carts\CartRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler]
 class GetCartByCustomerIdHandler
 
 {
@@ -17,7 +18,7 @@ class GetCartByCustomerIdHandler
         $this->cartRepository = $cartRepository;
     }
 
-    public function __invoke(GetCartByCustomerIdQuery $query): ?Cart
+    public function __invoke(GetCartByCustomerId $query): ?Cart
     {
         return $this->cartRepository->find($query->getCustomerId());
     }

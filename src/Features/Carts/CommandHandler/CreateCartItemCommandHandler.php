@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Features\Carts\Command\CommandHandler;
+namespace App\Features\Carts\CommandHandler;
 
 use App\Entity\Carts\Cart;
 use App\Entity\Carts\CartItem;
-use App\Features\Carts\Command\CreateCartItemCommand;
-use App\Repository\Carts\CartItemRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Features\Carts\CreateCartItemCommand;
+use App\Repository\Products\Carts\CartItemRepository;
 
 class CreateCartItemCommandHandler
 {
-
-    private CartItemRepository $cartItemRepository;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private CartItemRepository $cartItemRepository)
     {
-        $this->cartItemRepository = $entityManager->getRepository(Cart::class);
+
     }
 
     public function __invoke(CreateCartItemCommand $command, Cart $cart): void

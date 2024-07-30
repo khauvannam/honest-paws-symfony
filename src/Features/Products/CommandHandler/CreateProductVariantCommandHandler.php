@@ -5,7 +5,7 @@ namespace App\Features\Products\CommandHandler;
 use App\Entity\Products\OriginalPrice;
 use App\Entity\Products\ProductVariant;
 use App\Features\Products\Command\CreateProductVariantCommand;
-use App\Repository\ProductVariantRepository;
+use App\Repository\Products\ProductVariantRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

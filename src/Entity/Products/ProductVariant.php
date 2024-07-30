@@ -2,11 +2,8 @@
 
 namespace App\Entity\Products;
 
-use App\Repository\Products\ProductRepository;
-use App\Repository\ProductVariantRepository;
-use DateTime;
-use Doctrine\ORM\Mapping as ORM;   
-use Symfony\Component\Uid\Uuid;
+use App\Repository\Products\Products\ProductRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class ProductVariant
@@ -35,7 +32,10 @@ class ProductVariant
     #[ORM\JoinColumn(name: "product_id", referencedColumnName: "id")]
     private Product $product;
 
-    private function __construct() {}
+    private function __construct($variantName, $quantity) {
+        $this->variantName = $variantName;
+        $this->quantity = $quantity;
+    }
 
     public static function create(string $variantName, int $quantity): ProductVariant
     {

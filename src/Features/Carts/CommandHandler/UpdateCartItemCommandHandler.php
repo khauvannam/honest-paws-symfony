@@ -4,7 +4,7 @@ namespace App\Features\Carts\CommandHandler;
 
 use App\Entity\Carts\CartItem;
 use App\Features\Carts\UpdateCartItemCommand;
-use App\Repository\Carts\CartItemRepository;
+use App\Repository\Products\Carts\CartItemRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
