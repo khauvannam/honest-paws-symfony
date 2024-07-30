@@ -6,7 +6,6 @@ use App\Entity\Products\OriginalPrice;
 use App\Entity\Products\ProductVariant;
 use App\Features\Products\Command\CreateProductVariantCommand;
 use App\Repository\ProductVariantRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

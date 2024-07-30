@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Features\Products\Commands\Queries;
-use App\Repository\Products\ProductRepository;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+namespace App\Features\Products\Queries;
 
-class ListProductsQuery
+class ListProductQuery
 {
     private int $limit;
     private int $offset;
@@ -31,19 +29,4 @@ class ListProductsQuery
     }
 }
 
-#[AsMessageHandler]
-class ListProductsHandler
-{
-    private ProductRepository $productRepository;
 
-    public function __construct(ProductRepository $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
-
-    public function __invoke(ListProductsQuery $query)
-    {
-        return $this->productRepository->findAllProducts($query->getLimit(), $query->getOffset());
-    }
-}
-?>

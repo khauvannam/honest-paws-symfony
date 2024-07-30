@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Features\Products\Commands;
+namespace App\Features\Products\Command;
 
-use App\Entity\Products\OriginalPrice;
-use App\Entity\Products\ProductVariant;
-use App\Repository\ProductVariantRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UpdateProductVariantCommand
@@ -58,40 +53,6 @@ class UpdateProductVariantCommand
     public function getDiscountedPrice(): float
     {
         return $this->discountedPrice;
-    }
-}
-
-#[AsMessageHandler]
-class UpdateProductVariantCommandHandler
-{
-
-    private ProductVariantRepository $productVariantRepository;
-
-    public function __construct(ProductVariantRepository $productVariantRepository)
-    {
-    
-        $this->productVariantRepository = $productVariantRepository;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function __invoke(UpdateProductVariantCommand $command): void
-    {
-        $productVariant = $this->productVariantRepository->find($command->getId());
-
-        if (!$productVariant) {
-            throw new \Exception('Product variant not found');
-        }
-
-        $originalPrice = OriginalPrice::create($command->getOriginalPrice());
-
-        $productVariant->setVariantName($command->getVariantName());
-        $productVariant->setQuantity($command->getQuantity());
-        $productVariant->setOriginalPrice($originalPrice);
-        $productVariant->setDiscountedPrice($command->getDiscountedPrice());
-
-       $this->productVariantRepository->save($productVariant); 
     }
 }
 
