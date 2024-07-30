@@ -3,11 +3,11 @@
 namespace App\Controller\Products;
 
 use App\Entity\Products\Product;
-use App\Features\Products\Commands\CreateProductCommand;
-use App\Features\Products\Commands\CreateProductType;
-use App\Features\Products\Commands\DeleteProductCommand;
-use App\Features\Products\Commands\UpdateProductCommand;
-use App\Features\Products\Commands\UpdateProductType;
+use App\Features\Products\Command\CreateProductCommand;
+use App\Features\Products\Command\CreateProductType;
+use App\Features\Products\Command\DeleteProductCommand;
+use App\Features\Products\Command\UpdateProductCommand;
+use App\Features\Products\Command\UpdateProductType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

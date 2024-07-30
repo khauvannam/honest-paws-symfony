@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Features\Carts\Commands\Commands;
+namespace App\Features\Carts\Command;
 
 use App\Entity\Carts\CartItem;
-
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

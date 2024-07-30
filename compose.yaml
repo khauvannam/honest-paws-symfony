@@ -2,20 +2,15 @@ version: '3'
 
 services:
   database:
-    image: postgres:16-alpine
+    image: postgres 
+    ports:
+      - "8018:5432"
     environment:
       POSTGRES_DB: ShopDatabase
-      # You should definitely change the password in production
+      POSTGRES_USER: root 
       POSTGRES_PASSWORD: Ex@mple12345
-      POSTGRES_USER: sa
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "ShopDatabase", "-U", "sa"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-
 
 volumes:
 ###> doctrine/doctrine-bundle ###

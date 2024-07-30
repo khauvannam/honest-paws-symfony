@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Carts\Commands;
+namespace App\Features\Carts\Command;
 
 use App\Entity\Carts\Cart;
 use Doctrine\ORM\EntityManagerInterface;
