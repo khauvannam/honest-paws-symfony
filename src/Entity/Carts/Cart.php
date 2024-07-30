@@ -12,15 +12,35 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
 {
+    public function getId(): Uuid
+    {
+        return $this->id;
+    }
+
+    public function getCustomerId(): string
+    {
+        return $this->CustomerId;
+    }
+
+    public function getCartItemsList(): Collection
+    {
+        return $this->CartItemsList;
+    }
+
+    public function getUpdateDate(): DateTime
+    {
+        return $this->UpdateDate;
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private int $id;
+    #[ORM\Column(type: 'uuid')]
+    private Uuid $id;
 
     #[ORM\Column(length: 255)]
     private string $CustomerId;
 
-    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartItem::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: "cart", targetEntity: CartItem::class)]
     private Collection $CartItemsList;
 
     #[ORM\Column(type: 'datetime')]
@@ -28,6 +48,7 @@ class Cart
 
     private function __construct(string $CustomerId)
     {
+        $this->id = Uuid::v4();
         $this->CustomerId = $CustomerId;
         $this->UpdateDate = new DateTime();
         $this->CartItemsList = new ArrayCollection();
@@ -70,15 +91,5 @@ class Cart
                 $cartItem->setCart(null);
             }
         }
-    }
-
-    public function getCustomerId(): string
-    {
-        return $this->CustomerId;
-    }
-
-    public function setCustomerId(string $CustomerId): void
-    {
-        $this->CustomerId = $CustomerId;
     }
 }

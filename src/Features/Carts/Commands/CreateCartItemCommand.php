@@ -2,9 +2,9 @@
 
 namespace App\Features\Carts;
 
-class UpdateCartItemCommand
+class CreateCartItemCommand
 {
-    private ?int $cartItemId;
+    private string $cartId;
     private string $productId;
     private string $variantId;
     private string $name;
@@ -13,8 +13,8 @@ class UpdateCartItemCommand
     private string $imageUrl;
     private string $description;
 
-    public function __construct(
-        ?int $cartItemId,
+    private function __construct(
+        string $cartId,
         string $productId,
         string $variantId,
         string $name,
@@ -23,7 +23,7 @@ class UpdateCartItemCommand
         string $imageUrl,
         string $description
     ) {
-        $this->cartItemId = $cartItemId;
+        $this->cartId = $cartId;
         $this->productId = $productId;
         $this->variantId = $variantId;
         $this->name = $name;
@@ -33,9 +33,31 @@ class UpdateCartItemCommand
         $this->description = $description;
     }
 
-    public function getCartItemId(): ?int
+    public static function create(
+        string $cartId,
+        string $productId,
+        string $variantId,
+        string $name,
+        int $quantity,
+        float $price,
+        string $imageUrl,
+        string $description
+    ): self {
+        return new self(
+            $cartId,
+            $productId,
+            $variantId,
+            $name,
+            $quantity,
+            $price,
+            $imageUrl,
+            $description
+        );
+    }
+
+    public function getCartId(): string
     {
-        return $this->cartItemId;
+        return $this->cartId;
     }
 
     public function getProductId(): string

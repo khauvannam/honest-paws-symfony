@@ -21,19 +21,5 @@ class GetProductQuery
     }
 }
 
-#[AsMessageHandler]
-class GetProductQueryHandler
-{
-    private ProductRepository $productRepository;
 
-    public function __construct(ProductRepository $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
-
-    public function __invoke(GetProductQuery $query): ?Product
-    {
-        return $this->productRepository->find($query->getId());
-    }
-}
 

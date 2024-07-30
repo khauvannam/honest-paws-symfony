@@ -1,9 +1,6 @@
 <?php
+namespace App\Features\Products\Command;
 
-namespace App\Features\Products\Commands;
-
-use App\Entity\Products\Product;
-use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
@@ -12,7 +9,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateProductCommand
@@ -26,8 +22,16 @@ class CreateProductCommand
     private DateTime $updatedAt;
     private ArrayCollection $productVariants;
 
-    public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt, ArrayCollection $productVariants)
-    {
+    public function __construct(
+        string $name, 
+        string $description, 
+        string $productUseGuide, 
+        string $imageUrl, 
+        string $discountPercent, 
+        DateTime $createdAt, 
+        DateTime $updatedAt, 
+        ArrayCollection $productVariants
+    ) {
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
@@ -38,8 +42,16 @@ class CreateProductCommand
         $this->productVariants = $productVariants;
     }
 
-    public static function create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updatedAt, array $productVariants): self
-    {
+    public static function create(
+        string $name, 
+        string $description, 
+        string $productUseGuide, 
+        string $imageUrl, 
+        string $discountPercent, 
+        DateTime $createdAt, 
+        DateTime $updatedAt, 
+        array $productVariants
+    ): self {
         return new self($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updatedAt, new ArrayCollection($productVariants));
     }
 
@@ -84,33 +96,6 @@ class CreateProductCommand
     }
 }
 
-#[AsMessageHandler]
-class CreateProductCommandHandler
-{
-    private ProductRepository $productRepository;
-
-    public function __construct(ProductRepository $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
-
-    public function __invoke(CreateProductCommand $command): void
-    {
-        $product = Product::create(
-            $command->getName(),
-            $command->getDescription(),
-            $command->getProductUseGuide(),
-            $command->getImageUrl(),
-            $command->getDiscountPercent(),
-            $command->getCreatedAt(),
-            $command->getUpdatedAt()
-
-        );
-
-        $this->productRepository->save($product);
-    }
-}
-
 class CreateProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -140,7 +125,7 @@ class CreateProductType extends AbstractType
                 'label' => 'Updated At',
             ])
             ->add('productVariants', CollectionType::class, [
-                'entry_type' => CreateProductVariantType::class,
+                'entry_type' => CreateProductVariantCommand::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -158,3 +143,4 @@ class CreateProductType extends AbstractType
         ]);
     }
 }
+

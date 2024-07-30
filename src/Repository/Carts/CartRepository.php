@@ -39,7 +39,6 @@ class CartRepository extends ServiceEntityRepository
         }
     }
 
-    // Add your custom repository methods here, for example:
 
     /**
      * @return Cart[] Returns an array of Cart objects
@@ -60,6 +59,14 @@ class CartRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    public function findById(string $id): ?Cart
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }

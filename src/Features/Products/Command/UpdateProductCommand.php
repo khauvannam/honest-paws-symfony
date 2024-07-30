@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Features\Products\Commands;
+namespace App\Features\Products\Command;
 
-use App\Repository\Products\ProductRepository;
 use DateTime;
-use Exception;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UpdateProductCommand
@@ -74,38 +71,6 @@ class UpdateProductCommand
     }
 }
 
-#[AsMessageHandler]
-class UpdateProductCommandHandler
-{
-    private ProductRepository $productRepository;
-
-    public function __construct(ProductRepository $productRepository)
-    {
-        $this->productRepository = $productRepository;
-
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function __invoke(UpdateProductCommand $command): void
-    {
-        $product = $this->productRepository->find($command->getId());
-
-        if (!$product) {
-            throw new Exception('Product not found');
-        }
-
-        $product->setName($command->getName());
-        $product->setDescription($command->getDescription());
-        $product->setProductUseGuide($command->getProductUseGuide());
-        $product->setImageUrl($command->getImageUrl());
-        $product->setDiscountPercent($command->getDiscountPercent());
-        $product->setUpdatedAt($command->getUpdatedAt());
-
-        $this->productRepository->update($product);
-    }
-}
 
 class UpdateProductType extends AbstractType
 {

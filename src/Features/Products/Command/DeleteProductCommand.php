@@ -1,12 +1,8 @@
 <?php
 
-namespace App\Features\Products\Queries;
+namespace App\Features\Products\Command;
 
-use App\Repository\ProductVariantRepository;
-use App\Entity\Products\ProductVariant;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
-class GetProductVariantQuery
+class DeleteProductCommand
 {
     private int $id;
 
@@ -25,4 +21,6 @@ class GetProductVariantQuery
         return $this->id;
     }
 }
+
+
 

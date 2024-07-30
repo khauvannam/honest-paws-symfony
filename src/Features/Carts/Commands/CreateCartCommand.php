@@ -13,12 +13,12 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CreateCartCommand
 {
+    private string $CustomerId;
+
     private function __construct(string $CustomerId)
     {
         $this->CustomerId = $CustomerId;
     }
-
-    private string $CustomerId;
 
     public static function Create(string $CustomerId): self
     {
@@ -49,23 +49,5 @@ class CartType extends AbstractType
         $resolver->setDefaults([
             'data_class' => CreateCartCommand::class,
         ]);
-    }
-}
-
-class CreateCartCommandHandler
-{
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
-    public function __invoke(CreateCartCommand $command)
-    {
-        $cart = Cart::Create($command->getCustomerId());
-
-        $this->entityManager->persist($cart);
-        $this->entityManager->flush();
     }
 }
