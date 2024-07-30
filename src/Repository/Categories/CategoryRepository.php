@@ -3,7 +3,7 @@
 namespace App\Repository\Products\Categories;
 
 
-use App\Entity\Category;
+use App\Entity\Categories\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
 
