@@ -15,17 +15,13 @@ class UpdateCartItemCommandHandler
     {
     }
 
-    public function __invoke(UpdateCartItemCommand $command)
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(UpdateCartItemCommand $command): void
     {
-        $cartItem = $this->cartItemRepository->findById;
 
-
-        if ($cartItem) {
-            $cartItem = $this->cartItemRepository->findById;
-            if (!$cartItem) {
-                throw new \Exception('CartItem not found');
-            }
-        }
+        $cartItem = $this->cartItemRepository->findById($command->getCartItemId());
 
         if (!$cartItem) {
             $cartItem = new cartItem(

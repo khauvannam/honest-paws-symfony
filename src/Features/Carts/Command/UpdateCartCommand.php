@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Carts\Command;
+namespace App\Features\Carts\Command\Command;
 
 class UpdateCartCommand
 {

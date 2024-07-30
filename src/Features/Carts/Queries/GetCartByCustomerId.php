@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Carts\Queries;
+namespace App\Features\Carts\Command\Queries;
 
 class GetCartByCustomerIdQuery
 {

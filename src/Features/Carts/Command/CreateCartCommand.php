@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Features\Carts;
+namespace App\Features\Carts\Command;
 
-use App\Entity\Carts\Cart;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CreateCartCommand
 {
-    private function __construct(string $CustomerId)
+    private string $customerId;
+    private function __construct(string $customerId)
     {
-        $this->CustomerId = $CustomerId;
+        $this->customerId = $customerId;
     }
 
     public static function Create(string $CustomerId): self
@@ -25,7 +23,7 @@ class CreateCartCommand
 
     public function getCustomerId(): string
     {
-        return $this->CustomerId;
+        return $this->customerId;
     }
 }
 

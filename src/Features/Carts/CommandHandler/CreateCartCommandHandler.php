@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Features\Carts\CommandHandler;
+namespace App\Features\Carts\Command\CommandHandler;
 
 use App\Entity\Carts\Cart;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Features\Carts\CreateCartCommand;
+use App\Features\Carts\Command\CreateCartCommand;
 use App\Repository\Carts\CartRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CreateCartCommandHandler
 {

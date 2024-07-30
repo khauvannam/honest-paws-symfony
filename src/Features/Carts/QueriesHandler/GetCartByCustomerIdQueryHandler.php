@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Features\Carts\Handlers;
+namespace App\Features\Carts\Command\Handlers;
 
 use App\Entity\Carts\Cart;
-use App\Features\Carts\Queries\GetCartByCustomerIdQuery;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use App\Features\Carts\Command\Queries\GetCartByCustomerIdQuery;
 use App\Repository\Carts\CartRepository;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class GetCartByCustomerIdHandler
 

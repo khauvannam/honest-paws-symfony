@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Features\Carts\Commands\Handlers;
+namespace App\Features\Carts\Command\Commands\Handlers;
 
 use App\Entity\Carts\CartItem;
-use App\Features\Carts\Commands\DeleteCartItemCommand;
+use App\Features\Carts\Command\Commands\DeleteCartItemCommand;
+use App\Repository\Carts\CartItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use App\Repository\Carts\CartItemRepository;
 
 class DeleteCartItemCommandHandler
 {

@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Features\Carts\Commands;
 namespace App\Features\Carts\Command;
 
-use App\Entity\Carts\Cart;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
+use Symfony\Component\Uid\Uuid;
 
 class DeleteCartCommand
 {
-    private function __construct(private int $cartId)
+    private Uuid $cartId;
+    private function __construct(Uuid $cartId)
     {
+        $this->cartId = $cartId;
     }
 
-    public static function create(int $cartId): self
+    public static function create(Uuid $cartId): self
     {
         return new self($cartId);
     }
 
-    public function getCartId(): int
+    public function getCartId(): Uuid 
     {
         return $this->cartId;
     }
