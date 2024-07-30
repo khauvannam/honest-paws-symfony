@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\Commands;
 
 use App\Repository\ProductVariantRepository;
-use App\Entity\Products\ProductVariant;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class GetProductVariantQuery
+class DeleteProductVariantCommand
 {
     private int $id;
 
@@ -27,18 +27,28 @@ class GetProductVariantQuery
 }
 
 #[AsMessageHandler]
-class GetProductVariantQueryHandler
+class DeleteProductVariantCommandHandler
 {
+
     private ProductVariantRepository $productVariantRepository;
 
     public function __construct(ProductVariantRepository $productVariantRepository)
     {
+
         $this->productVariantRepository = $productVariantRepository;
     }
 
-    public function __invoke(GetProductVariantQuery $query): ?ProductVariant
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(DeleteProductVariantCommand $command): void
     {
-        return $this->productVariantRepository->find($query->getId());
+        $productVariant = $this->productVariantRepository->find($command->getId());
+
+        if (!$productVariant) {
+            throw new \Exception('Product variant not found');
+        }
+        $this->productVariantRepository->delete($productVariant);
     }
 }
-?>
+

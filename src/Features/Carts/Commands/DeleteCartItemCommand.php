@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Features\Carts;
+namespace App\Features\Carts\Commands\Commands;
 
 use App\Entity\Carts\CartItem;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 class DeleteCartItemCommand
 {
@@ -25,7 +26,7 @@ class DeleteCartItemCommand
         return $this->cartItemId;
     }
 }
-
+#[AsMessageHandler]
 class DeleteCartItemCommandHandler
 {
     private EntityManagerInterface $entityManager;
@@ -35,7 +36,7 @@ class DeleteCartItemCommandHandler
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke(DeleteCartItemCommand $command)
+    public function __invoke(DeleteCartItemCommand $command): void
     {
         $cartItem = $this->entityManager->getRepository(CartItem::class)->find($command->getCartItemId());
 

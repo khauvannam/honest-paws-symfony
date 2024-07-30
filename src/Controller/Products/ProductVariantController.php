@@ -3,8 +3,8 @@
 namespace App\Controller\Products;
 
 use App\Entity\Products\ProductVariant;
-use App\Features\Products\CreateProductVariantCommand;
-use App\Features\Products\CreateProductVariantType;
+use App\Features\Products\Queries\CreateProductVariantCommand;
+use App\Features\Products\Queries\CreateProductVariantType;
 use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\Commands;
 
 use App\Entity\Products\OriginalPrice;
 use App\Entity\Products\Product;
 use App\Entity\Products\ProductVariant;
 use App\Repository\ProductVariantRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -72,12 +71,11 @@ class CreateProductVariantCommand
 #[AsMessageHandler]
 class CreateProductVariantCommandHandler
 {
-    private EntityManagerInterface $entityManager;
     private ProductVariantRepository $productVariantRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, ProductVariantRepository $productVariantRepository)
+    public function __construct(ProductVariantRepository $productVariantRepository)
     {
-        $this->entityManager = $entityManager;
+
         $this->productVariantRepository = $productVariantRepository;
     }
 
@@ -97,16 +95,15 @@ class CreateProductVariantCommandHandler
             $productVariant->setDiscountedPrice($command->getDiscountedPrice());
         } else {
             // Create new product variant
-            $productVariant = ProductVariant::create($command->getVariantName(),$command->getQuantity());
+            $productVariant = ProductVariant::create($command->getVariantName(), $command->getQuantity());
             $productVariant->setVariantName($command->getVariantName());
             $productVariant->setQuantity($command->getQuantity());
             $productVariant->setOriginalPrice($originalPrice);
             $productVariant->setDiscountedPrice($command->getDiscountedPrice());
             $productVariant->setProduct($command->getProduct());
-            $this->entityManager->persist($productVariant);
         }
+        $this->productVariantRepository->save($productVariant);
 
-        $this->entityManager->flush();
     }
 }
 

@@ -14,7 +14,7 @@ class IdentityRepository extends ServiceEntityRepository
 
     public function __construct(ManagerRegistry $registry, Security $security)
     {
-        parent::__construct($registry, Identity::class);
+        parent::__construct($registry, User::class);
         $this->security = $security;
     }
 

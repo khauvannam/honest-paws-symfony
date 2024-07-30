@@ -6,7 +6,7 @@ use App\Entity\Carts\CartItem;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class CreateUpdateCartItemCommand
+class UpdateCartItemCommand
 {
     private ?int $cartItemId;
     private string $productId;
@@ -78,7 +78,7 @@ class CreateUpdateCartItemCommand
     }
 }
 
-class CreateUpdateCartItemHandler
+class UpdateCartItemHandler
 {
     private EntityManagerInterface $entityManager;
 
@@ -87,7 +87,7 @@ class CreateUpdateCartItemHandler
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke(CreateUpdateCartItemCommand $command)
+    public function __invoke(UpdateCartItemCommand $command)
     {
         $cartItemId = $command->getCartItemId();
         $cartItem = null;

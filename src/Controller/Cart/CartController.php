@@ -3,7 +3,8 @@
 namespace App\Controller\Cart;
 
 use App\Entity\Carts\Cart;
-use App\Features\Carts\CreateCartCommand;
+use App\Features\Carts\CartType as CartsCartType;
+use App\Features\Carts\Commands\CreateCartCommand;
 use App\Features\Carts\CartType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
