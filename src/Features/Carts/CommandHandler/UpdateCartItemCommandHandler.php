@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Features\Carts\Handlers;
+namespace App\Features\Carts\CommandHandler;
 
-use App\Repository\Carts\CartItemRepository;
+use App\Entity\Carts\CartItem;
 use App\Features\Carts\UpdateCartItemCommand;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use App\Repository\Carts\CartItemRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class UpdateCartItemHandler
+#[AsMessageHandler]
+class UpdateCartItemCommandHandler
 {
 
-    private cartItemRepository $cartItemRepository;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private CartItemRepository $cartItemRepository)
     {
     }
 
-    public function __invoke(UpdateCartItemCommand $command, CartItemRepository $cartItemRepository)
+    public function __invoke(UpdateCartItemCommand $command)
     {
         $cartItem = $this->cartItemRepository->findById;
 
