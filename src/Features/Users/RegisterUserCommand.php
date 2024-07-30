@@ -87,7 +87,7 @@ class RegisterType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'Password',
             ])
-            ->add('register', SubmitType::class, [
+            ->add('register.html.twig', SubmitType::class, [
                 'label' => 'Register',
             ]);
     }
