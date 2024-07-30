@@ -3,8 +3,8 @@
 namespace App\Controller\Cart;
 
 use App\Entity\Carts\Cart;
-use App\Features\Carts\Command\CartType;
-use App\Features\Carts\Command\CreateCartCommand;
+use App\Features\Carts\Commands\Commands\Commands\Commands\CreateCartCommand;
+use App\Features\Carts\Commands\Commands\Commands\Commands\CartType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -71,7 +71,7 @@ class CartController extends AbstractController
             throw $this->createNotFoundException('The cart does not exist');
         }
 
-        return $this->render('cart-show.html.twig', [
+        return $this->render('cart/show.html.twig', [
             'cart' => $cart,
         ]);
     }
@@ -98,7 +98,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('cart_success');
         }
 
-        return $this->render('cart-edit.html.twig', [
+        return $this->render('cart/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

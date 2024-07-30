@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Carts\Command;
+namespace App\Features\Carts;
 
 use App\Entity\Carts\Cart;
 use Doctrine\ORM\EntityManagerInterface;
@@ -8,9 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CreateCartCommand
 {
@@ -18,8 +17,6 @@ class CreateCartCommand
     {
         $this->CustomerId = $CustomerId;
     }
-
-    private string $CustomerId;
 
     public static function Create(string $CustomerId): self
     {
@@ -50,23 +47,5 @@ class CartType extends AbstractType
         $resolver->setDefaults([
             'data_class' => CreateCartCommand::class,
         ]);
-    }
-}
-#[AsMessageHandler]
-class CreateCartCommandHandler
-{
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
-    public function __invoke(CreateCartCommand $command): void
-    {
-        $cart = Cart::Create($command->getCustomerId());
-
-        $this->entityManager->persist($cart);
-        $this->entityManager->flush();
     }
 }
