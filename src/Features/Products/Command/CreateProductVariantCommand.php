@@ -1,17 +1,13 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\Command;
 
-use App\Entity\Products\OriginalPrice;
 use App\Entity\Products\Product;
-use App\Entity\Products\ProductVariant;
-use App\Repository\ProductVariantRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateProductVariantCommand
@@ -23,8 +19,14 @@ class CreateProductVariantCommand
     private string $productId;
     private Product $product;
 
-    public function __construct(string $variantName, int $quantity, float $originalPrice, float $discountedPrice, string $productId, Product $product)
-    {
+    public function __construct(
+        string $variantName, 
+        int $quantity, 
+        float $originalPrice, 
+        float $discountedPrice, 
+        string $productId, 
+        Product $product
+    ) {
         $this->variantName = $variantName;
         $this->quantity = $quantity;
         $this->originalPrice = $originalPrice;
@@ -33,8 +35,14 @@ class CreateProductVariantCommand
         $this->product = $product;
     }
 
-    public static function create(string $variantName, int $quantity, float $originalPrice, float $discountedPrice, string $productId, Product $product): self
-    {
+    public static function create(
+        string $variantName, 
+        int $quantity, 
+        float $originalPrice, 
+        float $discountedPrice, 
+        string $productId, 
+        Product $product
+    ): self {
         return new self($variantName, $quantity, $originalPrice, $discountedPrice, $productId, $product);
     }
 
@@ -69,47 +77,6 @@ class CreateProductVariantCommand
     }
 }
 
-#[AsMessageHandler]
-class CreateProductVariantCommandHandler
-{
-    private EntityManagerInterface $entityManager;
-    private ProductVariantRepository $productVariantRepository;
-
-    public function __construct(EntityManagerInterface $entityManager, ProductVariantRepository $productVariantRepository)
-    {
-        $this->entityManager = $entityManager;
-        $this->productVariantRepository = $productVariantRepository;
-    }
-
-    public function __invoke(CreateProductVariantCommand $command): void
-    {
-        // Check if the product variant exists
-        $productVariant = $this->productVariantRepository->findOneBy([
-            'product' => $command->getProduct(),
-            'variantName' => $command->getVariantName()
-        ]);
-
-        $originalPrice = OriginalPrice::create($command->getOriginalPrice());
-        if ($productVariant) {
-            // Update existing product variant
-            $productVariant->setQuantity($command->getQuantity());
-            $productVariant->setOriginalPrice($originalPrice);
-            $productVariant->setDiscountedPrice($command->getDiscountedPrice());
-        } else {
-            // Create new product variant
-            $productVariant = ProductVariant::create($command->getVariantName(),$command->getQuantity());
-            $productVariant->setVariantName($command->getVariantName());
-            $productVariant->setQuantity($command->getQuantity());
-            $productVariant->setOriginalPrice($originalPrice);
-            $productVariant->setDiscountedPrice($command->getDiscountedPrice());
-            $productVariant->setProduct($command->getProduct());
-            $this->entityManager->persist($productVariant);
-        }
-
-        $this->entityManager->flush();
-    }
-}
-
 class CreateProductVariantType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -139,3 +106,4 @@ class CreateProductVariantType extends AbstractType
         ]);
     }
 }
+?>

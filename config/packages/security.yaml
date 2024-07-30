@@ -8,7 +8,7 @@ security:
     app_user_provider:
       entity:
         class: App\Entity\Users\User
-        property: email
+        property: username
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -19,6 +19,9 @@ security:
       form_login:
         login_path: login
         check_path: login
+      logout:
+        path: /logout
+        target: /
       remember_me:
         secret: '%kernel.secret%'
         lifetime: 604800

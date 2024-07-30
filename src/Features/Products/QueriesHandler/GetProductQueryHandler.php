@@ -1,25 +1,11 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\QueriesHandler;
 
 use App\Entity\Products\Product;
+use App\Features\Products\Queries\GetProductQuery;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
-class GetProductQuery
-{
-    private int $id;
-
-    public function __construct(int $id)
-    {
-        $this->id = $id;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-}
 
 #[AsMessageHandler]
 class GetProductQueryHandler
@@ -36,4 +22,4 @@ class GetProductQueryHandler
         return $this->productRepository->find($query->getId());
     }
 }
-
+?>

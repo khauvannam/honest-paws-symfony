@@ -1,48 +1,59 @@
 <?php
+namespace App\Features\Products\Command;
 
-namespace App\Features\Products;
-
-use App\Repository\Products\ProductRepository;
+use App\Features\Products\Command\CreateProductVariantType;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
-use Exception;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UpdateProductCommand
+class CreateProductCommand
 {
-    private int $id;
     private string $name;
     private string $description;
     private string $productUseGuide;
     private string $imageUrl;
     private string $discountPercent;
+    private DateTime $createdAt;
     private DateTime $updatedAt;
+    private ArrayCollection $productVariants;
 
-    public function __construct(int $id, string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $updatedAt)
-    {
-        $this->id = $id;
+    public function __construct(
+        string $name, 
+        string $description, 
+        string $productUseGuide, 
+        string $imageUrl, 
+        string $discountPercent, 
+        DateTime $createdAt, 
+        DateTime $updatedAt, 
+        ArrayCollection $productVariants
+    ) {
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
         $this->imageUrl = $imageUrl;
         $this->discountPercent = $discountPercent;
+        $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->productVariants = $productVariants;
     }
 
-    public static function create(int $id, string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $updatedAt): self
-    {
-        return new self($id, $name, $description, $productUseGuide, $imageUrl, $discountPercent, $updatedAt);
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
+    public static function create(
+        string $name, 
+        string $description, 
+        string $productUseGuide, 
+        string $imageUrl, 
+        string $discountPercent, 
+        DateTime $createdAt, 
+        DateTime $updatedAt, 
+        array $productVariants
+    ): self {
+        return new self($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updatedAt, new ArrayCollection($productVariants));
     }
 
     public function getName(): string
@@ -70,55 +81,27 @@ class UpdateProductCommand
         return $this->discountPercent;
     }
 
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
     public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
-}
 
-#[AsMessageHandler]
-class UpdateProductCommandHandler
-{
-    private ProductRepository $productRepository;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(ProductRepository $productRepository, EntityManagerInterface $entityManager)
+    public function getProductVariants(): ArrayCollection
     {
-        $this->productRepository = $productRepository;
-        $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function __invoke(UpdateProductCommand $command): void
-    {
-        $product = $this->productRepository->find($command->getId());
-
-        if (!$product) {
-            throw new Exception('Product not found');
-        }
-
-        $product->setName($command->getName());
-        $product->setDescription($command->getDescription());
-        $product->setProductUseGuide($command->getProductUseGuide());
-        $product->setImageUrl($command->getImageUrl());
-        $product->setDiscountPercent($command->getDiscountPercent());
-        $product->setUpdatedAt($command->getUpdatedAt());
-
-        $this->entityManager->flush();
+        return $this->productVariants;
     }
 }
 
-class UpdateProductType extends AbstractType
+class CreateProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('id', TextType::class, [
-                'label' => 'ID',
-                'disabled' => true,
-            ])
             ->add('name', TextType::class, [
                 'label' => 'Name',
             ])
@@ -134,19 +117,30 @@ class UpdateProductType extends AbstractType
             ->add('discountPercent', TextType::class, [
                 'label' => 'Discount Percent',
             ])
+            ->add('createdAt', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Created At',
+            ])
             ->add('updatedAt', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Updated At',
             ])
+            ->add('productVariants', CollectionType::class, [
+                'entry_type' => CreateProductVariantType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
             ->add('save', SubmitType::class, [
-                'label' => 'Update',
+                'label' => 'Save',
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => UpdateProductCommand::class,
+            'data_class' => CreateProductCommand::class,
         ]);
     }
 }

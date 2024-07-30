@@ -1,30 +1,11 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\QueriesHandler;
 
 use App\Repository\ProductVariantRepository;
 use App\Entity\Products\ProductVariant;
+use App\Features\Products\Queries\GetProductVariantQuery;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
-class GetProductVariantQuery
-{
-    private int $id;
-
-    public function __construct(int $id)
-    {
-        $this->id = $id;
-    }
-
-    public static function create(int $id): self
-    {
-        return new self($id);
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-}
 
 #[AsMessageHandler]
 class GetProductVariantQueryHandler

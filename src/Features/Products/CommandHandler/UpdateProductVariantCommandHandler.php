@@ -1,33 +1,15 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\CommandHandler;
 
+use App\Entity\Products\OriginalPrice;
+use App\Features\Products\Command\UpdateProductVariantCommand;
 use App\Repository\ProductVariantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class DeleteProductVariantCommand
-{
-    private int $id;
-
-    public function __construct(int $id)
-    {
-        $this->id = $id;
-    }
-
-    public static function create(int $id): self
-    {
-        return new self($id);
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-}
-
 #[AsMessageHandler]
-class DeleteProductVariantCommandHandler
+class UpdateProductVariantCommandHandler
 {
     private EntityManagerInterface $entityManager;
     private ProductVariantRepository $productVariantRepository;
@@ -38,7 +20,7 @@ class DeleteProductVariantCommandHandler
         $this->productVariantRepository = $productVariantRepository;
     }
 
-    public function __invoke(DeleteProductVariantCommand $command): void
+    public function __invoke(UpdateProductVariantCommand $command): void
     {
         $productVariant = $this->productVariantRepository->find($command->getId());
 
@@ -46,8 +28,14 @@ class DeleteProductVariantCommandHandler
             throw new \Exception('Product variant not found');
         }
 
-        $this->entityManager->remove($productVariant);
-        $this->entityManager->flush();
+        $originalPrice = OriginalPrice::create($command->getOriginalPrice());
+
+        $productVariant->setVariantName($command->getVariantName());
+        $productVariant->setQuantity($command->getQuantity());
+        $productVariant->setOriginalPrice($originalPrice);
+        $productVariant->setDiscountedPrice($command->getDiscountedPrice());
+
+        $this->productVariantRepository->update($productVariant);
     }
 }
 ?>
