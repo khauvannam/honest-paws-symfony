@@ -4,9 +4,9 @@ namespace App\Entity\Products;
 
 use App\Repository\Products\ProductRepository;
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;  
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection; 
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -15,22 +15,22 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private Uuid $id; 
+    private Uuid $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $name ;
+    private ?string $name;
 
     #[ORM\Column(length: 2000)]
-    private ?string $description ;
+    private ?string $description;
 
     #[ORM\Column(length: 2000)]
-    private ?string $productUseGuide ;
+    private ?string $productUseGuide;
 
     #[ORM\Column(length: 500)]
-    private ?string $imageUrl ;
+    private ?string $imageUrl;
 
     #[ORM\Column(length: 500)]
-    private ?string $discountPercent ;
+    private ?string $discountPercent;
 
     #[ORM\Column(type: 'datetime')]
     private ?DateTime $createdAt;
@@ -59,7 +59,8 @@ class Product
         return new Product($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updateAt);
     }
 
-    public function Update(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt): Product {
+    public function Update(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt): Product
+    {
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
@@ -86,6 +87,7 @@ class Product
             $this->addProductVariant($variant);
         }
     }
+
     public function getId(): Uuid
     {
         return $this->id;
@@ -125,15 +127,12 @@ class Product
     {
         return $this->updatedAt;
     }
+
     public function getProductVariants(): Collection
     {
         return $this->productVariants;
     }
-    public function setId(?int $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
+    
 
     public function setName(?string $name): self
     {

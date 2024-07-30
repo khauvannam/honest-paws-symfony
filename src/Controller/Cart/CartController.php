@@ -3,8 +3,8 @@
 namespace App\Controller\Cart;
 
 use App\Entity\Carts\Cart;
-use App\Features\Carts\CreateCartCommand;
-use App\Features\Carts\CartType;
+use App\Features\Carts\Commands\Commands\Commands\Commands\CreateCartCommand;
+use App\Features\Carts\Commands\Commands\Commands\Commands\CartType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

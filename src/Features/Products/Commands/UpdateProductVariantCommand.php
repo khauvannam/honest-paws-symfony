@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\Commands;
 
 use App\Entity\Products\OriginalPrice;
 use App\Entity\Products\ProductVariant;
@@ -64,15 +64,18 @@ class UpdateProductVariantCommand
 #[AsMessageHandler]
 class UpdateProductVariantCommandHandler
 {
-    private EntityManagerInterface $entityManager;
+
     private ProductVariantRepository $productVariantRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, ProductVariantRepository $productVariantRepository)
+    public function __construct(ProductVariantRepository $productVariantRepository)
     {
-        $this->entityManager = $entityManager;
+    
         $this->productVariantRepository = $productVariantRepository;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __invoke(UpdateProductVariantCommand $command): void
     {
         $productVariant = $this->productVariantRepository->find($command->getId());
@@ -88,7 +91,7 @@ class UpdateProductVariantCommandHandler
         $productVariant->setOriginalPrice($originalPrice);
         $productVariant->setDiscountedPrice($command->getDiscountedPrice());
 
-        $this->entityManager->flush();
+       $this->productVariantRepository->save($productVariant); 
     }
 }
 

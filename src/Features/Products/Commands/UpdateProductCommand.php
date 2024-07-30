@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\Commands;
 
 use App\Repository\Products\ProductRepository;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -80,12 +78,11 @@ class UpdateProductCommand
 class UpdateProductCommandHandler
 {
     private ProductRepository $productRepository;
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(ProductRepository $productRepository, EntityManagerInterface $entityManager)
+    public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
-        $this->entityManager = $entityManager;
+
     }
 
     /**
@@ -106,7 +103,7 @@ class UpdateProductCommandHandler
         $product->setDiscountPercent($command->getDiscountPercent());
         $product->setUpdatedAt($command->getUpdatedAt());
 
-        $this->entityManager->flush();
+        $this->productRepository->update($product);
     }
 }
 
@@ -134,10 +131,6 @@ class UpdateProductType extends AbstractType
             ->add('discountPercent', TextType::class, [
                 'label' => 'Discount Percent',
             ])
-            ->add('updatedAt', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Updated At',
-            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Update',
             ]);
@@ -150,4 +143,5 @@ class UpdateProductType extends AbstractType
         ]);
     }
 }
+
 ?>

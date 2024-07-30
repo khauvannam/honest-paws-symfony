@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\Commands\Queries;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Carts;
+namespace App\Features\Carts\Commands;
 
 use App\Entity\Carts\Cart;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,16 +9,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\Carts\CartRepository;
 use Symfony\Component\Uid\Uuid;
 
-class CreateUpdateCartCommand
+
+class UpdateCartCommand
 {
-    private function __construct(private string $customerId, private ?int $cartId = null)
+    private Uuid $cartId;
+    private string $customerId;
+
+    private function __construct(string $customerId, Uuid $cartId = null)
     {
+        $this->cartId = $cartId;
+        $this->customerId = $customerId;
+
     }
 
     public static function Create(string $customerId, ?int $cartId = null): self
@@ -31,7 +34,7 @@ class CreateUpdateCartCommand
         return $this->customerId;
     }
 
-    public function getCartId(): ?int
+    public function getCartId(): Uuid
     {
         return $this->cartId;
     }

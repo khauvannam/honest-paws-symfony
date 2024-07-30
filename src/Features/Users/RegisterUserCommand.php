@@ -2,17 +2,13 @@
 
 namespace App\Features\Users;
 
-use App\Entity\Users\User;
-use App\Repository\Identities\IdentityRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterUserCommand
 {

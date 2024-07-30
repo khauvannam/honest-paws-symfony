@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\Commands;
 
-use App\Entity\Products\Product;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class GetProductQuery
+class DeleteProductCommand
 {
     private int $id;
 
     public function __construct(int $id)
     {
         $this->id = $id;
+    }
+
+    public static function create(int $id): self
+    {
+        return new self($id);
     }
 
     public function getId(): int
@@ -22,18 +26,27 @@ class GetProductQuery
 }
 
 #[AsMessageHandler]
-class GetProductQueryHandler
+class DeleteProductCommandHandler
 {
     private ProductRepository $productRepository;
+
 
     public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
+
     }
 
-    public function __invoke(GetProductQuery $query): ?Product
+    public function __invoke(DeleteProductCommand $command): void
     {
-        return $this->productRepository->find($query->getId());
+        $product = $this->productRepository->find($command->getId());
+
+        if (!$product) {
+            throw new \Exception('Product not found');
+        }
+
+        $this->productRepository->deleteProduct($product);
     }
 }
+
 

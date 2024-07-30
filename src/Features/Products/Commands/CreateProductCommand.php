@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Features\Products;
+namespace App\Features\Products\Commands;
 
 use App\Entity\Products\Product;
-use App\Entity\Products\ProductVariant;
 use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -90,12 +88,10 @@ class CreateProductCommand
 class CreateProductCommandHandler
 {
     private ProductRepository $productRepository;
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(ProductRepository $productRepository, EntityManagerInterface $entityManager)
+    public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
-        $this->entityManager = $entityManager;
     }
 
     public function __invoke(CreateProductCommand $command): void
@@ -107,12 +103,11 @@ class CreateProductCommandHandler
             $command->getImageUrl(),
             $command->getDiscountPercent(),
             $command->getCreatedAt(),
-            $command->getUpdatedAt(),
-            $command->getProductVariants()->toArray()
+            $command->getUpdatedAt()
+
         );
 
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
+        $this->productRepository->save($product);
     }
 }
 
