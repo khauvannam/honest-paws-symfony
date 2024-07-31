@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Products\Queries;
+namespace App\Features\Products\Query;
 
 class ListProductQuery
 {

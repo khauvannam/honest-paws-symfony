@@ -4,8 +4,8 @@ namespace App\Repository\Products;
 
 use App\Entity\Products\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Product>
@@ -50,9 +50,9 @@ class ProductRepository extends ServiceEntityRepository
      */
     public function findById(string $id): ?Product
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.id = :id')
-            ->setParameter('id', $id)
+        return $this->createQueryBuilder("p")
+            ->andWhere("p.id = :id")
+            ->setParameter("id", $id)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -64,9 +64,9 @@ class ProductRepository extends ServiceEntityRepository
      */
     public function findByName(string $name): ?Product
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.name = :name')
-            ->setParameter('name', $name)
+        return $this->createQueryBuilder("p")
+            ->andWhere("p.name = :name")
+            ->setParameter("name", $name)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -78,7 +78,7 @@ class ProductRepository extends ServiceEntityRepository
      */
     public function findAllProducts(int $limit, int $offset): array
     {
-        return $this->createQueryBuilder('p')
+        return $this->createQueryBuilder("p")
             ->setMaxResults($limit)
             ->setFirstResult($offset)
             ->getQuery()

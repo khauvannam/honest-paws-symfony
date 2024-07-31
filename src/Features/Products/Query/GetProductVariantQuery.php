@@ -1,10 +1,6 @@
 <?php
 
-namespace App\Features\Products\Queries;
-
-use App\Repository\ProductVariantRepository;
-use App\Entity\Products\ProductVariant;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+namespace App\Features\Products\Query;
 
 class GetProductVariantQuery
 {

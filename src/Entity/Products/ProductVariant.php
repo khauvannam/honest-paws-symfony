@@ -3,9 +3,7 @@
 namespace App\Entity\Products;
 
 use App\Repository\Products\ProductRepository;
-use App\Repository\ProductVariantRepository;
-use DateTime;
-use Doctrine\ORM\Mapping as ORM;   
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -17,9 +15,9 @@ class ProductVariant
     private string $id;
 
     #[ORM\Column(length: 500)]
-    private ?string $variantName = null;
+    private ?string $variantName;
 
-    #[ORM\Column()]
+    #[ORM\Column]
     private ?int $quantity;
 
     #[ORM\Embedded(class: "App\Entity\Products\OriginalPrice")]
@@ -35,7 +33,11 @@ class ProductVariant
     #[ORM\JoinColumn(name: "product_id", referencedColumnName: "id")]
     private Product $product;
 
-    private function __construct() {}
+    private function __construct($variantName, $quantity) {
+        $this->id = Uuid::v4()->toString() ;
+        $this->variantName = $variantName;
+        $this->quantity = $quantity;
+    }
 
     public static function create(string $variantName, int $quantity): ProductVariant
     {
@@ -102,7 +104,7 @@ class ProductVariant
     {
         $this->product = $product;
     }
-    public function setId(string $id): void
+    public function setId(Uuid $id): void
     {
         $this->id = $id;
     }

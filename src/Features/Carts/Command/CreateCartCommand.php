@@ -1,25 +1,20 @@
 <?php
 
-namespace App\Features\Carts\Commands\Commands\Commands\Commands;
+namespace App\Features\Carts\Command;
 
-use App\Entity\Carts\Cart;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 
 class CreateCartCommand
 {
-    private function __construct(string $CustomerId)
+    private string $customerId;
+    private function __construct(string $customerId)
     {
-        $this->CustomerId = $CustomerId;
+        $this->customerId = $customerId;
     }
-
-    private string $CustomerId;
 
     public static function Create(string $CustomerId): self
     {
@@ -28,7 +23,7 @@ class CreateCartCommand
 
     public function getCustomerId(): string
     {
-        return $this->CustomerId;
+        return $this->customerId;
     }
 }
 
@@ -50,23 +45,5 @@ class CartType extends AbstractType
         $resolver->setDefaults([
             'data_class' => CreateCartCommand::class,
         ]);
-    }
-}
-#[AsMessageHandler]
-class CreateCartCommandHandler
-{
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
-    public function __invoke(CreateCartCommand $command): void
-    {
-        $cart = Cart::Create($command->getCustomerId());
-
-        $this->entityManager->persist($cart);
-        $this->entityManager->flush();
     }
 }

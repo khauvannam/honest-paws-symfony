@@ -4,8 +4,7 @@ namespace App\Features\Products\CommandHandler;
 
 use App\Entity\Products\OriginalPrice;
 use App\Features\Products\Command\UpdateProductVariantCommand;
-use App\Repository\ProductVariantRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Products\ProductVariantRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

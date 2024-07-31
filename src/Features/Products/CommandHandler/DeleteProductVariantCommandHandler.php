@@ -3,7 +3,7 @@
 namespace App\Features\Products\CommandHandler;
 
 use App\Features\Products\Command\DeleteProductVariantCommand;
-use App\Repository\ProductVariantRepository;
+use App\Repository\Products\ProductVariantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

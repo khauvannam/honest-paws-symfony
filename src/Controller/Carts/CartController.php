@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controller\Cart;
+namespace App\Controller\Carts;
 
 use App\Entity\Carts\Cart;
-use App\Features\Carts\Commands\Commands\Commands\Commands\CreateCartCommand;
-use App\Features\Carts\Commands\Commands\Commands\Commands\CartType;
+
+use App\Features\Carts\Command\CartType;
+use App\Features\Carts\Command\CreateCartCommand;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

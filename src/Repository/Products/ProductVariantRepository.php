@@ -1,20 +1,12 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Products;
 
 use App\Entity\Products\ProductVariant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<ProductVariant>
- *
- * @method ProductVariant|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductVariant|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductVariant[]    findAll()
- * @method ProductVariant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ProductVariantRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -43,53 +35,28 @@ class ProductVariantRepository extends ServiceEntityRepository
      */
     public function findById(string $id): ?ProductVariant
     {
-        return $this->createQueryBuilder('pv')
-            ->andWhere('pv.id = :id')
-            ->setParameter('id', $id)
+        return $this->createQueryBuilder("pv")
+            ->andWhere("pv.id = :id")
+            ->setParameter("id", $id)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    /**
-     * @param string $productId
-     * @return ProductVariant[]
-     */
-    public function findByProductId(string $productId): array
-    {   
-        return $this->createQueryBuilder('pv')
-            ->andWhere('pv.productId = :productId')
-            ->setParameter(key: 'productId', value: $productId)
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * @param string $variantName
-     * @return ProductVariant|null
-     * @throws NonUniqueResultException
-     */
-    public function findByVariantName(string $variantName): ?ProductVariant
-    {
-        return $this->createQueryBuilder('pv')
-            ->andWhere('pv.variantName = :variantName')
-            ->setParameter('variantName', $variantName)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
-     * @param int $limit
-     * @param int $offset
-     * @return ProductVariant[]
-     */
     public function findAllVariants(int $limit, int $offset): array
     {
-        return $this->createQueryBuilder('pv')
+        return $this->createQueryBuilder("pv")
             ->setMaxResults($limit)
             ->setFirstResult($offset)
             ->getQuery()
             ->getResult();
     }
+
+    public function update(ProductVariant $productVariant): ProductVariant
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->flush();
+        return $productVariant;
+    }
 }
 
-?>
+

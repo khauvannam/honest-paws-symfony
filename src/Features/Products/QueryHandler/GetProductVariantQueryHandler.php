@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Features\Products\QueriesHandler;
+namespace App\Features\Products\QueryHandler;
 
-use App\Repository\ProductVariantRepository;
 use App\Entity\Products\ProductVariant;
-use App\Features\Products\Queries\GetProductVariantQuery;
+use App\Features\Products\Query\GetProductVariantQuery;
+use App\Repository\Products\ProductVariantRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

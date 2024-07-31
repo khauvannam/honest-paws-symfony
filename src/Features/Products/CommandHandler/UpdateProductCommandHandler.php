@@ -4,7 +4,6 @@ namespace App\Features\Products\CommandHandler;
 
 use App\Features\Products\Command\UpdateProductCommand;
 use App\Repository\Products\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -16,7 +15,6 @@ class UpdateProductCommandHandler
     public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
-
     }
 
     /**
@@ -27,7 +25,7 @@ class UpdateProductCommandHandler
         $product = $this->productRepository->find($command->getId());
 
         if (!$product) {
-            throw new Exception('Product not found');
+            throw new Exception("Product not found");
         }
 
         $product->setName($command->getName());

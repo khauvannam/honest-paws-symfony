@@ -5,7 +5,7 @@ namespace App\Controller\Products;
 use App\Entity\Products\ProductVariant;
 use App\Features\Products\Command\CreateProductVariantCommand;
 use App\Features\Products\Command\CreateProductVariantType;
-use App\Repository\Products\ProductRepository;
+use App\Repository\Products\ProductVariantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,14 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductVariantController extends AbstractController
 {
     private MessageBusInterface $bus;
-    private EntityManagerInterface $entityManager;
-    private ProductRepository $productRepository;
+    private ProductVariantRepository $productVariantRepository;
 
-    public function __construct(MessageBusInterface $bus, EntityManagerInterface $entityManager, ProductRepository $productRepository)
+    public function __construct(MessageBusInterface $bus, ProductVariantRepository $productVariantRepository)
     {
         $this->bus = $bus;
-        $this->entityManager = $entityManager;
-        $this->productRepository = $productRepository;
+        $this->productVariantRepository = $productVariantRepository;
     }
 
     /**
@@ -34,7 +32,7 @@ class ProductVariantController extends AbstractController
     #[Route('/products/{productId}/variants/new', name: 'product_variant_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request, string $productId): RedirectResponse|Response
     {
-        $product = $this->productRepository->find($productId);
+        $product = $this->productVariantRepository->find($productId);
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');
         }
@@ -63,12 +61,12 @@ class ProductVariantController extends AbstractController
     #[Route('/products/{productId}/variants/{variantId}/edit', name: 'product_variant_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, string $productId, string $variantId): RedirectResponse|Response
     {
-        $product = $this->productRepository->find($productId);
+        $product = $this->productVariantRepository->find($productId);
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');
         }
 
-        $productVariant = $this->entityManager->getRepository(ProductVariant::class)->find($variantId);
+        $productVariant = $this->productVariantRepository->find($variantId);
         if (!$productVariant) {
             throw $this->createNotFoundException('The product variant does not exist');
         }
@@ -98,15 +96,14 @@ class ProductVariantController extends AbstractController
     #[Route('/products/{productId}/variants/{variantId}/delete', name: 'product_variant_delete', methods: ['POST'])]
     public function delete(Request $request, string $productId, string $variantId): RedirectResponse
     {
-        $productVariant = $this->entityManager->getRepository(ProductVariant::class)->find($variantId);
+        $productVariant = $this->productVariantRepository->find($variantId);
 
         if (!$productVariant) {
             throw $this->createNotFoundException('The product variant does not exist');
         }
 
         if ($this->isCsrfTokenValid('delete' . $productVariant->getId(), $request->request->get('_token'))) {
-            $this->entityManager->remove($productVariant);
-            $this->entityManager->flush();
+            $this->productVariantRepository->delete($productVariant);
         }
 
         return $this->redirectToRoute('product_variant_index', ['productId' => $productId]);

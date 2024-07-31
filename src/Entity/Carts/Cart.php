@@ -2,12 +2,11 @@
 
 namespace App\Entity\Carts;
 
-use App\Entity\Carts;
+use App\Repository\Carts\CartRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\Carts\CartRepository;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]
@@ -32,23 +31,22 @@ class Cart
     {
         return $this->UpdateDate;
     }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'uuid')]
     private Uuid $id;
 
     #[ORM\Column(length: 255)]
     private string $CustomerId;
 
-
-
-    #[ORM\OneToMany()]
+    #[ORM\OneToMany(mappedBy: "cart", targetEntity: CartItem::class)]
     private Collection $CartItemsList;
 
     #[ORM\Column(type: 'datetime')]
     private DateTime $UpdateDate;
 
-    private function __construct(string $CustomerId, string $CartId)
+    private function __construct(string $CustomerId)
     {
         $this->id = Uuid::v4();
         $this->CustomerId = $CustomerId;
@@ -56,12 +54,12 @@ class Cart
         $this->CartItemsList = new ArrayCollection();
     }
 
-    public static function Create(string $CustomerId, string $CartId): self
+    public static function Create(string $CustomerId): self
     {
-        return new self($CustomerId, $CartId);
+        return new self($CustomerId);
     }
 
-    public function Update(string $CustomerId, string $CartId): self
+    public function Update(string $CustomerId): self
     {
         $this->CustomerId = $CustomerId;
         $this->UpdateDate = new DateTime();
@@ -77,6 +75,7 @@ class Cart
             }
         }
     }
+
     public function addCartItem(CartItem $cartItem): void
     {
         if (!$this->CartItemsList->contains($cartItem)) {

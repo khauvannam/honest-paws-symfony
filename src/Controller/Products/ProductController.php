@@ -8,6 +8,7 @@ use App\Features\Products\Command\CreateProductType;
 use App\Features\Products\Command\DeleteProductCommand;
 use App\Features\Products\Command\UpdateProductCommand;
 use App\Features\Products\Command\UpdateProductType;
+use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,18 +23,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     private MessageBusInterface $bus;
-    private EntityManagerInterface $entityManager;
+    private ProductRepository $productRepository;
 
-    public function __construct(MessageBusInterface $bus, EntityManagerInterface $entityManager)
+    public function __construct(MessageBusInterface $bus, ProductRepository $productRepository)
     {
         $this->bus = $bus;
-        $this->entityManager = $entityManager;
+        $this->productRepository = $productRepository;
     }
 
     #[Route('/products', name: 'product_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(int $limit, int $offset): Response
     {
-        $products = $this->entityManager->getRepository(Product::class)->findAll();
+        $products = $this->productRepository->findAllProducts($limit, $offset);
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
@@ -71,7 +72,7 @@ class ProductController extends AbstractController
     #[Route('/products/{id}', name: 'product_show', methods: ['GET'])]
     public function show(int $id): Response
     {
-        $product = $this->entityManager->getRepository(Product::class)->find($id);
+        $product = $this->productRepository->findById($id);
 
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');

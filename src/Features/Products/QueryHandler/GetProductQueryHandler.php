@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Features\Products\QueriesHandler;
+namespace App\Features\Products\QueryHandler;
 
 use App\Entity\Products\Product;
-use App\Features\Products\Queries\GetProductQuery;
+use App\Features\Products\Query\GetProductQuery;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -22,4 +22,7 @@ class GetProductQueryHandler
         return $this->productRepository->find($query->getId());
     }
 }
+<<<<<<< HEAD:src/Features/Products/QueriesHandler/GetProductQueryHandler.php
 ?>
+=======
+>>>>>>> origin/namdeptrai:src/Features/Products/QueryHandler/GetProductQueryHandler.php
