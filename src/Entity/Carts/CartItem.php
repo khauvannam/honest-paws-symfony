@@ -2,20 +2,19 @@
 
 namespace App\Entity\Carts;
 
-use App\Repository\Carts\CartItemRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: CartItemRepository::class)]
+#[ORM\Entity]
 class CartItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: "integer")]
     private Uuid $id;
 
-    #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: 'cartItems')]
+    #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: "cartItems")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Cart $Cart;
 
@@ -66,7 +65,7 @@ class CartItem
 
     public function getTotalPrice(): string
     {
-        return $this->TotalPrice =  $this->Price * $this->Quantity;
+        return $this->TotalPrice = $this->Price * $this->Quantity;
     }
 
     #[ORM\Column(length: 255)]
@@ -78,7 +77,7 @@ class CartItem
     #[ORM\Column(length: 255)]
     private string $Name;
 
-    #[ORM\Column(type: 'int')]
+    #[ORM\Column(type: "int")]
     private int $Quantity;
 
     #[ORM\Column]
@@ -87,7 +86,7 @@ class CartItem
     #[ORM\Column(length: 255)]
     private string $ImageUrl;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: "datetime")]
     private DateTime $AddedAt;
 
     #[ORM\Column(length: 255)]
@@ -100,13 +99,11 @@ class CartItem
         string $productId,
         string $variantId,
         string $name,
-        int    $quantity,
-        float  $price,
+        int $quantity,
+        float $price,
         string $imgUrl,
-        string $description,
-
-    )
-    {
+        string $description
+    ) {
         $this->id = Uuid::v4();
         $this->ProductId = $productId;
         $this->VariantId = $variantId;
@@ -122,19 +119,29 @@ class CartItem
         string $productId,
         string $variantId,
         string $name,
-        int    $quantity,
-        float  $price,
+        int $quantity,
+        float $price,
         string $imageUrl,
-        string $description,
-
-    ): self
-    {
-        return new self($productId, $variantId, $name, $quantity, $price, $imageUrl, $description);
+        string $description
+    ): self {
+        return new self(
+            $productId,
+            $variantId,
+            $name,
+            $quantity,
+            $price,
+            $imageUrl,
+            $description
+        );
     }
 
-    public function update($name, $quantity, $price, $imageUrl, $description): void
-    {
-
+    public function update(
+        $name,
+        $quantity,
+        $price,
+        $imageUrl,
+        $description
+    ): void {
         $this->Name = $name;
         $this->Quantity = $quantity;
         $this->Price = $price;
@@ -152,6 +159,4 @@ class CartItem
         $this->Cart = $cart;
         return $this;
     }
-
-
 }

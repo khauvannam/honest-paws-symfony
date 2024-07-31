@@ -2,7 +2,7 @@
 
 namespace App\Entity\Users;
 
-use App\Repository\Products\Identities\IdentityRepository;
+use App\Repository\Identities\IdentityRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,13 +22,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue(strategy: "UUID")]
     #[ORM\Column]
     private string $id;
-    #[ORM\Column(type: 'string', length: 180)]
+    #[ORM\Column(type: "string", length: 180)]
     private string $username;
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(type: "string", length: 180, unique: true)]
     private string $email;
-    #[ORM\Column(type: 'string', length: 180)]
+    #[ORM\Column(type: "string", length: 180)]
     private string $passwordHash;
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: "json")]
     private array $roles = [];
 
     public static function Create(string $username, string $email): self
@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
 
-        $roles[] = 'ROLE_USER';
+        $roles[] = "ROLE_USER";
 
         return array_unique($roles);
     }

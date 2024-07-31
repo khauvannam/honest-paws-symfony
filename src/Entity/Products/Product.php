@@ -2,7 +2,7 @@
 
 namespace App\Entity\Products;
 
-use App\Repository\Products\Products\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,7 +15,7 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private Uuid $id;
+    private string $id;
 
     #[ORM\Column(length: 255)]
     private ?string $name;
@@ -32,18 +32,31 @@ class Product
     #[ORM\Column(length: 500)]
     private ?string $discountPercent;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: "datetime")]
     private ?DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: "datetime")]
     private ?DateTime $updatedAt;
 
-    #[ORM\OneToMany(targetEntity: ProductVariant::class, mappedBy: 'product', cascade: ['persist', 'remove'])]
+    #[
+        ORM\OneToMany(
+            targetEntity: ProductVariant::class,
+            mappedBy: "product",
+            cascade: ["persist", "remove"]
+        )
+    ]
     private Collection $productVariants;
 
-    public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt)
-    {
-        $this->id = Uuid::v4();
+    public function __construct(
+        string $name,
+        string $description,
+        string $productUseGuide,
+        string $imageUrl,
+        string $discountPercent,
+        DateTime $createdAt,
+        DateTime $updateAt
+    ) {
+        $this->id = Uuid::v4()->toString();
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
@@ -54,13 +67,35 @@ class Product
         $this->productVariants = new ArrayCollection();
     }
 
-    public static function Create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt): Product
-    {
-        return new Product($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updateAt);
+    public static function Create(
+        string $name,
+        string $description,
+        string $productUseGuide,
+        string $imageUrl,
+        string $discountPercent,
+        DateTime $createdAt,
+        DateTime $updateAt
+    ): Product {
+        return new Product(
+            $name,
+            $description,
+            $productUseGuide,
+            $imageUrl,
+            $discountPercent,
+            $createdAt,
+            $updateAt
+        );
     }
 
-    public function Update(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt): Product
-    {
+    public function Update(
+        string $name,
+        string $description,
+        string $productUseGuide,
+        string $imageUrl,
+        string $discountPercent,
+        DateTime $createdAt,
+        DateTime $updateAt
+    ): Product {
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
@@ -132,7 +167,6 @@ class Product
     {
         return $this->productVariants;
     }
-    
 
     public function setName(?string $name): self
     {
@@ -175,8 +209,6 @@ class Product
         $this->updatedAt = $updatedAt;
         return $this;
     }
-
-
 }
 
 ?>
