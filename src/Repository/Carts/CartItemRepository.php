@@ -24,10 +24,14 @@ class CartItemRepository extends ServiceEntityRepository
     public function save(CartItem $entity): void
     {
         $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
 
-     
-            $this->getEntityManager()->flush();
+    }
 
+    public function update(CartItem $entity): CartItem 
+    {
+        $this->getEntityManager()->flush();
+        return $entity;
     }
 
     public function remove(CartItem $entity): void
@@ -35,9 +39,10 @@ class CartItemRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($entity);
 
 
-            $this->getEntityManager()->flush();
+        $this->getEntityManager()->flush();
 
     }
+
 // update
     public function findById(string $id): ?CartItem
     {

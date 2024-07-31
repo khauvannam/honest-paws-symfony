@@ -4,7 +4,7 @@ namespace App\Features\Carts\CommandHandler;
 
 use App\Entity\Carts\Cart;
 use App\Features\Carts\Command\CreateCartCommand;
-use App\Repository\Products\Carts\CartRepository;
+use App\Repository\Carts\CartRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

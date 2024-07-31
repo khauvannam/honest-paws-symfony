@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Products\Carts;
+namespace App\Repository\Carts;
 
 use App\Entity\Carts\Cart;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -29,18 +29,24 @@ class CartRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function update(Cart $entity): Cart
+    {
+        $this->getEntityManager()->flush();
+        return $entity;
+    }
+
     public function remove(Cart $entity): void
     {
         $this->getEntityManager()->remove($entity);
-
-
     }
 
-    public function findById(string $id): ?Cart
+    public function findByIdAndCustomerId(string $id, string $customerId): ?Cart
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.id = :id')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :id')
+            ->andWhere('c.customerId = :customerId')
             ->setParameter('id', $id)
+            ->setParameter('customerId', $customerId)
             ->getQuery()
             ->getOneOrNullResult();
     }

@@ -132,7 +132,7 @@ class CartItem
         return new self($productId, $variantId, $name, $quantity, $price, $imageUrl, $description);
     }
 
-    public function update($name, $quantity, $price, $imageUrl, $description)
+    public function update($name, $quantity, $price, $imageUrl, $description): void
     {
 
         $this->Name = $name;

@@ -4,7 +4,7 @@ namespace App\Features\Categories\CommandHandler;
 
 
 use App\Features\Categories\Command\DeleteCategoryCommand;
-use App\Repository\Products\Categories\CategoryRepository;
+use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
