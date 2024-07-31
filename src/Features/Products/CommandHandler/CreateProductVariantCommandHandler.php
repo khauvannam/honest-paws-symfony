@@ -6,18 +6,17 @@ use App\Entity\Products\OriginalPrice;
 use App\Entity\Products\ProductVariant;
 use App\Features\Products\Command\CreateProductVariantCommand;
 use App\Repository\ProductVariantRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 class CreateProductVariantCommandHandler
 {
-    private EntityManagerInterface $entityManager;
+
     private ProductVariantRepository $productVariantRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, ProductVariantRepository $productVariantRepository)
+    public function __construct(ProductVariantRepository $productVariantRepository)
     {
-        $this->entityManager = $entityManager;
+
         $this->productVariantRepository = $productVariantRepository;
     }
 

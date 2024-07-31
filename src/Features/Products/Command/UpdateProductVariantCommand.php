@@ -55,13 +55,7 @@ class UpdateProductVariantCommand
     {
         return $this->discountedPrice;
     }
-
-    public static function getFormType(): string
-    {
-        return UpdateProductVariantType::class;
-    }
 }
-
 class UpdateProductVariantType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

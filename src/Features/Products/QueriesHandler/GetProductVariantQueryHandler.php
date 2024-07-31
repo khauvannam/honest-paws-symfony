@@ -22,4 +22,4 @@ class GetProductVariantQueryHandler
         return $this->productVariantRepository->find($query->getId());
     }
 }
-?>
+

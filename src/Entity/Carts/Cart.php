@@ -13,17 +13,36 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
 {
+    public function getId(): Uuid
+    {
+        return $this->id;
+    }
+
+    public function getCustomerId(): string
+    {
+        return $this->CustomerId;
+    }
+
+    public function getCartItemsList(): Collection
+    {
+        return $this->CartItemsList;
+    }
+
+    public function getUpdateDate(): DateTime
+    {
+        return $this->UpdateDate;
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private Uuid $id;
 
     #[ORM\Column(length: 255)]
     private string $CustomerId;
 
 
 
-    #[ORM\OneToMany(length: 255)]
+    #[ORM\OneToMany()]
     private Collection $CartItemsList;
 
     #[ORM\Column(type: 'datetime')]

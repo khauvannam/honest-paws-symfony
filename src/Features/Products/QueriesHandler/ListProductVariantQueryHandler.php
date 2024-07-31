@@ -2,7 +2,7 @@
 
 namespace App\Features\Products\QueriesHandler;
 
-use App\Features\Products\Queries\ListProductVariantsQuery;
+use App\Features\Products\Queries\ListProductVariantQuery;
 use App\Repository\ProductVariantRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -16,9 +16,9 @@ class ListProductVariantsQueryHandler
         $this->productVariantRepository = $productVariantRepository;
     }
 
-    public function __invoke(ListProductVariantsQuery $query): array
+    public function __invoke(ListProductVariantQuery $query): array
     {
         return $this->productVariantRepository->findAllVariants($query->getLimit(), $query->getOffset());
     }
 }
-?>
+

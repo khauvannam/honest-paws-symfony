@@ -3,7 +3,6 @@
 namespace App\Features\Products\Command;
 
 use App\Entity\Products\Product;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

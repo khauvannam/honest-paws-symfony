@@ -12,12 +12,11 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class UpdateProductCommandHandler
 {
     private ProductRepository $productRepository;
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(ProductRepository $productRepository, EntityManagerInterface $entityManager)
+    public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
-        $this->entityManager = $entityManager;
+
     }
 
     /**

@@ -2,26 +2,26 @@
 
 namespace App\Repository\Carts;
 
-use App\Entity\Carts\Cart;
+use App\Entity\Carts\CartItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Cart>
+ * @extends ServiceEntityRepository<CartItem>
  *
- * @method Cart|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cart|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cart[]    findAll()
- * @method Cart[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CartItem|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CartItem|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CartItem[]    findAll()
+ * @method CartItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CartRepository extends ServiceEntityRepository
+class CartItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Cart::class);
+        parent::__construct($registry, CartItem::class);
     }
 
-    public function save(Cart $entity, bool $flush = false): void
+    public function save(CartItem $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CartRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Cart $entity, bool $flush = false): void
+    public function remove(CartItem $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -39,10 +39,8 @@ class CartRepository extends ServiceEntityRepository
         }
     }
 
-    // Add your custom repository methods here, for example:
-
     /**
-     * @return Cart[] Returns an array of Cart objects
+     * @return CartItem[] Returns an array of CartItem objects
      */
     public function findByExampleField($value): array
     {
@@ -55,7 +53,7 @@ class CartRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findOneBySomeField($value): ?Cart
+    public function findOneBySomeField($value): ?CartItem
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

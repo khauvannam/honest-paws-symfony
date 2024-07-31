@@ -2,7 +2,7 @@
 
 namespace App\Features\Products\QueriesHandler;
 
-use App\Features\Products\Queries\ListProductsQuery;
+use App\Features\Products\Queries\ListProductQuery;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -16,9 +16,8 @@ class ListProductsHandler
         $this->productRepository = $productRepository;
     }
 
-    public function __invoke(ListProductsQuery $query)
+    public function __invoke(ListProductQuery $query): array
     {
         return $this->productRepository->findAllProducts($query->getLimit(), $query->getOffset());
     }
 }
-?>

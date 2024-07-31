@@ -1,7 +1,6 @@
 <?php
 namespace App\Features\Products\Command;
 
-use App\Features\Products\Command\CreateProductVariantType;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
@@ -126,7 +125,7 @@ class CreateProductType extends AbstractType
                 'label' => 'Updated At',
             ])
             ->add('productVariants', CollectionType::class, [
-                'entry_type' => CreateProductVariantType::class,
+                'entry_type' => CreateProductVariantCommand::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -144,4 +143,3 @@ class CreateProductType extends AbstractType
         ]);
     }
 }
-?>

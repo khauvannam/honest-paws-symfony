@@ -2,7 +2,7 @@
 
 namespace App\Features\Products\Queries;
 
-class ListProductVariantsQuery
+class ListProductVariantQuery
 {
     private int $limit;
     private int $offset;
@@ -28,4 +28,3 @@ class ListProductVariantsQuery
         return $this->offset;
     }
 }
-?>

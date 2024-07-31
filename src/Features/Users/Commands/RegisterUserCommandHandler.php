@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Users;
+namespace App\Features\Users\Commands;
 
 use App\Entity\Users\User;
 use App\Repository\Identities\IdentityRepository;

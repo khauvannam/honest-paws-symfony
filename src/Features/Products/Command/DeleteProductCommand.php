@@ -21,4 +21,6 @@ class DeleteProductCommand
         return $this->id;
     }
 }
-?>
+
+
+

@@ -2,6 +2,10 @@
 
 namespace App\Features\Products\Queries;
 
+use App\Repository\ProductVariantRepository;
+use App\Entity\Products\ProductVariant;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
 class GetProductVariantQuery
 {
     private int $id;
@@ -21,4 +25,3 @@ class GetProductVariantQuery
         return $this->id;
     }
 }
-?>
