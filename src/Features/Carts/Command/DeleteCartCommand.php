@@ -11,7 +11,7 @@ class DeleteCartCommand
     private function __construct(Uuid $cartId,Uuid $customerId)
     {
         $this->cartId = $cartId;
-        $this->customerId = $customerId
+        $this->customerId = $customerId;
     }
 
     public static function create(Uuid $cartId,Uuid $customerId): self

@@ -12,7 +12,6 @@ class UpdateCartCommandHandler
 {
     public function __construct(private CartRepository $cartRepository)
     {
-
     }
 
     public function __invoke(UpdateCartCommand $command): void

@@ -10,6 +10,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class DeleteCartCommandHandler
 {
+
+
     public function __construct(private CartRepository $cartRepository)
     {
     }
