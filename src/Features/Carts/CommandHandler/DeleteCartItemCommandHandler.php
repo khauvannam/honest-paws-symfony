@@ -4,7 +4,7 @@ namespace App\Features\Carts\CommandHandler;
 
 use App\Entity\Carts\CartItem;
 use App\Features\Carts\Command\DeleteCartItemCommand;
-use App\Repository\Products\Carts\CartItemRepository;
+use App\Repository\Carts\CartItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -21,7 +21,7 @@ class DeleteCartItemCommandHandler
 
     public function __invoke(DeleteCartItemCommand $command, CartItem $cartItem): void
     {
-        $cartItem = $this->cartItemRepository->findById;
+//        $cartItem = $this->cartItemRepository->findById; sai logic
 
         if ($cartItem) {
             $this->cartItemRepository->remove($cartItem);

@@ -4,7 +4,7 @@ namespace App\Features\Carts\CommandHandler;
 
 use App\Entity\Carts\CartItem;
 use App\Features\Carts\UpdateCartItemCommand;
-use App\Repository\Products\Carts\CartItemRepository;
+use App\Repository\Carts\CartItemRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -24,7 +24,7 @@ class UpdateCartItemCommandHandler
         $cartItem = $this->cartItemRepository->findById($command->getCartItemId());
 
         if (!$cartItem) {
-            $cartItem = new cartItem(
+            $cartItem = CartItem::create(
                 $command->getProductId(),
                 $command->getVariantId(),
                 $command->getName(),
@@ -33,14 +33,8 @@ class UpdateCartItemCommandHandler
                 $command->getImageUrl(),
                 $command->getDescription()
             );
-        } else {
-            $cartItem->setProductId($command->getProductId());
-            $cartItem->setVariantId($command->getVariantId());
-            $cartItem->setName($command->getName());
-            $cartItem->setQuantity($command->getQuantity());
-            $cartItem->setPrice($command->getPrice());
-            $cartItem->setImageUrl($command->getImageUrl());
-            $cartItem->setDescription($command->getDescription());
+        } else { // sai logic
         }
+
     }
 }

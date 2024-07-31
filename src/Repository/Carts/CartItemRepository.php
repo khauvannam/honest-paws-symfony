@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Products\Carts;
+namespace App\Repository\Carts;
 
 use App\Entity\Carts\CartItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,46 +21,24 @@ class CartItemRepository extends ServiceEntityRepository
         parent::__construct($registry, CartItem::class);
     }
 
-    public function save(CartItem $entity, bool $flush = false): void
+    public function save(CartItem $entity): void
     {
         $this->getEntityManager()->persist($entity);
 
-        if ($flush) {
+     
             $this->getEntityManager()->flush();
-        }
+
     }
 
-    public function remove(CartItem $entity, bool $flush = false): void
+    public function remove(CartItem $entity): void
     {
         $this->getEntityManager()->remove($entity);
 
-        if ($flush) {
+
             $this->getEntityManager()->flush();
-        }
-    }
 
-    /**
-     * @return CartItem[] Returns an array of CartItem objects
-     */
-    public function findByExampleField($value): array
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult();
     }
-
-    public function findOneBySomeField($value): ?CartItem
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
+// update
     public function findById(string $id): ?CartItem
     {
         return $this->createQueryBuilder('p')

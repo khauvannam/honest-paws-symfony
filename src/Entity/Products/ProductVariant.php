@@ -14,9 +14,9 @@ class ProductVariant
     private string $id;
 
     #[ORM\Column(length: 500)]
-    private ?string $variantName = null;
+    private ?string $variantName;
 
-    #[ORM\Column()]
+    #[ORM\Column]
     private ?int $quantity;
 
     #[ORM\Embedded(class: "App\Entity\Products\OriginalPrice")]
