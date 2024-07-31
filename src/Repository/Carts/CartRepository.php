@@ -32,8 +32,6 @@ class CartRepository extends ServiceEntityRepository
     public function remove(Cart $entity): void
     {
         $this->getEntityManager()->remove($entity);
-
-
     }
 
     public function findById(string $id): ?Cart
@@ -43,5 +41,12 @@ class CartRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+    public function update(Cart $cart): Cart
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($cart);
+        $entityManager->flush();
+        return $cart;
     }
 }
