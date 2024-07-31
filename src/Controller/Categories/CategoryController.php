@@ -25,18 +25,18 @@ class CategoryController extends AbstractController
         $this->bus = $bus;
     }
 
-    #[Route('/categories', name: 'category_index', methods: ['GET'])]
+    #[Route("/categories", name: "category_index", methods: ["GET"])]
     public function index(): Response
     {
         // Ideally, this should be handled by a query handler as well
         // For the sake of simplicity, we'll keep this example as is
-        return $this->render('category/index.html.twig');
+        return $this->render("category/index.html.twig");
     }
 
-    #[Route('/categories/new', name: 'category_new', methods: ['GET', 'POST'])]
+    #[Route("/categories/new", name: "category_new", methods: ["GET", "POST"])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $command = new CreateCategoryCommand('', '');
+        $command = new CreateCategoryCommand("", "");
         $form = $this->createForm(CreateCategoryType::class, $command);
 
         $form->handleRequest($request);
@@ -44,34 +44,36 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->bus->dispatch($command);
-                return $this->redirectToRoute('category_success');
+                return $this->redirectToRoute("category_success");
             } catch (ExceptionInterface $e) {
                 // Handle the exception or display an error message
             }
         }
 
-        return $this->render('category/new.html.twig', [
-            'form' => $form->createView(),
+        return $this->render("category/new.html.twig", [
+            "form" => $form->createView(),
         ]);
     }
 
-    #[Route('/categories/success', name: 'category_success')]
+    #[Route("/categories/success", name: "category_success")]
     public function createSuccess(): Response
     {
-        return $this->render('category/success.html.twig');
+        return $this->render("category/success.html.twig");
     }
 
-    #[Route('/categories/{id}', name: 'category_show', methods: ['GET'])]
+    #[Route("/categories/{id}", name: "category_show", methods: ["GET"])]
     public function show(string $id): Response
     {
         // Ideally, this should be handled by a query handler
-        return $this->render('category/show.html.twig');
+        return $this->render("category/show.html.twig");
     }
 
-    #[Route('/categories/{id}/edit', name: 'category_edit', methods: ['GET', 'POST'])]
-    public function editAsync(Request $request, string $id): RedirectResponse|Response
-    {
-        $command = new UpdateCategoryCommand(Uuid::fromString($id), '', '');
+    #[Route("/categories/{id}/edit", name: "category_edit", methods: ["POST"])]
+    public function editAsync(
+        Request $request,
+        string $id
+    ): RedirectResponse|Response {
+        $command = new UpdateCategoryCommand(Uuid::fromString($id), "", "");
         $form = $this->createForm(UpdateCategoryType::class, $command);
 
         $form->handleRequest($request);
@@ -79,18 +81,24 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->bus->dispatch($command);
-                return $this->redirectToRoute('category_success');
+                return $this->redirectToRoute("category_success");
             } catch (ExceptionInterface $e) {
                 // Handle the exception or display an error message
             }
         }
 
-        return $this->render('category/edit.html.twig', [
-            'form' => $form->createView(),
+        return $this->render("category/edit.html.twig", [
+            "form" => $form->createView(),
         ]);
     }
 
-    #[Route('/categories/{id}/delete', name: 'category_delete', methods: ['POST'])]
+    #[
+        Route(
+            "/categories/{id}/delete",
+            name: "category_delete",
+            methods: ["POST"]
+        )
+    ]
     public function delete(string $id): RedirectResponse
     {
         $command = new DeleteCategoryCommand(Uuid::fromString($id));
@@ -100,6 +108,6 @@ class CategoryController extends AbstractController
             // Handle the exception or display an error message
         }
 
-        return $this->redirectToRoute('category_index');
+        return $this->redirectToRoute("category_index");
     }
 }
