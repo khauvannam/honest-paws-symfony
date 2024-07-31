@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Products\Categories;
+namespace App\Repository\Categories;
 
 
 use App\Entity\Categories\Category;

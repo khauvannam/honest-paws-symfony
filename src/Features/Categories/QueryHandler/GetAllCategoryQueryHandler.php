@@ -2,7 +2,8 @@
 
 namespace App\Features\Categories\QueryHandler;
 
-use App\Repository\Products\Categories\CategoryRepository;
+use App\Features\Categories\Query\GetAllCategoryQuery;
+use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -12,7 +13,7 @@ class GetAllCategoryQueryHandler
     {
     }
 
-    public function __invoke() : array
+    public function __invoke(GetAllCategoryQuery $allCategoryQuery) : array
     {
         return $this->categoryRepository->findAll();
     }

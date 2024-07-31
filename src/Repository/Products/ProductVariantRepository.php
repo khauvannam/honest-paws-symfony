@@ -42,38 +42,6 @@ class ProductVariantRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    /**
-     * @param string $productId
-     * @return ProductVariant[]
-     */
-    public function findByProductId(string $productId): array
-    {
-        return $this->createQueryBuilder("pv")
-            ->andWhere("pv.productId = :productId")
-            ->setParameter(key: "productId", value: $productId)
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * @param string $variantName
-     * @return ProductVariant|null
-     * @throws NonUniqueResultException
-     */
-    public function findByVariantName(string $variantName): ?ProductVariant
-    {
-        return $this->createQueryBuilder("pv")
-            ->andWhere("pv.variantName = :variantName")
-            ->setParameter("variantName", $variantName)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
-     * @param int $limit
-     * @param int $offset
-     * @return ProductVariant[]
-     */
     public function findAllVariants(int $limit, int $offset): array
     {
         return $this->createQueryBuilder("pv")
@@ -82,6 +50,13 @@ class ProductVariantRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function update(ProductVariant $productVariant): ProductVariant
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->flush();
+        return $productVariant;
+    }
 }
 
-?>
+

@@ -3,7 +3,7 @@ namespace App\Features\Products\CommandHandler;
 
 use App\Entity\Products\Product;
 use App\Features\Products\Command\CreateProductCommand;
-use App\Repository\Products\Products\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -31,4 +31,3 @@ class CreateProductCommandHandler
         $this->productRepository->save($product);
     }
 }
-

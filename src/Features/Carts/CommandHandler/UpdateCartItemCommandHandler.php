@@ -20,7 +20,7 @@ class UpdateCartItemCommandHandler
      */
     public function __invoke(UpdateCartItemCommand $command): void
     {
-
+        global $cartItem;
         $cartItem = $this->cartItemRepository->findById($command->getCartItemId());
 
         if (!$cartItem) {
@@ -33,8 +33,16 @@ class UpdateCartItemCommandHandler
                 $command->getImageUrl(),
                 $command->getDescription()
             );
+<<<<<<< HEAD
         } else { // sai logic
             $cartItem->update($command->getName(), $command->getQuantity(), $command->getPrice(), $command->getImageUrl(), $command->getDescription());
         }
+=======
+        } else {
+            $cartItem->update($command->getName(), $command->getQuantity(), $command->getPrice(), $command->getImageUrl(), $command->getDescription());
+        }
+        $this->cartItemRepository->update($cartItem);
+
+>>>>>>> origin/namdeptrai
     }
 }
