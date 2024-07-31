@@ -10,8 +10,7 @@ use Symfony\Component\Uid\Uuid;
 class ProductVariant
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "UUID")]
-    #[ORM\Column()]
+    #[ORM\Column]
     private string $id;
 
     #[ORM\Column(length: 500)]
@@ -20,7 +19,7 @@ class ProductVariant
     #[ORM\Column]
     private ?int $quantity;
 
-    #[ORM\Embedded(class: "App\Entity\Products\OriginalPrice")]
+    #[ORM\Embedded(class: OriginalPrice::class)]
     private OriginalPrice $originalPrice;
 
     #[ORM\Column(precision: 10)]
@@ -104,7 +103,7 @@ class ProductVariant
     {
         $this->product = $product;
     }
-    public function setId(Uuid $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }

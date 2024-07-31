@@ -10,12 +10,10 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class DeleteProductVariantCommandHandler
 {
-    private EntityManagerInterface $entityManager;
     private ProductVariantRepository $productVariantRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, ProductVariantRepository $productVariantRepository)
+    public function __construct(ProductVariantRepository $productVariantRepository)
     {
-        $this->entityManager = $entityManager;
         $this->productVariantRepository = $productVariantRepository;
     }
 

@@ -12,8 +12,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegisterUserCommand
 {
-    private function __construct(string $username, string $email, string $password)
-    {
+    private function __construct(
+        string $username,
+        string $email,
+        string $password
+    ) {
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
@@ -40,8 +43,11 @@ class RegisterUserCommand
 
     private string $password;
 
-    public static function Create(string $username, string $email, string $password): self
-    {
+    public static function Create(
+        string $username,
+        string $email,
+        string $password
+    ): self {
         return new self($username, $email, $password);
     }
 
@@ -49,7 +55,6 @@ class RegisterUserCommand
     {
         return $this->password;
     }
-
 
     public function getEmail(): string
     {
@@ -64,27 +69,29 @@ class RegisterUserCommand
 
 class RegisterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
-            ->add('username', TextType::class, [
-                'label' => 'Username',
+            ->add("username", TextType::class, [
+                "label" => "Username",
             ])
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
+            ->add("email", EmailType::class, [
+                "label" => "Email",
             ])
-            ->add('password', PasswordType::class, [
-                'label' => 'Password',
+            ->add("password", PasswordType::class, [
+                "label" => "Password",
             ])
-            ->add('register', SubmitType::class, [
-                'label' => 'Register',
+            ->add("register", SubmitType::class, [
+                "label" => "Register",
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => RegisterUserCommand::class,
+            "data_class" => RegisterUserCommand::class,
         ]);
     }
 }

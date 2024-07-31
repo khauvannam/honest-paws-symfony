@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace App\Features\Products\QueryHandler;
 
 use App\Features\Products\Query\ListProductVariantQuery;
@@ -21,4 +23,3 @@ class ListProductVariantsQueryHandler
         return $this->productVariantRepository->findAllVariants($query->getLimit(), $query->getOffset());
     }
 }
-

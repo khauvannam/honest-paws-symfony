@@ -13,22 +13,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public function __construct(string $username, string $email)
     {
-        $this->id = Uuid::v4();
+        $this->id = Uuid::v4()->toString();
         $this->username = $username;
         $this->email = $email;
     }
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "UUID")]
     #[ORM\Column]
     private string $id;
-    #[ORM\Column(type: 'string', length: 180)]
+    #[ORM\Column(type: "string", length: 180)]
     private string $username;
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(type: "string", length: 180, unique: true)]
     private string $email;
-    #[ORM\Column(type: 'string', length: 180)]
+    #[ORM\Column(type: "string", length: 180)]
     private string $passwordHash;
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: "json")]
     private array $roles = [];
 
     public static function Create(string $username, string $email): self
@@ -50,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
 
-        $roles[] = 'ROLE_USER';
+        $roles[] = "ROLE_USER";
 
         return array_unique($roles);
     }

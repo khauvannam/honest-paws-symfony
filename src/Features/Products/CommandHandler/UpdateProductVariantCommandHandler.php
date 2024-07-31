@@ -36,4 +36,4 @@ class UpdateProductVariantCommandHandler
         $this->productVariantRepository->update($productVariant);
     }
 }
-?>
+

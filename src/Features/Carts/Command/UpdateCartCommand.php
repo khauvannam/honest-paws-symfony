@@ -4,10 +4,10 @@ namespace App\Features\Carts\Command;
 
 class UpdateCartCommand
 {
-    private ?int $cartId;
+    private string $cartId;
     private string $customerId;
 
-    public function __construct(string $customerId, ?int $cartId = null)
+    public function __construct(string $customerId,  $cartId )
     {
         $this->cartId = $cartId;
         $this->customerId = $customerId;
@@ -18,7 +18,7 @@ class UpdateCartCommand
         return $this->customerId;
     }
 
-    public function getCartId(): ?int
+    public function getCartId(): string 
     {
         return $this->cartId;
     }

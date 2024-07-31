@@ -12,17 +12,22 @@ class DeleteCartCommandHandler
 {
     public function __construct(private CartRepository $cartRepository)
     {
-
     }
 
-    public function __invoke(DeleteCartCommand $command, CartRepository $cartRepository): void
+    /**
+     * @throws Exception
+     */
+    public function __invoke(DeleteCartCommand $command): void
     {
-        $cart = $this->cartRepository->findById($command->getCartId());
+        $cart = $this->cartRepository->findByIdAndCustomerId(
+            $command->getCartId(),
+            $command->getCustomerId()
+        );
 
         if ($cart) {
             $this->cartRepository->remove($cart);
         } else {
-            throw new Exception('Cart not found');
+            throw new Exception("Cart not found");
         }
     }
 }
