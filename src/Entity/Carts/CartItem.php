@@ -11,14 +11,13 @@ class CartItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private Uuid $id;
+    private string $id;
 
     #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: "cartItems")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Cart $Cart;
 
-    public function getId(): Uuid
+    public function getId():string 
     {
         return $this->id;
     }
@@ -104,7 +103,7 @@ class CartItem
         string $imgUrl,
         string $description
     ) {
-        $this->id = Uuid::v4();
+        $this->id = Uuid::v4()-> toString();
         $this->ProductId = $productId;
         $this->VariantId = $variantId;
         $this->Name = $name;

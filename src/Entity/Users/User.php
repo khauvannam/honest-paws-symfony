@@ -13,7 +13,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public function __construct(string $username, string $email)
     {
-        $this->id = Uuid::v4();
+        $this->id = Uuid::v4()->toString();
         $this->username = $username;
         $this->email = $email;
     }

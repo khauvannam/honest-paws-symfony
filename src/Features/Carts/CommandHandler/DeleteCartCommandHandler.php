@@ -10,12 +10,13 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class DeleteCartCommandHandler
 {
-
-
     public function __construct(private CartRepository $cartRepository)
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function __invoke(DeleteCartCommand $command): void
     {
         $cart = $this->cartRepository->findByIdAndCustomerId(

@@ -4,12 +4,12 @@ namespace App\Entity\Products;
 
 use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class ProductVariant
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "UUID")]
     #[ORM\Column]
     private string $id;
 
@@ -19,7 +19,7 @@ class ProductVariant
     #[ORM\Column]
     private ?int $quantity;
 
-    #[ORM\Embedded(class: "App\Entity\Products\OriginalPrice")]
+    #[ORM\Embedded(class: OriginalPrice::class)]
     private OriginalPrice $originalPrice;
 
     #[ORM\Column(precision: 10)]
@@ -28,33 +28,23 @@ class ProductVariant
     #[ORM\Column(length: 255)]
     private ?string $productId;
 
-    #[
-        ORM\ManyToOne(
-            targetEntity: Product::class,
-            inversedBy: "productVariants"
-        )
-    ]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: "productVariants")]
     #[ORM\JoinColumn(name: "product_id", referencedColumnName: "id")]
     private Product $product;
 
-    private function __construct($variantName, $quantity)
-    {
+    private function __construct($variantName, $quantity) {
+        $this->id = Uuid::v4()->toString() ;
         $this->variantName = $variantName;
         $this->quantity = $quantity;
     }
 
-    public static function create(
-        string $variantName,
-        int $quantity
-    ): ProductVariant {
+    public static function create(string $variantName, int $quantity): ProductVariant
+    {
         return new ProductVariant($variantName, $quantity);
     }
 
-    public function update(
-        string $variantName,
-        OriginalPrice $originalPrice,
-        int $quantity
-    ): void {
+    public function update(string $variantName, OriginalPrice $originalPrice, int $quantity): void
+    {
         $this->variantName = $variantName;
         $this->originalPrice = $originalPrice;
         $this->quantity = $quantity;
@@ -67,11 +57,9 @@ class ProductVariant
 
     public function applyDiscount(float $percent): void
     {
-        $this->discountedPrice =
-            $percent == 0
-                ? $this->originalPrice->getValue()
-                : $this->originalPrice->getValue() -
-                    ($this->originalPrice->getValue() * $percent) / 100;
+        $this->discountedPrice = $percent == 0
+            ? $this->originalPrice->getValue()
+            : $this->originalPrice->getValue() - $this->originalPrice->getValue() * $percent / 100;
     }
 
     // Getters and setters
@@ -143,5 +131,8 @@ class ProductVariant
     public function setProductId(string $productId): void
     {
         $this->productId = $productId;
-    }
+    }   
 }
+
+
+

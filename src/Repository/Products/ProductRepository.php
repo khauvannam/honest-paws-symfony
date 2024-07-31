@@ -76,13 +76,13 @@ class ProductRepository extends ServiceEntityRepository
      * @param int $offset
      * @return Product[]
      */
-    public function findAllProducts(int $limit, int $offset): array
+    public function findAllProducts(int $limit, int $offset = 0): array
     {
-        return $this->createQueryBuilder("p")
-            ->setMaxResults($limit)
-            ->setFirstResult($offset)
-            ->getQuery()
-            ->getResult();
+        return $this->createquerybuilder("p")
+            ->setmaxresults($limit)
+            ->setfirstresult($offset)
+            ->getquery()
+            ->getresult();
     }
 }
 

@@ -8,10 +8,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Uid\Uuid;
 
 class UpdateProductCommand
 {
-    private int $id;
+    private string $id;
     private string $name;
     private string $description;
     private string $productUseGuide;
@@ -19,7 +20,7 @@ class UpdateProductCommand
     private string $discountPercent;
     private DateTime $updatedAt;
 
-    public function __construct(int $id, string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $updatedAt)
+    public function __construct(string $id, string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $updatedAt)
     {
         $this->id = $id;
         $this->name = $name;
@@ -70,7 +71,6 @@ class UpdateProductCommand
         return $this->updatedAt;
     }
 }
-
 
 class UpdateProductType extends AbstractType
 {

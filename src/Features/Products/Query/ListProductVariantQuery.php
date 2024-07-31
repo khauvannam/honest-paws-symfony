@@ -28,4 +28,3 @@ class ListProductVariantQuery
         return $this->offset;
     }
 }
-

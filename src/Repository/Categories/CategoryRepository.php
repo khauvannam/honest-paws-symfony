@@ -4,16 +4,16 @@ namespace App\Repository\Categories;
 
 
 use App\Entity\Categories\Category;
+use App\Entity\Products\Product;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Uid\Uuid;
+use Doctrine\Persistence\ManagerRegistry;
 
-class CategoryRepository
+class CategoryRepository extends ServiceEntityRepository
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry, private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, Product::class);
     }
 
     public function save(Category $category): void
@@ -22,7 +22,7 @@ class CategoryRepository
         $this->entityManager->flush();
     }
 
-    public function find(Uuid $id): ?Category
+    public function findById(string $id): ?Category
     {
         return $this->entityManager->getRepository(Category::class)->find($id);
     }
@@ -33,8 +33,12 @@ class CategoryRepository
         $this->entityManager->flush();
     }
 
-    public function findAll(): array
+    public function findAllCategory(int $limit, int $offset = 0): array
     {
-        return $this->entityManager->getRepository(Category::class)->findAll();
+        return $this->createquerybuilder("p")
+            ->setmaxresults($limit)
+            ->setfirstresult($offset)
+            ->getquery()
+            ->getresult();
     }
 }

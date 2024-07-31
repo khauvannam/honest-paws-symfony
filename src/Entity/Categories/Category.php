@@ -6,7 +6,7 @@ use Symfony\Component\Uid\Uuid;
 
 class Category
 {
-    public function getId(): Uuid
+    public function getId(): string
     {
         return $this->id;
     }
@@ -21,7 +21,7 @@ class Category
         return $this->description;
     }
 
-    private Uuid $id;
+    private string $id;
     private string $name;
     private string $description;
 
@@ -31,7 +31,7 @@ class Category
      */
     public function __construct(string $name, string $description)
     {
-        $this->id = Uuid::v4();
+        $this->id = Uuid::v4()->toString();
         $this->name = $name;
         $this->description = $description;
     }

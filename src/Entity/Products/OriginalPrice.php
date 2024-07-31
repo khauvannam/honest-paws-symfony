@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Entity\Products;
 
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
-
+#[orm\Embeddable]
 class OriginalPrice
 {
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
@@ -49,6 +50,3 @@ class OriginalPrice
         return $this->currency;
     }
 }
-?>
-?>
- ?>

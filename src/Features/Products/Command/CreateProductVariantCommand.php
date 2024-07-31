@@ -18,8 +18,14 @@ class CreateProductVariantCommand
     private string $productId;
     private Product $product;
 
-    public function __construct(string $variantName, int $quantity, float $originalPrice, float $discountedPrice, string $productId, Product $product)
-    {
+    public function __construct(
+        string $variantName, 
+        int $quantity, 
+        float $originalPrice, 
+        float $discountedPrice, 
+        string $productId, 
+        Product $product
+    ) {
         $this->variantName = $variantName;
         $this->quantity = $quantity;
         $this->originalPrice = $originalPrice;
@@ -28,8 +34,14 @@ class CreateProductVariantCommand
         $this->product = $product;
     }
 
-    public static function create(string $variantName, int $quantity, float $originalPrice, float $discountedPrice, string $productId, Product $product): self
-    {
+    public static function create(
+        string $variantName, 
+        int $quantity, 
+        float $originalPrice, 
+        float $discountedPrice, 
+        string $productId, 
+        Product $product
+    ): self {
         return new self($variantName, $quantity, $originalPrice, $discountedPrice, $productId, $product);
     }
 
@@ -64,7 +76,6 @@ class CreateProductVariantCommand
     }
 }
 
-
 class CreateProductVariantType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -94,3 +105,4 @@ class CreateProductVariantType extends AbstractType
         ]);
     }
 }
+?>
