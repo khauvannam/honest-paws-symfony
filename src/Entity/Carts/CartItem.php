@@ -2,7 +2,7 @@
 
 namespace App\Entity\Carts;
 
-use App\Repository\Products\Carts\CartItemRepository;
+use App\Repository\Carts\CartItemRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -66,7 +66,7 @@ class CartItem
 
     public function getTotalPrice(): string
     {
-        return $this->Price * $this->Quantity;
+        return $this->TotalPrice =  $this->Price * $this->Quantity;
     }
 
     #[ORM\Column(length: 255)]
@@ -93,7 +93,7 @@ class CartItem
     #[ORM\Column(length: 255)]
     private string $Description;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
     private string $TotalPrice;
 
     public function __construct(
@@ -130,6 +130,16 @@ class CartItem
     ): self
     {
         return new self($productId, $variantId, $name, $quantity, $price, $imageUrl, $description);
+    }
+
+    public function update($name, $quantity, $price, $imageUrl, $description)
+    {
+
+        $this->Name = $name;
+        $this->Quantity = $quantity;
+        $this->Price = $price;
+        $this->ImageUrl = $imageUrl;
+        $this->Description = $description;
     }
 
     public function getCart(): ?Cart

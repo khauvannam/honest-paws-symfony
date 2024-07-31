@@ -2,7 +2,8 @@
 
 namespace App\Entity\Carts;
 
-use App\Repository\Products\Carts\CartRepository;
+
+use App\Repository\Carts\CartRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

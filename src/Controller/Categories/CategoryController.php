@@ -7,7 +7,9 @@ use App\Features\Categories\Command\CreateCategoryType;
 use App\Features\Categories\Command\DeleteCategoryCommand;
 use App\Features\Categories\Command\UpdateCategoryCommand;
 use App\Features\Categories\Command\UpdateCategoryType;
+use App\Features\Categories\Query\GetAllCategoryQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,16 +27,8 @@ class CategoryController extends AbstractController
         $this->bus = $bus;
     }
 
-    #[Route("/categories", name: "category_index", methods: ["GET"])]
-    public function index(): Response
-    {
-        // Ideally, this should be handled by a query handler as well
-        // For the sake of simplicity, we'll keep this example as is
-        return $this->render("category/index.html.twig");
-    }
-
     #[Route("/categories/new", name: "category_new", methods: ["GET", "POST"])]
-    public function createAsync(Request $request): RedirectResponse|Response
+    public function create(Request $request): RedirectResponse|Response
     {
         $command = new CreateCategoryCommand("", "");
         $form = $this->createForm(CreateCategoryType::class, $command);
@@ -61,18 +55,25 @@ class CategoryController extends AbstractController
         return $this->render("category/success.html.twig");
     }
 
-    #[Route("/categories/{id}", name: "category_show", methods: ["GET"])]
-    public function show(string $id): Response
+    /**
+     * @throws ExceptionInterface
+     */
+//    #[Route("/categories", methods: ["GET"])]
+    public function showAll(): Response
     {
-        // Ideally, this should be handled by a query handler
-        return $this->render("category/show.html.twig");
+        $query = new GetAllCategoryQuery();
+        $categories = $this->bus->dispatch($query);
+        return $this->render("category/show.html.twig", [
+            'categories' => $categories,
+        ]);
     }
 
     #[Route("/categories/{id}/edit", name: "category_edit", methods: ["POST"])]
-    public function editAsync(
+    public function edit(
         Request $request,
-        string $id
-    ): RedirectResponse|Response {
+        string  $id
+    ): RedirectResponse|Response
+    {
         $command = new UpdateCategoryCommand(Uuid::fromString($id), "", "");
         $form = $this->createForm(UpdateCategoryType::class, $command);
 
@@ -105,7 +106,7 @@ class CategoryController extends AbstractController
         try {
             $this->bus->dispatch($command);
         } catch (ExceptionInterface $e) {
-            // Handle the exception or display an error message
+            throw new Exception($e);
         }
 
         return $this->redirectToRoute("category_index");

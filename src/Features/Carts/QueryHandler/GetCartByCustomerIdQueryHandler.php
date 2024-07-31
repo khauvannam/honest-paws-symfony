@@ -4,11 +4,11 @@ namespace App\Features\Carts\QueryHandler;
 
 use App\Entity\Carts\Cart;
 use App\Features\Carts\Query\GetCartByCustomerId;
-use App\Repository\Products\Carts\CartRepository;
+use App\Repository\Carts\CartRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class GetCartByCustomerIdHandler
+class GetCartByCustomerIdQueryHandler
 
 {
     private CartRepository $cartRepository;

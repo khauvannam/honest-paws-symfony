@@ -35,9 +35,9 @@ class ProductVariantRepository extends ServiceEntityRepository
      */
     public function findById(string $id): ?ProductVariant
     {
-        return $this->createQueryBuilder('pv')
-            ->andWhere('pv.id = :id')
-            ->setParameter('id', $id)
+        return $this->createQueryBuilder("pv")
+            ->andWhere("pv.id = :id")
+            ->setParameter("id", $id)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -48,9 +48,9 @@ class ProductVariantRepository extends ServiceEntityRepository
      */
     public function findByProductId(string $productId): array
     {
-        return $this->createQueryBuilder('pv')
-            ->andWhere('pv.productId = :productId')
-            ->setParameter(key: 'productId', value: $productId)
+        return $this->createQueryBuilder("pv")
+            ->andWhere("pv.productId = :productId")
+            ->setParameter(key: "productId", value: $productId)
             ->getQuery()
             ->getResult();
     }
@@ -62,9 +62,9 @@ class ProductVariantRepository extends ServiceEntityRepository
      */
     public function findByVariantName(string $variantName): ?ProductVariant
     {
-        return $this->createQueryBuilder('pv')
-            ->andWhere('pv.variantName = :variantName')
-            ->setParameter('variantName', $variantName)
+        return $this->createQueryBuilder("pv")
+            ->andWhere("pv.variantName = :variantName")
+            ->setParameter("variantName", $variantName)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -76,7 +76,7 @@ class ProductVariantRepository extends ServiceEntityRepository
      */
     public function findAllVariants(int $limit, int $offset): array
     {
-        return $this->createQueryBuilder('pv')
+        return $this->createQueryBuilder("pv")
             ->setMaxResults($limit)
             ->setFirstResult($offset)
             ->getQuery()
