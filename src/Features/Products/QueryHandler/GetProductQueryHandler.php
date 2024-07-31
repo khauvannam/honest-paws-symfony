@@ -22,7 +22,3 @@ class GetProductQueryHandler
         return $this->productRepository->find($query->getId());
     }
 }
-<<<<<<< HEAD:src/Features/Products/QueriesHandler/GetProductQueryHandler.php
-?>
-=======
->>>>>>> origin/namdeptrai:src/Features/Products/QueryHandler/GetProductQueryHandler.php

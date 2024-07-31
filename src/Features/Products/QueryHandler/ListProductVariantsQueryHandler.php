@@ -2,13 +2,8 @@
 
 namespace App\Features\Products\QueryHandler;
 
-<<<<<<< HEAD:src/Features/Products/QueriesHandler/ListProductVariantQueryHandler.php
-use App\Features\Products\Queries\ListProductVariantQuery;
-use App\Repository\ProductVariantRepository;
-=======
 use App\Features\Products\Query\ListProductVariantQuery;
 use App\Repository\Products\ProductVariantRepository;
->>>>>>> origin/namdeptrai:src/Features/Products/QueryHandler/ListProductVariantsQueryHandler.php
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
