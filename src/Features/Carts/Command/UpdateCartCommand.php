@@ -2,9 +2,11 @@
 
 namespace App\Features\Carts\Command;
 
+use Symfony\Component\Uid\Uuid;
+
 class UpdateCartCommand
 {
-    private ?int $cartId;
+    private Uuid $cartId;
     private string $customerId;
 
     public function __construct(string $customerId, ?int $cartId = null)
@@ -18,7 +20,7 @@ class UpdateCartCommand
         return $this->customerId;
     }
 
-    public function getCartId(): ?int
+    public function getCartId(): Uuid
     {
         return $this->cartId;
     }

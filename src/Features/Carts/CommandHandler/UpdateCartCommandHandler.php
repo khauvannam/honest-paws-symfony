@@ -16,17 +16,6 @@ class UpdateCartCommandHandler
 
     public function __invoke(UpdateCartCommand $command): void
     {
-<<<<<<< HEAD
-
-        if (!$cart) {
-            $cartItem = Cart::create(
-                $command->getCustomerId(),
-
-            );
-        } else { // sai logic
-            $cart->update($command->getCustomerId());
-        }
-=======
         $cartId = $command->getCartId();
         $customerId = $command->getCustomerId();
 
@@ -36,6 +25,5 @@ class UpdateCartCommandHandler
             throw new Exception('Cart not found');
         }
         $this->cartRepository->update($cart);
->>>>>>> origin/namdeptrai
     }
 }

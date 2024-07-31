@@ -50,11 +50,4 @@ class CartRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    public function update(Cart $cart): Cart
-    {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($cart);
-        $entityManager->flush();
-        return $cart;
-    }
 }
