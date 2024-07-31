@@ -2,6 +2,7 @@
 
 namespace App\Entity\Categories;
 
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 class Category
@@ -21,8 +22,13 @@ class Category
         return $this->description;
     }
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private string $id;
+    #[ORM\Column(type: 'string', length: 255)]
     private string $name;
+    #[ORM\Column(type: 'string', length: 255)]
     private string $description;
 
     /**

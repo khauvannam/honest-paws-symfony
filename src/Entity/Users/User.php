@@ -19,7 +19,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "UUID")]
     #[ORM\Column]
     private string $id;
     #[ORM\Column(type: "string", length: 180)]

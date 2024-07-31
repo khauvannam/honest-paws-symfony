@@ -11,13 +11,14 @@ class CartItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[ORM\Column]
     private string $id;
 
     #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: "cartItems")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Cart $Cart;
 
-    public function getId():string 
+    public function getId(): string
     {
         return $this->id;
     }
@@ -75,8 +76,7 @@ class CartItem
 
     #[ORM\Column(length: 255)]
     private string $Name;
-
-    #[ORM\Column(type: "int")]
+    #[ORM\Column]
     private int $Quantity;
 
     #[ORM\Column]
@@ -98,12 +98,13 @@ class CartItem
         string $productId,
         string $variantId,
         string $name,
-        int $quantity,
-        float $price,
+        int    $quantity,
+        float  $price,
         string $imgUrl,
         string $description
-    ) {
-        $this->id = Uuid::v4()-> toString();
+    )
+    {
+        $this->id = Uuid::v4()->toString();
         $this->ProductId = $productId;
         $this->VariantId = $variantId;
         $this->Name = $name;
@@ -118,11 +119,12 @@ class CartItem
         string $productId,
         string $variantId,
         string $name,
-        int $quantity,
-        float $price,
+        int    $quantity,
+        float  $price,
         string $imageUrl,
         string $description
-    ): self {
+    ): self
+    {
         return new self(
             $productId,
             $variantId,
@@ -140,7 +142,8 @@ class CartItem
         $price,
         $imageUrl,
         $description
-    ): void {
+    ): void
+    {
         $this->Name = $name;
         $this->Quantity = $quantity;
         $this->Price = $price;
