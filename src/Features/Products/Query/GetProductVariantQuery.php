@@ -21,4 +21,3 @@ class GetProductVariantQuery
         return $this->id;
     }
 }
-

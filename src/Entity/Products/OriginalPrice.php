@@ -1,11 +1,10 @@
 <?php
+
 namespace App\Entity\Products;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
-use Symfony\Component\Uid\Uuid;
-
+#[orm\Embeddable]
 class OriginalPrice
 {
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
@@ -14,12 +13,14 @@ class OriginalPrice
     #[ORM\Column(type: "string", length: 3)]
     private string $currency;
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
-    public static function create(float $value, string $currency = 'USD'): self
+    public static function create(float $value, string $currency = "USD"): self
     {
         if ($value <= 0) {
-            throw new InvalidArgumentException('Price value must be positive');
+            throw new InvalidArgumentException("Price value must be positive");
         }
 
         $price = new self();
@@ -29,17 +30,15 @@ class OriginalPrice
         return $price;
     }
 
-    public function update(float $value, string $currency = 'USD'): void
+    public function update(float $value, string $currency = "USD"): void
     {
         if ($value <= 0) {
-            throw new InvalidArgumentException('Price value must be positive');
+            throw new InvalidArgumentException("Price value must be positive");
         }
 
         $this->value = $value;
         $this->currency = $currency;
     }
-
-    
 
     public function getValue(): float
     {
@@ -51,6 +50,3 @@ class OriginalPrice
         return $this->currency;
     }
 }
-
-?>
-?>

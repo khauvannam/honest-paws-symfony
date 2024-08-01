@@ -13,7 +13,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
 {
-    public function getId(): Uuid
+    public function getId(): string
     {
         return $this->id;
     }
@@ -35,13 +35,13 @@ class Cart
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'uuid')]
-    private Uuid $id;
+    #[ORM\Column(type: 'string')]
+    private string $id;
 
     #[ORM\Column(length: 255)]
     private string $CustomerId;
 
-    #[ORM\OneToMany(mappedBy: "cart", targetEntity: CartItem::class)]
+    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
     private Collection $CartItemsList;
 
     #[ORM\Column(type: 'datetime')]
@@ -49,7 +49,7 @@ class Cart
 
     private function __construct(string $CustomerId)
     {
-        $this->id = Uuid::v4();
+        $this->id = Uuid::v4()->toString();
         $this->CustomerId = $CustomerId;
         $this->UpdateDate = new DateTime();
         $this->CartItemsList = new ArrayCollection();
@@ -70,7 +70,7 @@ class Cart
     public function RemoveAllCartItemNotExist(array $cartItemRequests): void
     {
         $cartItemIds = array_map(fn ($request) => $request->getCartItemId(), $cartItemRequests);
-        foreach ($this->CartItemsList as $key => $cartItem) {
+        foreach ($this->CartItemsList as $cartItem) {
             if (!in_array($cartItem->getCartItemId(), $cartItemIds)) {
                 $this->CartItemsList->removeElement($cartItem);
             }

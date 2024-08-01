@@ -2,15 +2,15 @@
 
 namespace App\Entity\Products;
 
-use App\Repository\Products\Products\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class ProductVariant
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "UUID")]
-    #[ORM\Column()]
+    #[ORM\Column]
     private string $id;
 
     #[ORM\Column(length: 500)]
@@ -19,7 +19,7 @@ class ProductVariant
     #[ORM\Column]
     private ?int $quantity;
 
-    #[ORM\Embedded(class: "App\Entity\Products\OriginalPrice")]
+    #[ORM\Embedded(class: OriginalPrice::class)]
     private OriginalPrice $originalPrice;
 
     #[ORM\Column(precision: 10)]
@@ -33,6 +33,7 @@ class ProductVariant
     private Product $product;
 
     private function __construct($variantName, $quantity) {
+        $this->id = Uuid::v4()->toString() ;
         $this->variantName = $variantName;
         $this->quantity = $quantity;
     }

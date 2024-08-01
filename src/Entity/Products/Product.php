@@ -2,7 +2,7 @@
 
 namespace App\Entity\Products;
 
-use App\Repository\Products\Products\ProductRepository;
+use App\Repository\Products\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,7 +15,7 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private Uuid $id;
+    private string $id;
 
     #[ORM\Column(length: 255)]
     private ?string $name;
@@ -43,7 +43,7 @@ class Product
 
     public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt)
     {
-        $this->id = Uuid::v4();
+        $this->id = Uuid::v4()->toString();
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
@@ -88,7 +88,7 @@ class Product
         }
     }
 
-    public function getId(): Uuid
+    public function getId(): string
     {
         return $this->id;
     }

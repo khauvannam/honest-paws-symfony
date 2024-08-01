@@ -2,11 +2,14 @@
 
 namespace App\Entity\Categories;
 
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+
+#[ORM\Entity]
 
 class Category
 {
-    public function getId(): Uuid
+    public function getId(): string
     {
         return $this->id;
     }
@@ -21,8 +24,13 @@ class Category
         return $this->description;
     }
 
-    private Uuid $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private string $id;
+    #[ORM\Column(type: 'string', length: 255)]
     private string $name;
+    #[ORM\Column(type: 'string', length: 255)]
     private string $description;
 
     /**
@@ -31,7 +39,7 @@ class Category
      */
     public function __construct(string $name, string $description)
     {
-        $this->id = Uuid::v4();
+        $this->id = Uuid::v4()->toString();
         $this->name = $name;
         $this->description = $description;
     }
@@ -46,5 +54,4 @@ class Category
         $this->name = $name;
         $this->description = $description;
     }
-
 }

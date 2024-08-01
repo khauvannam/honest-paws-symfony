@@ -21,4 +21,3 @@ class DeleteProductVariantCommand
         return $this->id;
     }
 }
-
