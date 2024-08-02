@@ -6,14 +6,13 @@
 parameters:
 
 services:
-  App\Services\BlobService:
-    arguments:
-      $targetDirectory: '%kernel.project_dir%/assets/img'
+
   # default configuration for services in *this* file
   _defaults:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+  
+  
   _instanceof:
     # all services implementing the CommandHandlerInterface
     # will be registered on the command.bus bus
@@ -36,5 +35,8 @@ services:
       - '../src/Entity/'
       - '../src/Kernel.php'
   
+  App\Services\BlobService:
+    arguments:
+      $targetDirectory: '%kernel.project_dir%/assets/img'
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones

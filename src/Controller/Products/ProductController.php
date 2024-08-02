@@ -46,13 +46,22 @@ class ProductController extends AbstractController
     #[Route('/products/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $command = CreateProductCommand::create('', '', '', '', '', new \DateTime(), new \DateTime(), []);
-        $form = $this->createForm(CreateProductType::class, $command);
+        $form = $this->createForm(CreateProductType::class);
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $command = $form->getData(); // Get updated data from the form
+            $data = $form->getData();
+            $uploadedFile = $form->get('imageFile')->getData();
+            $command = CreateProductCommand::create(
+                $data->getName(),
+                $data->getDescription(),
+                $data->getProductUseGuide(),
+                $uploadedFile,
+                $data->getDiscountPercent(),
+                $data->getCreatedAt(),
+                $data->getUpdatedAt(),
+                $data->getProductVariants()
+            );
             $this->bus->dispatch($command);
             return $this->redirectToRoute('product_success');
         }
