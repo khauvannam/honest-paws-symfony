@@ -8,6 +8,8 @@ use App\Features\Products\Command\CreateProductType;
 use App\Features\Products\Command\DeleteProductCommand;
 use App\Features\Products\Command\UpdateProductCommand;
 use App\Features\Products\Command\UpdateProductType;
+use App\Features\Products\Query\GetProductQuery;
+use App\Features\Products\Query\ListProductQuery;
 use App\Repository\Products\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,19 +25,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     private MessageBusInterface $bus;
-    private ProductRepository $productRepository;
 
     public function __construct(MessageBusInterface $bus, ProductRepository $productRepository)
     {
         $this->bus = $bus;
-        $this->productRepository = $productRepository;
     }
 
     #[Route('/products', name: 'product_index', methods: ['GET'])]
     public function index(int $limit, int $offset): Response
     {
-        $products = $this->productRepository->findAllProducts($limit, $offset);
-
+        $command = new ListProductQuery($limit, $offset);
+        $products = $this->bus->dispatch($command);
         return $this->render('product/index.html.twig', [
             'products' => $products,
         ]);
@@ -70,9 +70,10 @@ class ProductController extends AbstractController
     }
 
     #[Route('/products/{id}', name: 'product_show', methods: ['GET'])]
-    public function show(int $id): Response
+    public function show(string $id): Response
     {
-        $product = $this->productRepository->findById($id);
+        $command = new GetProductQuery($id);
+        $product = $this->bus->dispatch($command);
 
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');

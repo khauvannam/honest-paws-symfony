@@ -6,7 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/tranthang
 class Category
 {
     public function getId(): string
