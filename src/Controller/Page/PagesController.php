@@ -1,13 +1,13 @@
 <?php
 
 // src/Controller/PageController.php
-namespace App\Controller;
+namespace App\Controller\Page;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PageController extends AbstractController
+class PagesController extends AbstractController
 {
     #[Route('/learn/faqs', name: 'faqs')]
     public function faqs(): Response
