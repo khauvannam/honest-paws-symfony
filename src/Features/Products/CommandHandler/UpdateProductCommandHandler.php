@@ -3,12 +3,13 @@
 namespace App\Features\Products\CommandHandler;
 
 use App\Features\Products\Command\UpdateProductCommand;
-use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Products\ProductRepository;
 use App\Services\BlobService;
 use Exception;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class UpdateProductCommandHandler implements CommandHandlerInterface
+#[AsMessageHandler]
+class UpdateProductCommandHandler 
 {
     private ProductRepository $productRepository;
     private BlobService $blobService;

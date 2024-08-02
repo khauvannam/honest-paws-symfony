@@ -6,8 +6,8 @@ use App\Features\Categories\Query\GetAllCategoryQuery;
 use App\Interfaces\QueryHandlerInterface;
 use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
-class GetAllCategoryQueryHandler implements QueryHandlerInterface
+#[AsMessageHandler]
+class GetAllCategoryQueryHandler 
 {
     public function __construct(private CategoryRepository $categoryRepository)
     {

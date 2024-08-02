@@ -3,11 +3,12 @@
 namespace App\Features\Products\CommandHandler;
 
 use App\Features\Products\Command\DeleteProductCommand;
-use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Products\ProductRepository;
 use App\Services\BlobService;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class DeleteProductCommandHandler implements CommandHandlerInterface
+#[AsMessageHandler]
+class DeleteProductCommandHandler 
 {
     private ProductRepository $productRepository;
     private BlobService $blobService;

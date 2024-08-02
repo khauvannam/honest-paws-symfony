@@ -6,8 +6,8 @@ use App\Features\Categories\Command\UpdateCategoryCommand;
 use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
-class UpdateCategoryCommandHandler implements CommandHandlerInterface
+#[AsMessageHandler]
+class UpdateCategoryCommandHandler 
 {
     private CategoryRepository $categoryRepository;
 

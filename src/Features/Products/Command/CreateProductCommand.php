@@ -18,11 +18,8 @@ class CreateProductCommand
     private string $name;
     private string $description;
     private string $productUseGuide;
-    private UploadedFile $imgFile;
+    private ?UploadedFile $imgFile;
     private string $discountPercent;
-    private DateTime $createdAt;
-    private DateTime $updatedAt;
-    private ArrayCollection $productVariants;
 
     public function __construct(
         string $name, 
@@ -30,18 +27,12 @@ class CreateProductCommand
         string $productUseGuide, 
         UploadedFile $imgFile, 
         string $discountPercent, 
-        DateTime $createdAt, 
-        DateTime $updatedAt, 
-        ArrayCollection $productVariants
     ) {
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
         $this->imgFile = $imgFile;
         $this->discountPercent = $discountPercent;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
-        $this->productVariants = $productVariants;
     }
 
     public static function create(
@@ -50,11 +41,8 @@ class CreateProductCommand
         string $productUseGuide, 
         UploadedFile $imgFile, 
         string $discountPercent, 
-        DateTime $createdAt, 
-        DateTime $updatedAt, 
-        array $productVariants
     ): self {
-        return new self($name, $description, $productUseGuide, $imgFile, $discountPercent, $createdAt, $updatedAt, new ArrayCollection($productVariants));
+        return new self($name, $description, $productUseGuide, $imgFile, $discountPercent);
     }
 
     public function getName(): string
@@ -72,9 +60,39 @@ class CreateProductCommand
         return $this->productUseGuide;
     }
 
-    public function getImageFile(): UploadedFile
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
+    }
+
+    public function setName(string $name): CreateProductCommand
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setDescription(string $description): CreateProductCommand
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function setProductUseGuide(string $productUseGuide): CreateProductCommand
+    {
+        $this->productUseGuide = $productUseGuide;
+        return $this;
+    }
+
+    public function setImgFile(?UploadedFile $imgFile): CreateProductCommand
+    {
+        $this->imgFile = $imgFile;
+        return $this;
+    }
+
+    public function setDiscountPercent(string $discountPercent): CreateProductCommand
+    {
+        $this->discountPercent = $discountPercent;
+        return $this;
     }
 
     public function getDiscountPercent(): string
@@ -82,18 +100,4 @@ class CreateProductCommand
         return $this->discountPercent;
     }
 
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    public function getProductVariants(): ArrayCollection
-    {
-        return $this->productVariants;
-    }
 }

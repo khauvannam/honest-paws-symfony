@@ -7,8 +7,8 @@ use App\Features\Products\Query\GetProductQuery;
 use App\Interfaces\QueryHandlerInterface;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
-class GetProductQueryHandler implements QueryHandlerInterface
+#[AsMessageHandler]
+class GetProductQueryHandler 
 {
     private ProductRepository $productRepository;
 

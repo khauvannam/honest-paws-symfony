@@ -9,15 +9,15 @@ use App\Features\Products\Command\UpdateProductCommand;
 use App\Features\Products\Command\UpdateProductType;
 use App\Features\Products\Query\GetProductQuery;
 use App\Features\Products\Query\ListProductQuery;
-use App\Repository\Products\ProductRepository;
-use App\Services\GetHandlerResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 // Import ArrayCollection
 
@@ -25,7 +25,7 @@ class ProductController extends AbstractController
 {
     private MessageBusInterface $bus;
 
-    public function __construct(MessageBusInterface $bus, ProductRepository $productRepository)
+    public function __construct(MessageBusInterface $bus)
     {
         $this->bus = $bus;
     }
@@ -46,23 +46,16 @@ class ProductController extends AbstractController
     #[Route('/products/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $form = $this->createForm(CreateProductType::class);
+        $imgFile = new UploadedFile('', '', '', 1);
+        $command = new CreateProductCommand('', '', '', $imgFile, 0);
+        $form = $this->createForm(CreateProductType::class, $command);
 
         $form->handleRequest($request);
+        $command->setImgFile($form->get('imgFile')->getData());
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $uploadedFile = $form->get('imageFile')->getData();
-            $command = CreateProductCommand::create(
-                $data->getName(),
-                $data->getDescription(),
-                $data->getProductUseGuide(),
-                $uploadedFile,
-                $data->getDiscountPercent(),
-                $data->getCreatedAt(),
-                $data->getUpdatedAt(),
-                $data->getProductVariants()
-            );
+
             $this->bus->dispatch($command);
+
             return $this->redirectToRoute('product_success');
         }
 
@@ -77,15 +70,11 @@ class ProductController extends AbstractController
         return $this->render('product/success.html.twig');
     }
 
-    /**
-     * @throws ExceptionInterface
-     */
     #[Route('/products/{id}', name: 'product_show', methods: ['GET'])]
     public function show(string $id): Response
     {
         $command = new GetProductQuery($id);
-        $handler = $this->bus->dispatch($command);
-        $product = GetHandlerResult::invoke($handler);
+        $product = $this->bus->dispatch($command);
 
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');
@@ -101,9 +90,9 @@ class ProductController extends AbstractController
      */
 
     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
-    public function editAsync(Request $request, string $id): RedirectResponse|Response
+    public function editAsync(Request $request, int $id): RedirectResponse|Response
     {
-        $product = UpdateProductCommand::create($id, '', '', '', '', '', new \DateTime(), []);
+        $product = UpdateProductCommand::create('', '', '', '', null, '', new \DateTime(), []);
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);

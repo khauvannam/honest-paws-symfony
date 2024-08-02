@@ -3,11 +3,11 @@
 namespace App\Features\Products\QueryHandler;
 
 use App\Features\Products\Query\ListProductQuery;
-use App\Interfaces\QueryHandlerInterface;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class ListProductQueryHandler implements QueryHandlerInterface
+#[AsMessageHandler]
+class ListProductQueryHandler 
 {
     private ProductRepository $productRepository;
 

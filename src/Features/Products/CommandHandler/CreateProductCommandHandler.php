@@ -4,11 +4,12 @@ namespace App\Features\Products\CommandHandler;
 
 use App\Entity\Products\Product;
 use App\Features\Products\Command\CreateProductCommand;
-use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Products\ProductRepository;
 use App\Services\BlobService;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class CreateProductCommandHandler implements CommandHandlerInterface
+#[AsMessageHandler]
+class CreateProductCommandHandler 
 {
     private ProductRepository $productRepository;
     private BlobService $blobService;
@@ -22,15 +23,13 @@ class CreateProductCommandHandler implements CommandHandlerInterface
 
     public function __invoke(CreateProductCommand $command): void
     {
-        $fileName = $this->blobService->upload($command->getImageFile());
+        $fileName = $this->blobService->upload($command->getImgFile());
         $product = Product::create(
             $command->getName(),
             $command->getDescription(),
             $command->getProductUseGuide(),
             $fileName,
             $command->getDiscountPercent(),
-            $command->getCreatedAt(),
-            $command->getUpdatedAt()
         );
 
         $this->productRepository->save($product);
