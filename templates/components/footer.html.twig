@@ -1,0 +1,33 @@
+{# templates/page/footer.html.twig #}
+
+<div class="w-full pb-10 flex justify-center">
+    <div class="w-full max-w-[1300px]">
+        <hr class="border-t-2 border-solid border-[rgba(52,58,64,0.8)] my-[30px] w-full">
+        <div class="w-full mt-4">
+            <div class="flex gap-20 text-main">
+                <ul class="font-light">
+                    <h3 class="text-xl font-bold mb-2.5">LEARN</h3>
+                    <li><a href="{{ path('faqs') }}">FAQs</a></li>
+                    <li><a href="{{ path('ingredients') }}">Our Ingredients</a></li>
+                    <li><a href="{{ path('news') }}">News</a></li>
+                    <li><a href="{{ path('dogs') }}">Dogs</a></li>
+                </ul>
+                <ul class="font-light">
+                    <h3 class="text-xl font-bold mb-2.5">SHOP</h3>
+                    <li><a href="{{ path('shop_cbd_oil_dogs') }}">CBD Oil for Dogs</a></li>
+                    <li><a href="{{ path('shop_cbd_oil_cats') }}">CBD Oil for Cats</a></li>
+                    <li><a href="{{ path('shop_probiotics_dogs') }}">Probiotics for Dogs</a></li>
+                    <li><a href="{{ path('shop_probiotics_cats') }}">Probiotics for Cats</a></li>
+                    <li><a href="{{ path('shop_salmon_oil_dogs') }}">Salmon Oil for Dogs</a></li>
+                </ul>
+                <ul class="font-light">
+                    <h3 class="text-xl font-bold mb-2.5">CUSTOMER SERVICE</h3>
+                    <li><a href="{{ path('customer_account') }}">Your account</a></li>
+                    <li><a href="{{ path('track_order') }}">Track Your Order</a></li>
+                    <li><a href="{{ path('flea_market') }}">Flea Market</a></li>
+                    <li><a href="{{ path('help_center') }}">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
