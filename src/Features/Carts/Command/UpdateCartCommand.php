@@ -6,11 +6,13 @@ class UpdateCartCommand
 {
     private string $cartId;
     private string $customerId;
+    private array $cartItemRequests;
 
-    public function __construct(string $customerId,  $cartId )
+    public function __construct(string $customerId, string $cartId, array $cartItemRequests)
     {
         $this->cartId = $cartId;
         $this->customerId = $customerId;
+        $this->cartItemRequests = $cartItemRequests;
     }
 
     public function getCustomerId(): string
@@ -18,8 +20,13 @@ class UpdateCartCommand
         return $this->customerId;
     }
 
-    public function getCartId(): string 
+    public function getCartId(): string
     {
         return $this->cartId;
+    }
+
+    public function getCartItemRequests(): array
+    {
+        return $this->cartItemRequests;
     }
 }

@@ -2,38 +2,27 @@
 
 namespace App\Controller\Carts;
 
-use App\Entity\Carts\Cart;
 
 use App\Features\Carts\Command\CartType;
 use App\Features\Carts\Command\CreateCartCommand;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Carts\CartRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CartController extends AbstractController
 {
     private MessageBusInterface $bus;
-    private EntityManagerInterface $entityManager;
+    private CartRepository $cartRepository;
 
-    public function __construct(MessageBusInterface $bus, EntityManagerInterface $entityManager)
+    public function __construct(MessageBusInterface $bus, CartRepository $cartRepository)
     {
         $this->bus = $bus;
-        $this->entityManager = $entityManager;
-    }
-
-    #[Route('/cart', name: 'cart_index', methods: ['GET'])]
-    public function index(): Response
-    {
-        $carts = $this->entityManager->getRepository(Cart::class)->findAll();
-
-        return $this->render('cart/index.html.twig', [
-            'carts' => $carts,
-        ]);
+        $this->cartRepository = $cartRepository;
     }
 
     /**
@@ -64,9 +53,9 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/{id}', name: 'cart_show', methods: ['GET'])]
-    public function show(int $id): Response
+    public function show(string $id, string $customerId): Response
     {
-        $cart = $this->entityManager->getRepository(Cart::class)->find($id);
+        $cart = $this->cartRepository->findByIdAndCustomerId($id, $customerId);
 
         if (!$cart) {
             throw $this->createNotFoundException('The cart does not exist');
@@ -81,9 +70,9 @@ class CartController extends AbstractController
      * @throws ExceptionInterface
      */
     #[Route('/cart/{id}/edit', name: 'cart_edit', methods: ['GET', 'POST'])]
-    public function editAsync(Request $request, int $id): RedirectResponse|Response
+    public function editAsync(Request $request, string $customerId, string $id): RedirectResponse|Response
     {
-        $cart = $this->entityManager->getRepository(Cart::class)->find($id);
+        $cart = $this->cartRepository->findByIdAndCustomerId($id, $customerId);
 
         if (!$cart) {
             throw $this->createNotFoundException('The cart does not exist');
@@ -105,19 +94,15 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/{id}/delete', name: 'cart_delete', methods: ['POST'])]
-    public function delete(Request $request, int $id): RedirectResponse
+    public function delete(Request $request, string $customerId, string $id): RedirectResponse
     {
-        $cart = $this->entityManager->getRepository(Cart::class)->find($id);
+        $cart = $this->cartRepository->findByIdAndCustomerId($id, $customerId);
 
         if (!$cart) {
             throw $this->createNotFoundException('The cart does not exist');
         }
 
-        if ($this->isCsrfTokenValid('delete' . $cart->getId(), $request->request->get('_token'))) {
-            $this->entityManager->remove($cart);
-            $this->entityManager->flush();
-        }
-
+        $this->cartRepository->delete($cart);
         return $this->redirectToRoute('cart_index');
     }
 }

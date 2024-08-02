@@ -18,12 +18,15 @@ class UpdateCartCommandHandler
     {
         $cartId = $command->getCartId();
         $customerId = $command->getCustomerId();
+        $cartItemRequests = $command->getCartItemRequests();
 
         $cart = $this->cartRepository->findByIdAndCustomerId($cartId, $customerId);
 
         if ($cart === null) {
             throw new Exception('Cart not found');
         }
+
+        $cart->update($customerId, $cartItemRequests);
         $this->cartRepository->update($cart);
     }
 }

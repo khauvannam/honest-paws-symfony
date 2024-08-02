@@ -13,7 +13,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
 {
-    public function getId():string 
+    public function getId(): string
     {
         return $this->id;
     }
