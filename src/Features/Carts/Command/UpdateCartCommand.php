@@ -8,11 +8,16 @@ class UpdateCartCommand
     private string $customerId;
     private array $cartItemRequests;
 
-    public function __construct(string $customerId, string $cartId, array $cartItemRequests)
+    private function __construct(string $cartId, string $customerId, array $cartItemRequests)
     {
         $this->cartId = $cartId;
         $this->customerId = $customerId;
         $this->cartItemRequests = $cartItemRequests;
+    }
+
+    public static function create(string $cartId, string $customerId, array $cartItemRequests): self
+    {
+        return new self($cartId, $customerId, $cartItemRequests);
     }
 
     public function getCustomerId(): string

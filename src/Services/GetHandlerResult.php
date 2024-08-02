@@ -8,5 +8,6 @@ class GetHandlerResult
 {
     public function invoke(Envelope $envelope)
     {
+        
     }
 }
