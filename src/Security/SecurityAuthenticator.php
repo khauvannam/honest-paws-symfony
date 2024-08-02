@@ -35,10 +35,10 @@ class SecurityAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $password = $request->get("password");
-        $email = $request->get("email");
+        $password = (string)$request->get("password");
+        $email = (string)$request->get("email");
         return new Passport(
-            new UserBadge($email, function ($userIdentifier) {
+            new UserBadge($email, function (string $userIdentifier) {
                 $user = $this->userRepository->findOneBy([
                     "email" => $userIdentifier,
                 ]);
