@@ -2,7 +2,8 @@
 
 namespace App\Controller\Homes;
 
-use App\Features\Homes\Query\GetCategoriesAndProductCommands;
+use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
+use App\Services\GetHandlerResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
@@ -26,9 +27,10 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        $command = new GetCategoriesAndProductCommands();
-        $result = $this->bus->dispatch($command);
-        return $this->render('home/home.html.twig', (array)$result);
+        $command = new GetCategoriesAndProductsQuery();
+        $handler = $this->bus->dispatch($command);
+        $result = GetHandlerResult::invoke($handler);
+        return $this->render('home/home.html.twig', $result);
 
     }
 }

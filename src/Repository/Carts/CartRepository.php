@@ -50,5 +50,4 @@ class CartRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-   
 }

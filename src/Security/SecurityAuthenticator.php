@@ -37,6 +37,7 @@ class SecurityAuthenticator extends AbstractAuthenticator
     {
         $password = (string)$request->get("password");
         $email = (string)$request->get("email");
+        
         return new Passport(
             new UserBadge($email, function (string $userIdentifier) {
                 $user = $this->userRepository->findOneBy([
@@ -53,17 +54,19 @@ class SecurityAuthenticator extends AbstractAuthenticator
     }
 
     public function onAuthenticationSuccess(
-        Request $request,
+        Request        $request,
         TokenInterface $token,
-        string $firewallName
-    ): ?Response {
+        string         $firewallName
+    ): ?Response
+    {
         return new RedirectResponse("/");
     }
 
     public function onAuthenticationFailure(
-        Request $request,
+        Request                 $request,
         AuthenticationException $exception
-    ): ?Response {
+    ): ?Response
+    {
         return new RedirectResponse("/login");
     }
 }

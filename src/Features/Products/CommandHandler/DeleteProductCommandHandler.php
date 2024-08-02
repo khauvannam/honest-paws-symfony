@@ -3,19 +3,24 @@
 namespace App\Features\Products\CommandHandler;
 
 use App\Features\Products\Command\DeleteProductCommand;
+use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Products\ProductRepository;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use App\Services\BlobService;
 
-#[AsMessageHandler]
-class DeleteProductCommandHandler
+class DeleteProductCommandHandler implements CommandHandlerInterface
 {
     private ProductRepository $productRepository;
+    private BlobService $blobService;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository, BlobService $blobService)
     {
         $this->productRepository = $productRepository;
+        $this->blobService = $blobService;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __invoke(DeleteProductCommand $command): void
     {
         $product = $this->productRepository->find($command->getId());
@@ -23,8 +28,10 @@ class DeleteProductCommandHandler
         if (!$product) {
             throw new \Exception('Product not found');
         }
+        $this->blobService->delete($product->getImageUrl());
 
         $this->productRepository->delete($product);
     }
 }
-?>
+
+

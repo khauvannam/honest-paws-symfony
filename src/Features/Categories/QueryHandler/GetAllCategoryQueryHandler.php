@@ -3,11 +3,11 @@
 namespace App\Features\Categories\QueryHandler;
 
 use App\Features\Categories\Query\GetAllCategoryQuery;
+use App\Interfaces\QueryHandlerInterface;
 use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler]
-class GetAllCategoryQueryHandler
+class GetAllCategoryQueryHandler implements QueryHandlerInterface
 {
     public function __construct(private CategoryRepository $categoryRepository)
     {
