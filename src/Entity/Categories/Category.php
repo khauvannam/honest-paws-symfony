@@ -4,7 +4,7 @@ namespace App\Entity\Categories;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
-
+#[ORM\Entity]
 class Category
 {
     public function getId(): string
