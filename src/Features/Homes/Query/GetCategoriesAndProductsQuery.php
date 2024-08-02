@@ -2,7 +2,7 @@
 
 namespace App\Features\Homes\Query;
 
-class GetCategoriesAndProductCommands
+class GetCategoriesAndProductsQuery
 {
 
 }

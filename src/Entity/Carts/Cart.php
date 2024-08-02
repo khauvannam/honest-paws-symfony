@@ -91,16 +91,17 @@ class Cart
 
     public function RemoveAllCartItemNotExist(array $cartItemRequests): void
     {
-        $cartItemIds = array_map(fn ($request) => $request->getCartItemId(), $cartItemRequests);
+        $cartItemIds = array_map(fn($request) => $request->getCartItemId(), $cartItemRequests);
         foreach ($this->CartItemsList as $cartItem) {
             if (!in_array($cartItem->getCartItemId(), $cartItemIds)) {
                 $this->CartItemsList->removeElement($cartItem);
             }
         }
     }
-    public function removeAllCartItem(): void 
+
+    public function removeAllCartItem(): void
     {
-        $this->CartItemsList->clear(); 
+        $this->CartItemsList->clear();
     }
-    
+
 }

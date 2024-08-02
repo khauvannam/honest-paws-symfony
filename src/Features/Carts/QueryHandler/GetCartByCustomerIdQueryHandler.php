@@ -8,7 +8,6 @@ use App\Interfaces\QueryHandlerInterface;
 use App\Repository\Carts\CartRepository;
 
 class GetCartByCustomerIdQueryHandler implements QueryHandlerInterface
-
 {
     private CartRepository $cartRepository;
 
