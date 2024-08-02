@@ -92,9 +92,9 @@ class ProductController extends AbstractController
      */
 
     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
-    public function editAsync(Request $request, int $id): RedirectResponse|Response
+    public function editAsync(Request $request, string $id): RedirectResponse|Response
     {
-        $product = UpdateProductCommand::create('', '', '', '', '', '', new \DateTime(), []);
+        $product = UpdateProductCommand::create($id, '', '', '', '', '', new \DateTime(), []);
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);

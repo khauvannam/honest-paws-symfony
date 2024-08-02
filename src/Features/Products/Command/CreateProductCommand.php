@@ -4,11 +4,13 @@ namespace App\Features\Products\Command;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateProductCommand
@@ -16,7 +18,7 @@ class CreateProductCommand
     private string $name;
     private string $description;
     private string $productUseGuide;
-    private string $imageUrl;
+    private UploadedFile $imgFile;
     private string $discountPercent;
     private DateTime $createdAt;
     private DateTime $updatedAt;
@@ -26,7 +28,7 @@ class CreateProductCommand
         string $name, 
         string $description, 
         string $productUseGuide, 
-        string $imageUrl, 
+        UploadedFile $imgFile, 
         string $discountPercent, 
         DateTime $createdAt, 
         DateTime $updatedAt, 
@@ -35,7 +37,7 @@ class CreateProductCommand
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
-        $this->imageUrl = $imageUrl;
+        $this->imgFile = $imgFile;
         $this->discountPercent = $discountPercent;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
@@ -46,13 +48,13 @@ class CreateProductCommand
         string $name, 
         string $description, 
         string $productUseGuide, 
-        string $imageUrl, 
+        UploadedFile $imgFile, 
         string $discountPercent, 
         DateTime $createdAt, 
         DateTime $updatedAt, 
         array $productVariants
     ): self {
-        return new self($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updatedAt, new ArrayCollection($productVariants));
+        return new self($name, $description, $productUseGuide, $imgFile, $discountPercent, $createdAt, $updatedAt, new ArrayCollection($productVariants));
     }
 
     public function getName(): string
@@ -70,9 +72,9 @@ class CreateProductCommand
         return $this->productUseGuide;
     }
 
-    public function getImageUrl(): string
+    public function getImageFile(): UploadedFile
     {
-        return $this->imageUrl;
+        return $this->imgFile;
     }
 
     public function getDiscountPercent(): string
@@ -110,8 +112,10 @@ class CreateProductType extends AbstractType
             ->add('productUseGuide', TextType::class, [
                 'label' => 'Product Use Guide',
             ])
-            ->add('imageUrl', TextType::class, [
-                'label' => 'Image URL',
+            ->add('imageFile', FileType::class, [
+                'label' => 'Image (JPEG, PNG file)',
+                'mapped' => false,
+                'required' => true,
             ])
             ->add('discountPercent', TextType::class, [
                 'label' => 'Discount Percent',
@@ -123,13 +127,6 @@ class CreateProductType extends AbstractType
             ->add('updatedAt', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Updated At',
-            ])
-            ->add('productVariants', CollectionType::class, [
-                'entry_type' => CreateProductVariantCommand::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Save',
