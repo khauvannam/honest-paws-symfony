@@ -60,11 +60,33 @@ class Cart
         return new self($CustomerId);
     }
 
-    public function Update(string $CustomerId): self
+    public function Update(CartItemRequest $cartItemRequest): void
     {
-        $this->CustomerId = $CustomerId;
-        $this->UpdateDate = new DateTime();
-        return $this;
+// Find the existing cart item
+        $existingItem = $this->CartItemsList->filter(function (CartItem $item) use ($cartItemRequest) {
+            return $item->getCartItemId() === $cartItemRequest->getCartItemId();
+        })->first();
+
+        if ($existingItem !== false) {
+            // Update the existing cart item
+            $existingItem->setPrice($cartItemRequest->getPrice());
+            $existingItem->changeQuantity($cartItemRequest->getQuantity());
+        } else {
+            // Create and add a new cart item
+            $newItem = CartItem::create(
+                $cartItemRequest->getProductId(),
+                $cartItemRequest->getVariantId(),
+                $cartItemRequest->getName(),
+                $cartItemRequest->getQuantity(),
+                $cartItemRequest->getPrice(),
+                $cartItemRequest->getImageUrl(),
+                $cartItemRequest->getDescription()
+            );
+
+            $this->CartItemsList->add($newItem);
+        }
+
+        $this->UpdateDate = new DateTime(); // Update the cart update date
     }
 
     public function RemoveAllCartItemNotExist(array $cartItemRequests): void
@@ -76,21 +98,9 @@ class Cart
             }
         }
     }
-
-    public function addCartItem(CartItem $cartItem): void
+    public function removeAllCartItem(): void 
     {
-        if (!$this->CartItemsList->contains($cartItem)) {
-            $this->CartItemsList[] = $cartItem;
-            $cartItem->setCart($this);
-        }
+        $this->CartItemsList->clear(); 
     }
-
-    public function removeCartItem(CartItem $cartItem): void
-    {
-        if ($this->CartItemsList->removeElement($cartItem)) {
-            if ($cartItem->getCart() === $this) {
-                $cartItem->setCart(null);
-            }
-        }
-    }
+    
 }

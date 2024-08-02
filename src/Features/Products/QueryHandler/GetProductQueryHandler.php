@@ -4,11 +4,11 @@ namespace App\Features\Products\QueryHandler;
 
 use App\Entity\Products\Product;
 use App\Features\Products\Query\GetProductQuery;
+use App\Interfaces\QueryHandlerInterface;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler]
-class GetProductQueryHandler
+class GetProductQueryHandler implements QueryHandlerInterface
 {
     private ProductRepository $productRepository;
 

@@ -161,4 +161,9 @@ class CartItem
         $this->Cart = $cart;
         return $this;
     }
+
+    public function getCartItemId() : string
+    {
+        return $this->id;
+    }
 }

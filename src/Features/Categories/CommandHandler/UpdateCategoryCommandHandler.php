@@ -3,11 +3,11 @@
 namespace App\Features\Categories\CommandHandler;
 
 use App\Features\Categories\Command\UpdateCategoryCommand;
+use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler]
-class UpdateCategoryCommandHandler
+class UpdateCategoryCommandHandler implements CommandHandlerInterface
 {
     private CategoryRepository $categoryRepository;
 

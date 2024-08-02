@@ -10,6 +10,7 @@ use App\Features\Products\Command\UpdateProductType;
 use App\Features\Products\Query\GetProductQuery;
 use App\Features\Products\Query\ListProductQuery;
 use App\Repository\Products\ProductRepository;
+use App\Services\GetHandlerResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,11 +68,15 @@ class ProductController extends AbstractController
         return $this->render('product/success.html.twig');
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/products/{id}', name: 'product_show', methods: ['GET'])]
     public function show(string $id): Response
     {
         $command = new GetProductQuery($id);
-        $product = $this->bus->dispatch($command);
+        $handler = $this->bus->dispatch($command);
+        $product = GetHandlerResult::invoke($handler);
 
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');

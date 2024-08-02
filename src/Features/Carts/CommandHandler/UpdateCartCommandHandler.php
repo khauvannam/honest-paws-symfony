@@ -3,17 +3,19 @@
 namespace App\Features\Carts\CommandHandler;
 
 use App\Features\Carts\Command\UpdateCartCommand;
+use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Carts\CartRepository;
 use Exception;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler]
-class UpdateCartCommandHandler
+class UpdateCartCommandHandler implements CommandHandlerInterface
 {
     public function __construct(private CartRepository $cartRepository)
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function __invoke(UpdateCartCommand $command): void
     {
         $cartId = $command->getCartId();
@@ -25,8 +27,10 @@ class UpdateCartCommandHandler
         if ($cart === null) {
             throw new Exception('Cart not found');
         }
-
-        $cart->update($customerId, $cartItemRequests);
+        $cart->RemoveAllCartItemNotExist($cartItemRequests);
+        foreach ($cartItemRequests as $cartItemRequest) {
+            $cart->Update($cartItemRequest);
+        }
         $this->cartRepository->update($cart);
     }
 }
