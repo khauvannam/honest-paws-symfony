@@ -21,7 +21,7 @@ class UpdateProductCommand
     private string $discountPercent;
     private DateTime $updatedAt;
 
-    public function __construct(string $id, string $name, string $description, string $productUseGuide, ?UploadedFile $imageFile, string $discountPercent, DateTime $updatedAt)
+    public function __construct(string $id, string $name, string $description, string $productUseGuide, ?UploadedFile $imageFile, string $discountPercent)
     {
         $this->id = $id;
         $this->name = $name;
@@ -29,15 +29,14 @@ class UpdateProductCommand
         $this->productUseGuide = $productUseGuide;
         $this->imageFile = $imageFile;
         $this->discountPercent = $discountPercent;
-        $this->updatedAt = $updatedAt;
     }
 
-    public static function create(int $id, string $name, string $description, string $productUseGuide, ?UploadedFile $imageFile, string $discountPercent, DateTime $updatedAt): self
+    public static function create(int $id, string $name, string $description, string $productUseGuide, ?UploadedFile $imageFile, string $discountPercent): self
     {
-        return new self($id, $name, $description, $productUseGuide, $imageFile, $discountPercent, $updatedAt);
+        return new self($id, $name, $description, $productUseGuide, $imageFile, $discountPercent);
     }
 
-    public function getId(): int
+    public function getId():string
     {
         return $this->id;
     }
@@ -57,7 +56,7 @@ class UpdateProductCommand
         return $this->productUseGuide;
     }
 
-    public function getImageFile(): ?UploadedFile 
+    public function getImageFile(): ?UploadedFile
     {
         return $this->imageFile;
     }
@@ -67,8 +66,4 @@ class UpdateProductCommand
         return $this->discountPercent;
     }
 
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updatedAt;
-    }
 }
