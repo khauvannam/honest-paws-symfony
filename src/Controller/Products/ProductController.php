@@ -3,12 +3,12 @@
 namespace App\Controller\Products;
 
 use App\Features\Products\Command\CreateProductCommand;
-use App\Features\Products\Command\CreateProductType;
 use App\Features\Products\Command\DeleteProductCommand;
 use App\Features\Products\Command\UpdateProductCommand;
-use App\Features\Products\Command\UpdateProductType;
 use App\Features\Products\Query\GetProductQuery;
 use App\Features\Products\Query\ListProductQuery;
+use App\Features\Products\Type\CreateProductType;
+use App\Features\Products\Type\UpdateProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
