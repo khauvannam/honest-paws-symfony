@@ -41,7 +41,6 @@ class CartItemRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    // update
     public function customerId(string $id): ?CartItem
     {
         return $this->createQueryBuilder('p')

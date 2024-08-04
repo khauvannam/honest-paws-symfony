@@ -4,11 +4,10 @@ namespace App\Features\Categories\CommandHandler;
 
 
 use App\Features\Categories\Command\DeleteCategoryCommand;
+use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Categories\CategoryRepository;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler]
-class DeleteCategoryCommandHandler
+class DeleteCategoryCommandHandler implements CommandHandlerInterface
 {
     private CategoryRepository $categoryRepository;
 

@@ -3,12 +3,11 @@
 namespace App\Features\Products\CommandHandler;
 
 use App\Features\Products\Command\UpdateProductCommand;
+use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Products\ProductRepository;
 use Exception;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler]
-class UpdateProductCommandHandler
+class UpdateProductCommandHandler implements CommandHandlerInterface
 {
     private ProductRepository $productRepository;
 

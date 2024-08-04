@@ -2,19 +2,19 @@
 
 namespace App\Controller\Carts;
 
-use App\Features\Carts\Query\GetCartQuery;
-use App\Features\Carts\Command\CreateCartCommand;
-use App\Features\Carts\Command\CreateCartType;
-use App\Features\Carts\Command\UpdateCartCommand;
-use App\Features\Carts\Command\DeleteCartCommand;
 use App\Features\Carts\Command\CartType;
+use App\Features\Carts\Command\CreateCartCommand;
+use App\Features\Carts\Command\DeleteCartCommand;
+use App\Features\Carts\Command\UpdateCartCommand;
+use App\Features\Carts\Query\GetCartQuery;
+use App\Services\GetHandlerResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CartController extends AbstractController
 {
@@ -61,7 +61,8 @@ class CartController extends AbstractController
     {
         // Create a query or a command to fetch the cart details
         $command = new GetCartQuery($id, $customerId); // Assuming a GetCartQuery exists
-        $cart = $this->bus->dispatch($command);
+        $handler = $this->bus->dispatch($command);
+        $cart = GetHandlerResult::invoke($handler);
 
         if (!$cart) {
             throw $this->createNotFoundException('The cart does not exist');
@@ -75,7 +76,7 @@ class CartController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/cart/{id}/edit', name: 'cart_edit', methods: ['GET', 'POST'])]
+    #[Route('/cart/{id}/edit', name: 'cart_edit', methods: ['POST'])]
     public function editAsync(Request $request, string $customerId, string $id): RedirectResponse|Response
     {
         $command = UpdateCartCommand::create($id, $customerId, []); // Use an empty array or proper cart items if needed

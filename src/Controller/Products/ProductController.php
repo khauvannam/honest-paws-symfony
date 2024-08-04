@@ -2,7 +2,6 @@
 
 namespace App\Controller\Products;
 
-use App\Entity\Products\Product;
 use App\Features\Products\Command\CreateProductCommand;
 use App\Features\Products\Command\CreateProductType;
 use App\Features\Products\Command\DeleteProductCommand;
@@ -11,14 +10,14 @@ use App\Features\Products\Command\UpdateProductType;
 use App\Features\Products\Query\GetProductQuery;
 use App\Features\Products\Query\ListProductQuery;
 use App\Repository\Products\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Services\GetHandlerResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 // Import ArrayCollection
 
@@ -69,11 +68,15 @@ class ProductController extends AbstractController
         return $this->render('product/success.html.twig');
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/products/{id}', name: 'product_show', methods: ['GET'])]
     public function show(string $id): Response
     {
         $command = new GetProductQuery($id);
-        $product = $this->bus->dispatch($command);
+        $handler = $this->bus->dispatch($command);
+        $product = GetHandlerResult::invoke($handler);
 
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');

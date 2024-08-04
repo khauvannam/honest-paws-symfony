@@ -2,6 +2,8 @@
 
 namespace App\Features\Carts\Command;
 
+use App\Entity\Carts\CartItemRequest;
+
 class UpdateCartCommand
 {
     private string $cartId;

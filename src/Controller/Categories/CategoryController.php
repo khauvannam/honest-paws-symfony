@@ -8,6 +8,7 @@ use App\Features\Categories\Command\DeleteCategoryCommand;
 use App\Features\Categories\Command\UpdateCategoryCommand;
 use App\Features\Categories\Command\UpdateCategoryType;
 use App\Features\Categories\Query\GetAllCategoryQuery;
+use App\Services\GetHandlerResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -62,7 +63,8 @@ class CategoryController extends AbstractController
     public function showAll(): Response
     {
         $query = new GetAllCategoryQuery();
-        $categories = $this->bus->dispatch($query);
+        $handler = $this->bus->dispatch($query);
+        $categories = GetHandlerResult::invoke($handler);
         return $this->render("category/show.html.twig", [
             'categories' => $categories,
         ]);
