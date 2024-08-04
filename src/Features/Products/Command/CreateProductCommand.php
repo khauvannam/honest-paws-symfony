@@ -18,7 +18,7 @@ class CreateProductCommand
     private string $name;
     private string $description;
     private string $productUseGuide;
-    private UploadedFile $imgFile;
+    private ?UploadedFile $imgFile;
     private string $discountPercent;
 
     public function __construct(
@@ -60,9 +60,39 @@ class CreateProductCommand
         return $this->productUseGuide;
     }
 
-    public function getImageFile(): UploadedFile
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
+    }
+
+    public function setName(string $name): CreateProductCommand
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setDescription(string $description): CreateProductCommand
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function setProductUseGuide(string $productUseGuide): CreateProductCommand
+    {
+        $this->productUseGuide = $productUseGuide;
+        return $this;
+    }
+
+    public function setImgFile(?UploadedFile $imgFile): CreateProductCommand
+    {
+        $this->imgFile = $imgFile;
+        return $this;
+    }
+
+    public function setDiscountPercent(string $discountPercent): CreateProductCommand
+    {
+        $this->discountPercent = $discountPercent;
+        return $this;
     }
 
     public function getDiscountPercent(): string

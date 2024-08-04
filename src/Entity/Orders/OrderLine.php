@@ -4,6 +4,7 @@ namespace App\Entity\Orders;
 
 use App\Repository\Orders\OrderLineRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderLineRepository::class)]
@@ -12,7 +13,7 @@ class OrderLine
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
-    private int $id;
+    private string $id;
 
     #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderLines')]
     #[ORM\JoinColumn(nullable: false)]
@@ -31,13 +32,12 @@ class OrderLine
     private float $price;
 
     public function __construct(
-        Order $order,
         string $productId,
         string $productName,
         int $quantity,
         float $price
     ) {
-        $this->order = $order;
+        $this->id = Uuid::v4()->toString();
         $this->productId = $productId;
         $this->productName = $productName;
         $this->quantity = $quantity;
@@ -46,7 +46,7 @@ class OrderLine
 
     // Getters and setters...
 
-    public function getId(): ?int
+    public function getId(): string 
     {
         return $this->id;
     }

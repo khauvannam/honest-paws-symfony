@@ -6,8 +6,10 @@ use App\Features\Carts\Command\UpdateCartCommand;
 use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Carts\CartRepository;
 use Exception;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class UpdateCartCommandHandler implements CommandHandlerInterface
+#[AsMessageHandler]
+class UpdateCartCommandHandler 
 {
     public function __construct(private CartRepository $cartRepository)
     {

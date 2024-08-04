@@ -2,7 +2,6 @@
 
 namespace App\Controller\Products;
 
-use App\Entity\Products\Product;
 use App\Features\Products\Command\CreateProductCommand;
 use App\Features\Products\Command\CreateProductType;
 use App\Features\Products\Command\DeleteProductCommand;
@@ -10,16 +9,14 @@ use App\Features\Products\Command\UpdateProductCommand;
 use App\Features\Products\Command\UpdateProductType;
 use App\Features\Products\Query\GetProductQuery;
 use App\Features\Products\Query\ListProductQuery;
-use App\Repository\Products\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 // Import ArrayCollection
@@ -28,7 +25,7 @@ class ProductController extends AbstractController
 {
     private MessageBusInterface $bus;
 
-    public function __construct(MessageBusInterface $bus, ProductRepository $productRepository)
+    public function __construct(MessageBusInterface $bus)
     {
         $this->bus = $bus;
     }
@@ -49,20 +46,16 @@ class ProductController extends AbstractController
     #[Route('/products/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $form = $this->createForm(CreateProductType::class);
+        $imgFile = new UploadedFile('', '', '', 1);
+        $command = new CreateProductCommand('', '', '', $imgFile, 0);
+        $form = $this->createForm(CreateProductType::class, $command);
 
         $form->handleRequest($request);
+        $command->setImgFile($form->get('imgFile')->getData());
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $uploadedFile = $form->get('imageFile')->getData();
-            $command = CreateProductCommand::create(
-                $data->getName(),
-                $data->getDescription(),
-                $data->getProductUseGuide(),
-                $uploadedFile,
-                $data->getDiscountPercent(),
-            );
+
             $this->bus->dispatch($command);
+
             return $this->redirectToRoute('product_success');
         }
 
