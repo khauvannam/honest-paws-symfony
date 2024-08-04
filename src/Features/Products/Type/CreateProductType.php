@@ -1,6 +1,7 @@
 <?php
 namespace App\Features\Products\Type;
 
+use App\Features\Products\Command\CreateProductCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
