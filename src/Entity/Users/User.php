@@ -3,6 +3,7 @@
 namespace App\Entity\Users;
 
 use App\Repository\Identities\IdentityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -27,6 +28,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
     #[ORM\Column(type: "string", length: 180)]
     private string $passwordHash;
+    #[ORM\OneToMany(targetEntity: UserProvider::class, mappedBy: "userId", cascade: ["persist", "remove"])]
+    private Collection $userProviders;
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): User
+    {
+        $this->email = $email;
+        return $this;
+    }
     #[ORM\Column(type: "json")]
     private array $roles = [];
 

@@ -2,6 +2,7 @@
 
 namespace App\Features\Products\Type;
 
+use App\Features\Products\Command\UpdateProductCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

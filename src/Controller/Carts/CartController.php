@@ -7,7 +7,7 @@ use App\Features\Carts\Command\CreateCartCommand;
 use App\Features\Carts\Command\DeleteCartCommand;
 use App\Features\Carts\Command\UpdateCartCommand;
 use App\Features\Carts\Query\GetCartQuery;
-use App\Services\GetHandlerResult;
+use App\Services\GetEnvelopeResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,7 +62,7 @@ class CartController extends AbstractController
         // Create a query or a command to fetch the cart details
         $command = new GetCartQuery($id, $customerId); // Assuming a GetCartQuery exists
         $handler = $this->bus->dispatch($command);
-        $cart = GetHandlerResult::invoke($handler);
+        $cart = GetEnvelopeResultService::invoke($handler);
 
         if (!$cart) {
             throw $this->createNotFoundException('The cart does not exist');

@@ -9,6 +9,7 @@ class CreateProductCommand
     private string $name;
     private string $description;
     private string $productUseGuide;
+    private ?UploadedFile $imgFile;
     private string $categoryId;
 
     public function getCategoryId(): string
@@ -21,8 +22,6 @@ class CreateProductCommand
         $this->categoryId = $categoryId;
         return $this;
     }
-
-    private ?UploadedFile $imgFile;
     private string $discountPercent;
 
     public function __construct(
@@ -31,7 +30,7 @@ class CreateProductCommand
         string       $productUseGuide,
         UploadedFile $imgFile,
         string       $discountPercent,
-        string       $categoryId
+                     $categoryId
     )
     {
         $this->name = $name;

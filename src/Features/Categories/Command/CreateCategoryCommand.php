@@ -27,23 +27,3 @@ class CreateCategoryCommand
         $this->description = $description;
     }
 }
-class CreateCategoryType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('name', TextType::class, [
-                'label' => 'Category Name',
-            ])
-            ->add('description', TextType::class, [
-                'label' => 'Category Description',
-            ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => CreateCategoryCommand::class,
-        ]);
-    }
-}
