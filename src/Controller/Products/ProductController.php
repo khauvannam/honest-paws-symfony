@@ -50,7 +50,7 @@ class ProductController extends AbstractController
     public function createAsync(Request $request): RedirectResponse|Response
     {
         $imgFile = new UploadedFile('', '', '', 1);
-        $command = new CreateProductCommand('', '', '', $imgFile, 0);
+        $command = new CreateProductCommand('', '', '', $imgFile, 0, '');
         $form = $this->createForm(CreateProductType::class, $command);
 
         $form->handleRequest($request);
@@ -95,7 +95,7 @@ class ProductController extends AbstractController
     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request): RedirectResponse|Response
     {
-        $product = UpdateProductCommand::create('', '', '', '', null, '' );
+        $product = UpdateProductCommand::create('', '', '', '', null, '');
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);

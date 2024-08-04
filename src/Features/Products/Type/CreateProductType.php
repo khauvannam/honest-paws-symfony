@@ -34,6 +34,9 @@ class CreateProductType extends AbstractType
             ->add("discountPercent", NumberType::class, [
                 "label" => "Discount Percent",
             ])
+            ->add("categoryId", TextType::class, [
+                "label" => "CategoryId",
+            ])
             ->add("save", SubmitType::class, [
                 "label" => "Save",
             ]);

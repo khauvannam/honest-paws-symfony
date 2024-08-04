@@ -24,7 +24,6 @@ class Category
     }
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
     private string $id;
     #[ORM\Column(type: 'string', length: 255)]

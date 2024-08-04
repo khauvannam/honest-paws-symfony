@@ -2,7 +2,6 @@
 
 namespace App\Features\Categories\CommandHandler;
 
-
 use App\Entity\Categories\Category;
 use App\Features\Categories\Command\CreateCategoryCommand;
 use App\Repository\Categories\CategoryRepository;
