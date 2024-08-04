@@ -1,34 +1,15 @@
-{% extends 'base.html.twig' %}
-{% block body %}
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <h1>Login</h1>
-        {{ form_start(form) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.password) }}
-        <button type="submit">Login</button>
-        {{ form_end(form) }}
-{% endblock %}
-=======
-=======
 
->>>>>>> origin/namdeptrai
+
+{% block body %}
+    <h1>Login</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    <button type="submit">Login</button>
+    {{ form_end(form) }}
+{% endblock %}
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" required>
-
-        <button type="submit">login</button>
-    </form>
-{% endblock %}
-<<<<<<< HEAD
->>>>>>> origin/namdeptrai
-=======
-
->>>>>>> origin/namdeptrai

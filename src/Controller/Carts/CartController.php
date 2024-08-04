@@ -112,6 +112,6 @@ class CartController extends AbstractController
         } catch (ExceptionInterface $e) {
             // Handle the exception as needed
         }
-        return $this->redirectToRoute('cart_index');
+        return $this->redirectToRoute('cart_success');
     }
 }

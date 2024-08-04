@@ -41,7 +41,7 @@ class Product
     #[ORM\OneToMany(targetEntity: ProductVariant::class, mappedBy: 'product', cascade: ['persist', 'remove'])]
     private Collection $productVariants;
 
-    public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt)
+    public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent)
     {
         $this->id = Uuid::v4()->toString();
         $this->name = $name;
@@ -54,9 +54,9 @@ class Product
         $this->productVariants = new ArrayCollection();
     }
 
-    public static function Create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt): Product
+    public static function Create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent): Product
     {
-        return new Product($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updateAt);
+        return new Product($name, $description, $productUseGuide, $imageUrl, $discountPercent);
     }
 
     public function Update(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt): Product
