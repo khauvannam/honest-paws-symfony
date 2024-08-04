@@ -7,7 +7,7 @@ use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class ListProductQueryHandler
+class ListProductQueryHandler 
 {
     private ProductRepository $productRepository;
 

@@ -2,15 +2,15 @@
 
 namespace App\Controller\Products;
 
-use App\Entity\Products\Product;
 use App\Features\Products\Command\CreateProductCommand;
 use App\Features\Products\Command\CreateProductType;
 use App\Features\Products\Command\DeleteProductCommand;
 use App\Features\Products\Command\UpdateProductCommand;
 use App\Features\Products\Command\UpdateProductType;
-use App\Repository\Products\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Features\Products\Query\GetProductQuery;
+use App\Features\Products\Query\ListProductQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,24 +18,23 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 // Import ArrayCollection
 
 class ProductController extends AbstractController
 {
     private MessageBusInterface $bus;
-    private ProductRepository $productRepository;
 
-    public function __construct(MessageBusInterface $bus, ProductRepository $productRepository)
+    public function __construct(MessageBusInterface $bus)
     {
         $this->bus = $bus;
-        $this->productRepository = $productRepository;
     }
 
     #[Route('/products', name: 'product_index', methods: ['GET'])]
     public function index(int $limit, int $offset): Response
     {
-        $products = $this->productRepository->findAllProducts($limit, $offset);
-
+        $command = new ListProductQuery($limit, $offset);
+        $products = $this->bus->dispatch($command);
         return $this->render('product/index.html.twig', [
             'products' => $products,
         ]);
@@ -47,14 +46,16 @@ class ProductController extends AbstractController
     #[Route('/products/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $command = CreateProductCommand::create('', '', '', '', '', new \DateTime(), new \DateTime(), []);
+        $imgFile = new UploadedFile('', '', '', 1);
+        $command = new CreateProductCommand('', '', '', $imgFile, 0);
         $form = $this->createForm(CreateProductType::class, $command);
 
         $form->handleRequest($request);
-
+        $command->setImgFile($form->get('imgFile')->getData());
         if ($form->isSubmitted() && $form->isValid()) {
-            $command = $form->getData(); // Get updated data from the form
+
             $this->bus->dispatch($command);
+
             return $this->redirectToRoute('product_success');
         }
 
@@ -70,9 +71,10 @@ class ProductController extends AbstractController
     }
 
     #[Route('/products/{id}', name: 'product_show', methods: ['GET'])]
-    public function show(int $id): Response
+    public function show(string $id): Response
     {
-        $product = $this->productRepository->findById($id);
+        $command = new GetProductQuery($id);
+        $product = $this->bus->dispatch($command);
 
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');
@@ -90,7 +92,7 @@ class ProductController extends AbstractController
     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, int $id): RedirectResponse|Response
     {
-        $product = UpdateProductCommand::create('', '', '', '', '', '', new \DateTime(), []);
+        $product = UpdateProductCommand::create('', '', '', '', null, '', new \DateTime(), []);
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);

@@ -4,6 +4,7 @@ namespace App\Features\Products\CommandHandler;
 
 use App\Features\Products\Command\UpdateProductCommand;
 use App\Repository\Products\ProductRepository;
+use App\Services\BlobService;
 use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -11,10 +12,14 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class UpdateProductCommandHandler
 {
     private ProductRepository $productRepository;
+    private BlobService $blobService;
 
-    public function __construct(ProductRepository $productRepository)
-    {
+    public function __construct(
+        ProductRepository $productRepository,
+        BlobService $blobService
+    ) {
         $this->productRepository = $productRepository;
+        $this->blobService = $blobService;
     }
 
     /**
@@ -28,14 +33,21 @@ class UpdateProductCommandHandler
             throw new Exception("Product not found");
         }
 
-        $product->setName($command->getName());
-        $product->setDescription($command->getDescription());
-        $product->setProductUseGuide($command->getProductUseGuide());
-        $product->setImageUrl($command->getImageUrl());
-        $product->setDiscountPercent($command->getDiscountPercent());
-        $product->setUpdatedAt($command->getUpdatedAt());
+        if ($command->getImageFile() !== null) {
+            $fileName = $this->blobService->upload($command->getImageFile());
+            $this->blobService->delete($product->getImageUrl());
+            $product->setImageUrl($fileName);
+        }
+
+        $product->update(
+            $command->getName(),
+            $command->getDescription(),
+            $command->getProductUseGuide(),
+            $command->getDiscountPercent()
+        );
 
         $this->productRepository->update($product);
     }
 }
+
 ?>

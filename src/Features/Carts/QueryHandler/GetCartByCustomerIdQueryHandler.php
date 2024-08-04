@@ -8,8 +8,7 @@ use App\Repository\Carts\CartRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class GetCartByCustomerIdQueryHandler
-
+class GetCartByCustomerIdQueryHandler 
 {
     private CartRepository $cartRepository;
 

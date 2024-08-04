@@ -13,7 +13,6 @@ use Symfony\Component\Uid\Uuid;
 class Product
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
     private string $id;
 
@@ -32,17 +31,28 @@ class Product
     #[ORM\Column(length: 500)]
     private ?string $discountPercent;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: "datetime")]
     private ?DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: "datetime")]
     private ?DateTime $updatedAt;
 
-    #[ORM\OneToMany(targetEntity: ProductVariant::class, mappedBy: 'product', cascade: ['persist', 'remove'])]
+    #[
+        ORM\OneToMany(
+            targetEntity: ProductVariant::class,
+            mappedBy: "product",
+            cascade: ["persist", "remove"]
+        )
+    ]
     private Collection $productVariants;
 
-    public function __construct(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt)
-    {
+    public function __construct(
+        string $name,
+        string $description,
+        string $productUseGuide,
+        string $imageUrl,
+        string $discountPercent
+    ) {
         $this->id = Uuid::v4()->toString();
         $this->name = $name;
         $this->description = $description;
@@ -54,20 +64,33 @@ class Product
         $this->productVariants = new ArrayCollection();
     }
 
-    public static function Create(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt): Product
-    {
-        return new Product($name, $description, $productUseGuide, $imageUrl, $discountPercent, $createdAt, $updateAt);
+    public static function create(
+        string $name,
+        string $description,
+        string $productUseGuide,
+        string $imageUrl,
+        string $discountPercent
+    ): self {
+        return new Product(
+            $name,
+            $description,
+            $productUseGuide,
+            $imageUrl,
+            $discountPercent
+        );
     }
 
-    public function Update(string $name, string $description, string $productUseGuide, string $imageUrl, string $discountPercent, DateTime $createdAt, DateTime $updateAt): Product
-    {
+    public function update(
+        string $name,
+        string $description,
+        string $productUseGuide,
+        string $discountPercent
+    ): Product {
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
-        $this->imageUrl = $imageUrl;
         $this->discountPercent = $discountPercent;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updateAt;
+        $this->updatedAt = new DateTime();
 
         return $this;
     }
@@ -79,7 +102,9 @@ class Product
             $productVariant->setProduct($this);
         }
     }
-
+    /**
+     * @param array<int,mixed> $updateVariants
+     */
     public function updateVariantList(array $updateVariants): void
     {
         $this->productVariants->clear();
@@ -132,7 +157,6 @@ class Product
     {
         return $this->productVariants;
     }
-    
 
     public function setName(?string $name): self
     {
@@ -175,8 +199,6 @@ class Product
         $this->updatedAt = $updatedAt;
         return $this;
     }
-
-
 }
 
 ?>

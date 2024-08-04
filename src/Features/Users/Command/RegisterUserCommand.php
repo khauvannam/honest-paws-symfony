@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Users\Commands;
+namespace App\Features\Users\Command;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

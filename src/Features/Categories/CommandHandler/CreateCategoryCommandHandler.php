@@ -9,7 +9,7 @@ use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class CreateCategoryCommandHandler
+class CreateCategoryCommandHandler 
 {
     private CategoryRepository $categoryRepository;
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Features\Users\Commands;
+namespace App\Features\Users\Handler;
 
 use App\Entity\Users\User;
+use App\Features\Users\Command\RegisterUserCommand;
+use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Identities\IdentityRepository;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-#[AsMessageHandler]
-class RegisterUserCommandHandler
+class RegisterUserCommandHandler implements CommandHandlerInterface
 {
     private IdentityRepository $identityRepository;
     private UserPasswordHasherInterface $userPasswordHasher;

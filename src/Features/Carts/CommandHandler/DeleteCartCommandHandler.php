@@ -3,12 +3,12 @@
 namespace App\Features\Carts\CommandHandler;
 
 use App\Features\Carts\Command\DeleteCartCommand;
+use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Carts\CartRepository;
 use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
 #[AsMessageHandler]
-class DeleteCartCommandHandler
+class DeleteCartCommandHandler 
 {
     public function __construct(private CartRepository $cartRepository)
     {

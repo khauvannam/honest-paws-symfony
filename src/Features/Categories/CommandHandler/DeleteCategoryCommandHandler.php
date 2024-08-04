@@ -8,7 +8,7 @@ use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class DeleteCategoryCommandHandler
+class DeleteCategoryCommandHandler 
 {
     private CategoryRepository $categoryRepository;
 
