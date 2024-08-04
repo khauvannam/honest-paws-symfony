@@ -2,8 +2,8 @@
 
 namespace App\Controller\Identities;
 
-use App\Features\Users\Commands\RegisterType;
-use App\Features\Users\Commands\RegisterUserCommand;
+use App\Features\Users\Command\RegisterType;
+use App\Features\Users\Command\RegisterUserCommand;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

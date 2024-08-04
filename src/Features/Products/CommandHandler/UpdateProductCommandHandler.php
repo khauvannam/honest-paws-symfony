@@ -38,10 +38,13 @@ class UpdateProductCommandHandler
             $this->blobService->delete($product->getImageUrl());
             $product->setImageUrl($fileName);
         }
-        $product->setName($command->getName());
-        $product->setDescription($command->getDescription());
-        $product->setProductUseGuide($command->getProductUseGuide());
-        $product->setDiscountPercent($command->getDiscountPercent());
+
+        $product->update(
+            $command->getName(),
+            $command->getDescription(),
+            $command->getProductUseGuide(),
+            $command->getDiscountPercent()
+        );
 
         $this->productRepository->update($product);
     }
