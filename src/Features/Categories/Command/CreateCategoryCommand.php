@@ -6,9 +6,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class CreateCategoryCommand
 {
-    private string $name;
-    private string $description;
-    private UploadedFile $uploadedFile;
+    private string $name ='';
+    private string $description = '';
+    private ?UploadedFile $uploadedFile = null;
 
     public function setDescription(string $description): CreateCategoryCommand
     {
@@ -45,15 +45,6 @@ class CreateCategoryCommand
     public function getDescription(): string
     {
         return $this->description;
-    }
-
-    public static function create($name, $description, UploadedFile $uploadedFile): CreateCategoryCommand
-    {
-        $self = new self();
-        $self->setName($name);
-        $self->setDescription($description);
-        $self->setUploadedFile($uploadedFile);
-        return $self;
     }
 
 }

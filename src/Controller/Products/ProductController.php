@@ -14,7 +14,6 @@ use App\Features\Products\Type\CreateProductType;
 use App\Features\Products\Type\UpdateProductType;
 use App\Services\GetEnvelopeResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,13 +46,11 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/products/new', name: 'product_new', methods: ['POST'])]
+    #[Route('/product/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $imgFile = new UploadedFile('', '', '', 1);
-        $command = new CreateProductCommand('', '', '', $imgFile, 0, '');
+        $command = new CreateProductCommand();
         $form = $this->createForm(CreateProductType::class, $command);
-
         $form->handleRequest($request);
         $command->setImgFile($form->get('imgFile')->getData());
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,7 +74,7 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/products/{id}', name: 'product_show', methods: ['GET'])]
+    #[Route('product/show/{id}', name: 'product_show', methods: ['GET'])]
     public function show(string $id): Response
     {
         $command = new GetProductQuery($id);
@@ -100,7 +97,7 @@ class ProductController extends AbstractController
     #[Route('/products/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, string $id): RedirectResponse|Response
     {
-        $product = UpdateProductCommand::create($id, '', '', '', null, '');
+        $product = new UpdateProductCommand($id);
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);

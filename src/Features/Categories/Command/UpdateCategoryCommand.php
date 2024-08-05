@@ -2,7 +2,6 @@
 
 namespace App\Features\Categories\Command;
 
-use Symfony\Component\Uid\Uuid;
 
 class UpdateCategoryCommand
 {
@@ -10,11 +9,9 @@ class UpdateCategoryCommand
     public string $name;
     public string $description;
 
-    public function __construct(Uuid $id, string $name, string $description)
+    public function __construct(string $id)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
+      $this->id = $id; 
     }
 }
 
