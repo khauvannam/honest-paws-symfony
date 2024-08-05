@@ -6,7 +6,7 @@ use Symfony\Component\Uid\Uuid;
 
 class UpdateCategoryCommand
 {
-    public Uuid $id;
+    public string $id;
     public string $name;
     public string $description;
 
