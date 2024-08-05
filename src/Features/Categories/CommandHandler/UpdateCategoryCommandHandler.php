@@ -33,7 +33,7 @@ class UpdateCategoryCommandHandler
 
         if ($command->getImageFile() !== null) {
             $fileName = $this->blobService->upload($command->getImageFile());
-            $this->blobService->delete($category->getImageUrl());
+            $this->blobService->delete($category->getImgUrl());
             $category->setImageUrl($fileName);
         }
 
