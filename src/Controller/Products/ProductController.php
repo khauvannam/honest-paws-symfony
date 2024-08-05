@@ -30,6 +30,9 @@ class ProductController extends AbstractController
         $this->bus = $bus;
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/products', name: 'product_index', methods: ['GET'])]
     public function index(int $limit, int $offset): Response
     {
@@ -90,9 +93,9 @@ class ProductController extends AbstractController
      */
 
     #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
-    public function editAsync(Request $request, int $id): RedirectResponse|Response
+    public function editAsync(Request $request): RedirectResponse|Response
     {
-        $product = UpdateProductCommand::create('', '', '', '', null, '', new \DateTime(), []);
+        $product = UpdateProductCommand::create('', '', '', '', null, '' );
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);

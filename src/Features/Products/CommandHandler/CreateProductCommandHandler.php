@@ -30,7 +30,8 @@ class CreateProductCommandHandler
             $command->getDescription(),
             $command->getProductUseGuide(),
             $fileName,
-            $command->getDiscountPercent()
+            $command->getDiscountPercent(),
+            $command->getCategoryId()
         );
 
         $this->productRepository->save($product);

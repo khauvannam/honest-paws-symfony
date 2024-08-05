@@ -27,9 +27,4 @@ class IdentityRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(["email" => $email]);
     }
-
-    public function loginUser(User $user): void
-    {
-        $this->security->login($user);
-    }
 }
