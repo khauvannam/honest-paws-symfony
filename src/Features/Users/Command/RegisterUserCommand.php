@@ -2,27 +2,18 @@
 
 namespace App\Features\Users\Command;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 class RegisterUserCommand
 {
-    private function __construct(
-        string $username,
-        string $email,
-        string $password
-    ) {
-        $this->username = $username;
-        $this->email = $email;
-        $this->password = $password;
+    private function __construct()
+    {
+        ;
     }
 
-    private string $username;
+    private string $username = '';
+
+    private string $email = '';
+
+    private string $password = '';
 
     public function setUsername(string $username): void
     {
@@ -39,17 +30,6 @@ class RegisterUserCommand
         $this->password = $password;
     }
 
-    private string $email;
-
-    private string $password;
-
-    public static function Create(
-        string $username,
-        string $email,
-        string $password
-    ): self {
-        return new self($username, $email, $password);
-    }
 
     public function getPassword(): string
     {

@@ -6,11 +6,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class CreateProductCommand
 {
-    private string $name;
-    private string $description;
-    private string $productUseGuide;
-    private ?UploadedFile $imgFile;
-    private string $categoryId;
+    private string $name = '';
+    private string $description = '';
+    private string $productUseGuide = '';
+    private ?UploadedFile $imgFile = null;
+    private string $categoryId = '';
 
     public function getCategoryId(): string
     {
@@ -22,36 +22,13 @@ class CreateProductCommand
         $this->categoryId = $categoryId;
         return $this;
     }
+
     private string $discountPercent;
 
-    public function __construct(
-        string       $name,
-        string       $description,
-        string       $productUseGuide,
-        UploadedFile $imgFile,
-        string       $discountPercent,
-                     $categoryId
-    )
+    public function __construct()
     {
-        $this->name = $name;
-        $this->description = $description;
-        $this->productUseGuide = $productUseGuide;
-        $this->imgFile = $imgFile;
-        $this->discountPercent = $discountPercent;
-        $this->categoryId = $categoryId;
     }
 
-    public static function create(
-        string       $name,
-        string       $description,
-        string       $productUseGuide,
-        UploadedFile $imgFile,
-        string       $discountPercent,
-        string       $categoryId
-    ): self
-    {
-        return new self($name, $description, $productUseGuide, $imgFile, $discountPercent, $categoryId);
-    }
 
     public function getName(): string
     {

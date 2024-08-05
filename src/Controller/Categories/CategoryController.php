@@ -2,11 +2,11 @@
 
 namespace App\Controller\Categories;
 
+use App\Features\Categories\Command\CreateCategoryCommand;
+use App\Features\Categories\Command\DeleteCategoryCommand;
+use App\Features\Categories\Command\UpdateCategoryCommand;
 use App\Features\Categories\Query\GetAllCategoryQuery;
-use App\Features\Categories\Type\CreateCategoryCommand;
 use App\Features\Categories\Type\CreateCategoryType;
-use App\Features\Categories\Type\DeleteCategoryCommand;
-use App\Features\Categories\Type\UpdateCategoryCommand;
 use App\Features\Categories\Type\UpdateCategoryType;
 use App\Services\GetEnvelopeResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +31,7 @@ class CategoryController extends AbstractController
     #[Route("/categories/new", name: "category_new", methods: ["GET", "POST"])]
     public function create(Request $request): RedirectResponse|Response
     {
-        $command = new CreateCategoryCommand("", "");
+        $command = new CreateCategoryCommand();
         $form = $this->createForm(CreateCategoryType::class, $command);
 
         $form->handleRequest($request);
@@ -76,7 +76,7 @@ class CategoryController extends AbstractController
         string  $id
     ): RedirectResponse|Response
     {
-        $command = new UpdateCategoryCommand(Uuid::fromString($id), "", "");
+        $command = new UpdateCategoryCommand($id);
         $form = $this->createForm(UpdateCategoryType::class, $command);
 
         $form->handleRequest($request);
@@ -104,7 +104,7 @@ class CategoryController extends AbstractController
     ]
     public function delete(string $id): RedirectResponse
     {
-        $command = new DeleteCategoryCommand(Uuid::fromString($id));
+        $command = new DeleteCategoryCommand($id);
         try {
             $this->bus->dispatch($command);
         } catch (ExceptionInterface $e) {

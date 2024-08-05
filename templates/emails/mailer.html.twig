@@ -1,16 +1,8 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Register Success{% endblock %}
-
-{% block body %}
-    <div class="w-full flex justify-center text-main">
-        <div class="w-full flex justify-center items-center">
-            <div class="w-1/2 pt-[10%] px-[5%]">
-                <div class="w-full my-7 mx-10 bg-white rounded-lg">
-                    <h1 class="text-2xl font-bold mb-4 text-center">Registration Successful</h1>
-                    <p class="text-center text-gray-700">Thank you for registering. You can now <a href="{{ path('login') }}" class="text-blue-600 hover:underline">log in</a> to your account.</p>
-                </div>
-            </div>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; background-color: #f3f4f6; padding: 2rem;">
+    <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+        <div style="width: 50%; max-width: 600px; padding: 2rem; background-color: #ffffff; border-radius: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: center;">
+            <h1 style="font-size: 2rem; font-weight: 700; color: #4a5568; margin-bottom: 1.5rem;">Registration Successful</h1>
+            <p style="font-size: 1rem; color: #4a5568; margin-bottom: 2rem;">Thank you for registering. You can now <a href="{{ loginUrl }}" style="color: #3182ce; text-decoration: none; font-weight: 600; transition: color 0.3s;">log in</a> to your account.</p>
         </div>
     </div>
-{% endblock body %}
+</div>

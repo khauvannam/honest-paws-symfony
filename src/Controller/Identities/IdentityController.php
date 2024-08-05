@@ -2,8 +2,8 @@
 
 namespace App\Controller\Identities;
 
-use App\Features\Users\Type\RegisterType;
 use App\Features\Users\Command\RegisterUserCommand;
+use App\Features\Users\Type\RegisterType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +29,7 @@ class IdentityController extends AbstractController
     #[Route('/register', name: 'register')]
     public function CreateAsync(Request $request): RedirectResponse|Response
     {
-        $command = RegisterUserCommand::create('', '', '');
+        $command = new RegisterUserCommand();
         $form = $this->createForm(RegisterType::class, $command);
 
         $form->handleRequest($request);
