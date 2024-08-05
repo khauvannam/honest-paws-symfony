@@ -5,7 +5,7 @@ namespace App\Services;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
-class GetHandlerResult
+class GetEnvelopeResultService
 {
     public static function invoke(Envelope $envelope): mixed
     {

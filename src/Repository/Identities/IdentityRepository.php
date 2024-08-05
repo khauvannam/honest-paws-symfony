@@ -4,27 +4,29 @@ namespace App\Repository\Identities;
 
 use App\Entity\Users\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\SecurityBundle\Security;
 
 class IdentityRepository extends ServiceEntityRepository
 {
-    private Security $security;
-
-    public function __construct(ManagerRegistry $registry, Security $security)
+    public function __construct(ManagerRegistry $registry, private EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, User::class);
-        $this->security = $security;
     }
 
     public function createAsync(User $user): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
+
     public function findOneByEmail(string $email): ?User
     {
         return $this->findOneBy(["email" => $email]);
+    }
+    public function update(User $user): User
+    {
+        $this->entityManager->flush();
+        return $user;
     }
 }

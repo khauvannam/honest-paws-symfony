@@ -1,28 +1,31 @@
 <?php
 
-namespace App\Features\Users\Handler;
+namespace App\Features\Users\CommandHandler;
 
 use App\Entity\Users\User;
 use App\Features\Users\Command\RegisterUserCommand;
-use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Identities\IdentityRepository;
-use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Services\MailerService;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 #[AsMessageHandler]
 class RegisterUserCommandHandler
 {
     private IdentityRepository $identityRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
-
+    private MailerService $mailSuccess;
     public function __construct(
         IdentityRepository $identityRepository,
-        UserPasswordHasherInterface $userPasswordHasher
+        UserPasswordHasherInterface $userPasswordHasher,
+        MailerService $mailSuccess
     ) {
         $this->identityRepository = $identityRepository;
         $this->userPasswordHasher = $userPasswordHasher;
+        $this->mailSuccess = $mailSuccess;
     }
+
 
     public function __invoke(RegisterUserCommand $command): void
     {
@@ -33,6 +36,7 @@ class RegisterUserCommandHandler
             $plainTextPassword
         );
         $user->setPassword($hashPassword);
+        $this->mailSuccess->sendRegistrationEmail($user->getEmail(), $user->getUsername());
         $this->identityRepository->createAsync($user);
     }
 }

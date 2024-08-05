@@ -2,13 +2,13 @@
 
 namespace App\Controller\Categories;
 
-use App\Features\Categories\Command\CreateCategoryCommand;
-use App\Features\Categories\Command\CreateCategoryType;
-use App\Features\Categories\Command\DeleteCategoryCommand;
-use App\Features\Categories\Command\UpdateCategoryCommand;
-use App\Features\Categories\Command\UpdateCategoryType;
 use App\Features\Categories\Query\GetAllCategoryQuery;
-use App\Services\GetHandlerResult;
+use App\Features\Categories\Type\CreateCategoryCommand;
+use App\Features\Categories\Type\CreateCategoryType;
+use App\Features\Categories\Type\DeleteCategoryCommand;
+use App\Features\Categories\Type\UpdateCategoryCommand;
+use App\Features\Categories\Type\UpdateCategoryType;
+use App\Services\GetEnvelopeResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -64,7 +64,7 @@ class CategoryController extends AbstractController
     {
         $query = new GetAllCategoryQuery();
         $handler = $this->bus->dispatch($query);
-        $categories = GetHandlerResult::invoke($handler);
+        $categories = GetEnvelopeResultService::invoke($handler);
         return $this->render("category/show.html.twig", [
             'categories' => $categories,
         ]);

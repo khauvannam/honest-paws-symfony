@@ -2,7 +2,6 @@
 
 namespace App\Features\Categories\CommandHandler;
 
-
 use App\Features\Categories\Command\DeleteCategoryCommand;
 use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;

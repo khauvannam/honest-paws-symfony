@@ -66,32 +66,3 @@ class RegisterUserCommand
         return $this->username;
     }
 }
-
-class RegisterType extends AbstractType
-{
-    public function buildForm(
-        FormBuilderInterface $builder,
-        array $options
-    ): void {
-        $builder
-            ->add("username", TextType::class, [
-                "label" => "Username",
-            ])
-            ->add("email", EmailType::class, [
-                "label" => "Email",
-            ])
-            ->add("password", PasswordType::class, [
-                "label" => "Password",
-            ])
-            ->add("register", SubmitType::class, [
-                "label" => "Register",
-            ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            "data_class" => RegisterUserCommand::class,
-        ]);
-    }
-}
