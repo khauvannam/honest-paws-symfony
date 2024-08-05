@@ -34,8 +34,8 @@ class CategoryController extends AbstractController
     {
         $command = new CreateCategoryCommand();
         $form = $this->createForm(CreateCategoryType::class, $command);
-
         $form->handleRequest($request);
+        $command->setUploadedFile($form->get('uploadedFile')->getData());
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -71,7 +71,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route("/categories/{id}/edit", name: "category_edit", methods: ["POST"])]
+    #[Route("/categories/edit/{id}", name: "category_edit", methods: ["GET","POST"])]
     public function edit(
         Request $request,
         string  $id

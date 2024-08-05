@@ -1,11 +1,13 @@
-{# templates/newcategory.html.twig #}
 {% extends 'base.html.twig' %}
-{% block title %}Create Category{% endblock %}
+{% block title %}Edit Category{% endblock %}
 
 {% block body %}
     <div class="w-full flex justify-center text-main">
+    <div class="w-1/2">
+        <img class="w-full object-cover h-[1000px]" src="{{ asset('img/blobs/editproduct.jpg') }}">
+    </div>
         <div class="max-w-md w-full my-7 mx-10 bg-white rounded-lg">
-            <h1 class="text-2xl font-bold mb-4 text-center">Create Category</h1>
+            <h1 class="text-2xl font-bold mb-4 text-center">Edit Category</h1>
             {{ form_start(form, { 'attr': { 'class': 'form' } }) }}
             <div class="mb-4">Category Name:
                 {{ form_widget(form.name, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
@@ -14,7 +16,7 @@
                 {{ form_widget(form.description, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
             <div class="mb-4">Image:
-                {{ form_widget(form.uploadedFile, { 'attr': { 'class': ' form-control relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-gray-300 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:text-main file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-main focus:shadow-inset focus:outline-none file:border-[#00205c]' } }) }}
+                {{ form_widget(form.imageFile, { 'attr': { 'class': ' form-control relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-gray-300 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:text-main file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-main focus:shadow-inset focus:outline-none file:border-[#00205c]' } }) }}
             </div>
             <div>
                 {{ form_widget(form.save, { 'attr': { 'class': 'w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' } }) }}

@@ -5,24 +5,44 @@ namespace App\Features\Categories\CommandHandler;
 use App\Entity\Categories\Category;
 use App\Features\Categories\Command\UpdateCategoryCommand;
 use App\Repository\Categories\CategoryRepository;
+use App\Services\BlobService;
+use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 class UpdateCategoryCommandHandler
 {
     private CategoryRepository $categoryRepository;
+    private BlobService $blobService;
 
-    public function __construct(CategoryRepository $categoryRepository)
-    {
+    public function __construct(
+        CategoryRepository $categoryRepository,
+        BlobService $blobService
+    ) {
         $this->categoryRepository = $categoryRepository;
+        $this->blobService = $blobService;
     }
 
     public function __invoke(UpdateCategoryCommand $command): Category 
     {
-        $category = $this->categoryRepository->find($command->id);
-        if ($category) {
-            $category->update($command->name, $command->description);
-            $this->categoryRepository->save($category);
+        $category = $this->categoryRepository->find($command->getId());
+
+        if (!$category) {
+            throw new Exception("Category not found");
         }
+
+        if ($command->getImageFile() !== null) {
+            $fileName = $this->blobService->upload($command->getImageFile());
+            $this->blobService->delete($category->getImageUrl());
+            $category->setImageUrl($fileName);
+        }
+
+        $category->update(
+            $command->getName(),
+            $command->getDescription(),
+        );
+
+        $this->categoryRepository->update($category);
     }
+    
 }
