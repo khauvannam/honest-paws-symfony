@@ -17,15 +17,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Uid\Uuid;
 
 class CategoryController extends AbstractController
 {
     private MessageBusInterface $bus;
+    private GetEnvelopeResultService $envelopeResultService;
 
-    public function __construct(MessageBusInterface $bus)
+    public function __construct(MessageBusInterface $bus, GetEnvelopeResultService $envelopeResultService)
     {
         $this->bus = $bus;
+        $this->envelopeResultService = $envelopeResultService;
     }
 
     #[Route("/categories/new", name: "category_new", methods: ["GET", "POST"])]
@@ -83,7 +84,8 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->bus->dispatch($command);
+                $result = $this->bus->dispatch($command);
+
                 return $this->redirectToRoute("category_success");
             } catch (ExceptionInterface $e) {
                 // Handle the exception or display an error message
@@ -92,6 +94,7 @@ class CategoryController extends AbstractController
 
         return $this->render("category/edit.html.twig", [
             "form" => $form->createView(),
+
         ]);
     }
 

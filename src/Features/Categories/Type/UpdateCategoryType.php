@@ -14,7 +14,7 @@ class UpdateCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('id', HiddenType::class)
+            ->add('id', HiddenType::class,)
             ->add('name', TextType::class, [
                 'label' => 'Category Name',
             ])
