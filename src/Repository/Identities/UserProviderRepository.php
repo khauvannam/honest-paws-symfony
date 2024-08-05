@@ -4,6 +4,7 @@ namespace App\Repository\Identities;
 
 use App\Entity\Users\UserProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,8 +15,21 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserProviderRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, UserProvider::class);
     }
+
+    public function save($userProvider): void
+    {
+        $this->entityManager->persist($userProvider);
+        $this->entityManager->flush();
+    }
+
+    public function remove($userProvider): void
+    {
+        $this->entityManager->remove($userProvider);
+        $this->entityManager->flush();
+    }
+   
 }

@@ -3,7 +3,7 @@
 namespace App\Features\Users\CommandHandler;
 
 use App\Entity\Users\User;
-use App\Features\Users\Type\RegisterUserCommand;
+use App\Features\Users\Command\RegisterUserCommand;
 use App\Repository\Identities\IdentityRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
