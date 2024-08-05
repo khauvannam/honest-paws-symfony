@@ -12,7 +12,6 @@ class IdentityRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry, private EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, User::class);
-
     }
 
     public function createAsync(User $user): void
@@ -25,7 +24,8 @@ class IdentityRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(["email" => $email]);
     }
-    public function update(User $user): User {
+    public function update(User $user): User
+    {
         $this->entityManager->flush();
         return $user;
     }

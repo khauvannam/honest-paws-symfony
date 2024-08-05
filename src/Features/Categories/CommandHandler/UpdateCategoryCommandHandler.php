@@ -2,6 +2,7 @@
 
 namespace App\Features\Categories\CommandHandler;
 
+use App\Entity\Categories\Category;
 use App\Features\Categories\Command\UpdateCategoryCommand;
 use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -16,7 +17,7 @@ class UpdateCategoryCommandHandler
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function __invoke(UpdateCategoryCommand $command): void
+    public function __invoke(UpdateCategoryCommand $command): Category 
     {
         $category = $this->categoryRepository->find($command->id);
         if ($category) {

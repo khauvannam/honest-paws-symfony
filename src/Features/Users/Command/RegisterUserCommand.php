@@ -4,9 +4,8 @@ namespace App\Features\Users\Command;
 
 class RegisterUserCommand
 {
-    private function __construct()
+    public function __construct()
     {
-        ;
     }
 
     private string $username = '';
