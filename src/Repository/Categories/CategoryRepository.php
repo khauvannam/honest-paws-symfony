@@ -7,6 +7,14 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Category>
+ *
+ * @method Category|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Category|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Category[]    findAll()
+ * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, private EntityManagerInterface $entityManager)
@@ -18,11 +26,6 @@ class CategoryRepository extends ServiceEntityRepository
     {
         $this->entityManager->persist($category);
         $this->entityManager->flush();
-    }
-
-    public function findById(string $id): ?Category
-    {
-        return $this->entityManager->getRepository(Category::class)->find($id);
     }
 
     public function delete(Category $category): void
@@ -42,9 +45,7 @@ class CategoryRepository extends ServiceEntityRepository
 
     public function update(Category $category): Category
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($category);
-        $entityManager->flush();
+        $this->entityManager->flush();
         return $category;
     }
 }

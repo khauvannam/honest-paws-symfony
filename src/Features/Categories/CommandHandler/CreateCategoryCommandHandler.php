@@ -22,6 +22,7 @@ class CreateCategoryCommandHandler
     {
         $fileName = $this->blobService->upload($command->getUploadedFile());
         $category = Category::create($command->getName(), $command->getDescription(), $fileName);
+       
         $this->categoryRepository->save($category);
 
     }

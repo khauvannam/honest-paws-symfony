@@ -71,7 +71,10 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route("/categories/edit/{id}", name: "category_edit", methods: ["GET","POST"])]
+    /**
+     * @throws \Exception
+     */
+    #[Route("/categories/edit/{id}", name: "category_edit", methods: ["GET", "POST"])]
     public function edit(
         Request $request,
         string  $id
@@ -84,14 +87,13 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $result = $this->bus->dispatch($command);
+                $this->bus->dispatch($command);
 
                 return $this->redirectToRoute("category_success");
             } catch (ExceptionInterface $e) {
-                // Handle the exception or display an error message
+                throw new \Exception($e->getMessage());
             }
         }
-
         return $this->render("category/edit.html.twig", [
             "form" => $form->createView(),
 

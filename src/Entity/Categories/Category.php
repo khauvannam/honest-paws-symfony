@@ -2,14 +2,13 @@
 
 namespace App\Entity\Categories;
 
+use App\Repository\Categories\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: categoryRepository::class)]
 class Category
 {
-
-
     #[ORM\Id]
     #[ORM\Column]
     private string $id;
@@ -19,6 +18,30 @@ class Category
     private string $description;
     #[ORM\Column(type: 'string', length: 100)]
     private string $imgUrl;
+
+    public function setId(string $id): Category
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setName(string $name): Category
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setDescription(string $description): Category
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function setImgUrl(string $imgUrl): Category
+    {
+        $this->imgUrl = $imgUrl;
+        return $this;
+    }
 
     public function getImgUrl(): string
     {
@@ -53,10 +76,9 @@ class Category
         return new self($name, $description, $imgUrl);
     }
 
-    public function update(string $name, string $description, string $imgUrl): void
+    public function update(string $name, string $description): void
     {
         $this->name = $name;
         $this->description = $description;
-        $this->imgUrl = $imgUrl;
     }
 }

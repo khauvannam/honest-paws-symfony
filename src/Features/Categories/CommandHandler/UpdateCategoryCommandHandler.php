@@ -2,7 +2,6 @@
 
 namespace App\Features\Categories\CommandHandler;
 
-use App\Entity\Categories\Category;
 use App\Features\Categories\Command\UpdateCategoryCommand;
 use App\Repository\Categories\CategoryRepository;
 use App\Services\BlobService;
@@ -17,15 +16,19 @@ class UpdateCategoryCommandHandler
 
     public function __construct(
         CategoryRepository $categoryRepository,
-        BlobService $blobService
-    ) {
+        BlobService        $blobService
+    )
+    {
         $this->categoryRepository = $categoryRepository;
         $this->blobService = $blobService;
     }
 
-    public function __invoke(UpdateCategoryCommand $command): Category 
+    /**
+     * @throws Exception
+     */
+    public function __invoke(UpdateCategoryCommand $command): void
     {
-        $category = $this->categoryRepository->find($command->getId());
+        $category = $this->categoryRepository->findOneBy(['id' => $command->getId()]);
 
         if (!$category) {
             throw new Exception("Category not found");
@@ -33,16 +36,13 @@ class UpdateCategoryCommandHandler
 
         if ($command->getImageFile() !== null) {
             $fileName = $this->blobService->upload($command->getImageFile());
-            $this->blobService->delete($category->getImageUrl());
-            $category->setImageUrl($fileName);
+            $this->blobService->delete($category->getImgUrl());
+            $category->setImgUrl($fileName);
         }
 
-        $category->update(
-            $command->getName(),
-            $command->getDescription(),
-        );
+        $category->update($command->getName(), $command->getDescription());
 
         $this->categoryRepository->update($category);
     }
-    
+
 }
