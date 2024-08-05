@@ -2,8 +2,10 @@
 
 namespace App\Features\Products\Type;
 
+use App\Features\Products\Command\UpdateProductCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,13 +15,11 @@ class UpdateProductType extends AbstractType
 {
     public function buildForm(
         FormBuilderInterface $builder,
-        array $options
-    ): void {
+        array                $options
+    ): void
+    {
         $builder
-            ->add("id", TextType::class, [
-                "label" => "ID",
-                "disabled" => true,
-            ])
+            ->add("id", HiddenType::class)
             ->add("name", TextType::class, [
                 "label" => "Name",
             ])

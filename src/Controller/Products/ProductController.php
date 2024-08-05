@@ -2,6 +2,9 @@
 
 namespace App\Controller\Products;
 
+
+// Import ArrayCollection
+
 use App\Features\Products\Command\CreateProductCommand;
 use App\Features\Products\Command\DeleteProductCommand;
 use App\Features\Products\Command\UpdateProductCommand;
@@ -9,17 +12,14 @@ use App\Features\Products\Query\GetProductQuery;
 use App\Features\Products\Query\ListProductQuery;
 use App\Features\Products\Type\CreateProductType;
 use App\Features\Products\Type\UpdateProductType;
+use App\Services\GetEnvelopeResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
-
-
-// Import ArrayCollection
+use Symfony\Component\Routing\Attribute\Route;
 
 class ProductController extends AbstractController
 {
@@ -46,13 +46,11 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/products/new', name: 'product_new', methods: ['GET', 'POST'])]
+    #[Route('/product/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $imgFile = new UploadedFile('', '', '', 1);
-        $command = new CreateProductCommand('', '', '', $imgFile, 0, '');
+        $command = new CreateProductCommand();
         $form = $this->createForm(CreateProductType::class, $command);
-
         $form->handleRequest($request);
         $command->setImgFile($form->get('imgFile')->getData());
         if ($form->isSubmitted() && $form->isValid()) {
@@ -73,11 +71,15 @@ class ProductController extends AbstractController
         return $this->render('product/success.html.twig');
     }
 
-    #[Route('/products/{id}', name: 'product_show', methods: ['GET'])]
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Route('product/show/{id}', name: 'product_show', methods: ['GET'])]
     public function show(string $id): Response
     {
         $command = new GetProductQuery($id);
-        $product = $this->bus->dispatch($command);
+        $result = $this->bus->dispatch($command);
+        $product = GetEnvelopeResultService::invoke($result);
 
         if (!$product) {
             throw $this->createNotFoundException('The product does not exist');
@@ -92,30 +94,18 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
 
-    #[Route('/products/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
-    public function editAsync(Request $request): RedirectResponse|Response
+    #[Route('/products/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
+    public function editAsync(Request $request, string $id): RedirectResponse|Response
     {
-        $product = UpdateProductCommand::create('', '', '', '', null, '' );
+        $product = new UpdateProductCommand($id);
 
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-
-            // Create an UpdateProductCommand with the form data
-            $command = new UpdateProductCommand(
-                $data->getId(),
-                $data->getName(),
-                $data->getDescription(),
-                $data->getPrice(),
-                $data->getCategory(),
-                $data->getCreatedAt(),
-                $data->getUpdatedAt(),
-            );
 
             // Dispatch the command to update the product
-            $this->bus->dispatch($command);
+            $this->bus->dispatch($product);
 
             // Redirect to the success page or product list
             return $this->redirectToRoute('product_success');
@@ -127,14 +117,14 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/products/{id}/delete', name: 'product_delete', methods: ['POST'])]
-    public function delete(Request $request, int $id): RedirectResponse
+    #[Route('/products/delete/{id}', name: 'product_delete', methods: ['POST'])]
+    public function delete(string $id): RedirectResponse
     {
         $command = DeleteProductCommand::create($id);
         try {
             $this->bus->dispatch($command);
         } catch (ExceptionInterface $e) {
         }
-        return $this->redirectToRoute('product_index');
+        return $this->redirectToRoute('product_success');
     }
 }

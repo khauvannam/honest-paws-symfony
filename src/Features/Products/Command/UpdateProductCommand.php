@@ -7,44 +7,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class UpdateProductCommand
 {
     private string $id;
-    private string $name;
-    private string $description;
-    private string $productUseGuide;
-    private ?UploadedFile $imageFile;
-    private string $discountPercent;
+    private string $name = '';
+    private string $description = '';
+    private string $productUseGuide = '';
+    private ?UploadedFile $imageFile = null;
+    private string $discountPercent = '';
 
     public function __construct(
-        string $id,
-        string $name,
-        string $description,
-        string $productUseGuide,
-        ?UploadedFile $imageFile,
-        string $discountPercent
-    ) {
+        string $id
+    )
+    {
         $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-        $this->productUseGuide = $productUseGuide;
-        $this->imageFile = $imageFile;
-        $this->discountPercent = $discountPercent;
-    }
-
-    public static function create(
-        int $id,
-        string $name,
-        string $description,
-        string $productUseGuide,
-        ?UploadedFile $imageFile,
-        string $discountPercent
-    ): self {
-        return new self(
-            $id,
-            $name,
-            $description,
-            $productUseGuide,
-            $imageFile,
-            $discountPercent
-        );
     }
 
     public function getId(): string
@@ -75,5 +48,41 @@ class UpdateProductCommand
     public function getDiscountPercent(): string
     {
         return $this->discountPercent;
+    }
+
+    public function setId(string $id): UpdateProductCommand
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setName(string $name): UpdateProductCommand
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setDescription(string $description): UpdateProductCommand
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function setProductUseGuide(string $productUseGuide): UpdateProductCommand
+    {
+        $this->productUseGuide = $productUseGuide;
+        return $this;
+    }
+
+    public function setImageFile(?UploadedFile $imageFile): UpdateProductCommand
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    public function setDiscountPercent(string $discountPercent): UpdateProductCommand
+    {
+        $this->discountPercent = $discountPercent;
+        return $this;
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Repository\Categories;
 
-
 use App\Entity\Categories\Category;
-use App\Entity\Products\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -13,7 +11,7 @@ class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, private EntityManagerInterface $entityManager)
     {
-        parent::__construct($registry, Product::class);
+        parent::__construct($registry, Category::class);
     }
 
     public function save(Category $category): void
@@ -35,10 +33,18 @@ class CategoryRepository extends ServiceEntityRepository
 
     public function findAllCategory(int $limit, int $offset = 0): array
     {
-        return $this->createquerybuilder("p")
-            ->setmaxresults($limit)
-            ->setfirstresult($offset)
-            ->getquery()
-            ->getresult();
+        return $this->createQueryBuilder('c')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function update(Category $category): Category
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($category);
+        $entityManager->flush();
+        return $category;
     }
 }

@@ -2,13 +2,41 @@
 
 namespace App\Features\Categories\Command;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class CreateCategoryCommand
 {
+    private string $name ='';
+    private string $description = '';
+    private ?UploadedFile $uploadedFile = null;
+
+    public function setDescription(string $description): CreateCategoryCommand
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function setName(string $name): CreateCategoryCommand
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getUploadedFile(): ?UploadedFile
+    {
+        return $this->uploadedFile;
+    }
+
+    public function setUploadedFile(?UploadedFile $uploadedFile): CreateCategoryCommand
+    {
+        $this->uploadedFile = $uploadedFile;
+        return $this;
+    }
+
+    public function __construct()
+    {
+    }
+
     public function getName(): string
     {
         return $this->name;
@@ -18,32 +46,5 @@ class CreateCategoryCommand
     {
         return $this->description;
     }
-    public string $name;
-    public string $description;
 
-    public function __construct(string $name, string $description)
-    {
-        $this->name = $name;
-        $this->description = $description;
-    }
-}
-class CreateCategoryType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('name', TextType::class, [
-                'label' => 'Category Name',
-            ])
-            ->add('description', TextType::class, [
-                'label' => 'Category Description',
-            ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => CreateCategoryCommand::class,
-        ]);
-    }
 }

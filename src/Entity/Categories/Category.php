@@ -6,9 +6,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
-
 class Category
 {
+
+
+    #[ORM\Id]
+    #[ORM\Column]
+    private string $id;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $name;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $description;
+    #[ORM\Column(type: 'string', length: 100)]
+    private string $imgUrl;
+
+    public function getImgUrl(): string
+    {
+        return $this->imgUrl;
+    }
+
     public function getId(): string
     {
         return $this->id;
@@ -24,34 +40,23 @@ class Category
         return $this->description;
     }
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private string $id;
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $name;
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $description;
-
-    /**
-     * @param string $name
-     * @param string $description
-     */
-    public function __construct(string $name, string $description)
+    public function __construct(string $name, string $description, string $imgUrl)
     {
         $this->id = Uuid::v4()->toString();
         $this->name = $name;
         $this->description = $description;
+        $this->imgUrl = $imgUrl;
     }
 
-    public static function create(string $name, string $description): Category
+    public static function create(string $name, string $description, string $imgUrl): Category
     {
-        return new self($name, $description);
+        return new self($name, $description, $imgUrl);
     }
 
-    public function update(string $name, string $description): void
+    public function update(string $name, string $description, string $imgUrl): void
     {
         $this->name = $name;
         $this->description = $description;
+        $this->imgUrl = $imgUrl;
     }
 }

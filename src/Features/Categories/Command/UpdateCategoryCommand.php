@@ -2,46 +2,61 @@
 
 namespace App\Features\Categories\Command;
 
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UpdateCategoryCommand
 {
-    public Uuid $id;
-    public string $name;
-    public string $description;
+    private string $id;
+    private string $name = '';
+    private string $description = '';
+    private ?UploadedFile $imageFile = null;
 
-    public function __construct(Uuid $id, string $name, string $description)
+    public function __construct(string $id)
     {
         $this->id = $id;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getImageFile(): ?UploadedFile
+    {
+        return $this->imageFile;
+    }
+
+    public function setId(string $id): UpdateCategoryCommand
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setName(string $name): UpdateCategoryCommand
+    {
         $this->name = $name;
+        return $this;
+    }
+
+    public function setDescription(string $description): UpdateCategoryCommand
+    {
         $this->description = $description;
-    }
-}
-
-class UpdateCategoryType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('id', HiddenType::class)
-            ->add('name', TextType::class, [
-                'label' => 'Category Name',
-            ])
-            ->add('description', TextType::class, [
-                'label' => 'Category Description',
-            ]);
+        return $this;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function setImageFile(?UploadedFile $imageFile): UpdateCategoryCommand
     {
-        $resolver->setDefaults([
-            'data_class' => UpdateCategoryCommand::class,
-        ]);
+        $this->imageFile = $imageFile;
+        return $this;
     }
 }

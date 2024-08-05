@@ -16,8 +16,8 @@ class GetCategoriesAndProductsQueryHandler
 
     public function __invoke(GetCategoriesAndProductsQuery $commands): array
     {
-        $products = $this->productRepository->findAllProducts(4);
-        $categories = $this->categoryRepository->findAllCategory(limit: 6);
+        $products = $this->productRepository->findAllProducts($commands->getProductLimit());
+        $categories = $this->categoryRepository->findAllCategory($commands->getCategoryLimit());
         return ['products' => $products, 'categories' => $categories];
     }
 
