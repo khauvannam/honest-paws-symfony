@@ -3,6 +3,8 @@
 namespace App\Features\Categories\QueryHandler;
 
 use App\Entity\Categories\Category;
+use App\Features\Categories\Query\FindCategoryByIdQuery;
+use PHPUnit\TextUI\CliArguments\Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -13,8 +15,8 @@ class FindCategoryByIdQueryHandler
     {
     }
 
-    public function __invoke() : Category
+    public function __invoke(FindCategoryByIdQuery $query): Category
     {
-        // TODO: Implement __invoke() method.
+        throw new Exception();
     }
 }

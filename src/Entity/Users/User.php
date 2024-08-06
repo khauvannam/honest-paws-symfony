@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
     #[ORM\Column(type: "string", length: 180)]
     private string $passwordHash;
-    #[ORM\OneToMany(targetEntity: UserProvider::class, mappedBy: "userId", cascade: ["persist", "remove"])]
+    #[ORM\OneToMany(targetEntity: UserProvider::class, mappedBy: "user", cascade: ["persist", "remove"])]
     private Collection $userProviders;
 
     public function getEmail(): string

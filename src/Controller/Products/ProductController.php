@@ -34,7 +34,7 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
     #[Route('/products', name: 'product_index', methods: ['GET'])]
-    public function index(int $limit, int $offset): Response
+    public function index(int $limit = 20, int $offset = 0): Response
     {
         $command = new ListProductQuery($limit, $offset);
         $products = $this->bus->dispatch($command);

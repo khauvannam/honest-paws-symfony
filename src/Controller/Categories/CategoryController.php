@@ -21,12 +21,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class CategoryController extends AbstractController
 {
     private MessageBusInterface $bus;
-    private GetEnvelopeResultService $envelopeResultService;
 
-    public function __construct(MessageBusInterface $bus, GetEnvelopeResultService $envelopeResultService)
+    public function __construct(MessageBusInterface $bus)
     {
         $this->bus = $bus;
-        $this->envelopeResultService = $envelopeResultService;
     }
 
     #[Route("/categories/new", name: "category_new", methods: ["GET", "POST"])]

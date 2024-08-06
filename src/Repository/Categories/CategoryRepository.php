@@ -24,14 +24,16 @@ class CategoryRepository extends ServiceEntityRepository
 
     public function save(Category $category): void
     {
-        $this->entityManager->persist($category);
-        $this->entityManager->flush();
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($category);
+        $entityManager->flush();
     }
 
     public function delete(Category $category): void
     {
-        $this->entityManager->remove($category);
-        $this->entityManager->flush();
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($category);
+        $entityManager->flush();
     }
 
     public function findAllCategory(int $limit, int $offset = 0): array

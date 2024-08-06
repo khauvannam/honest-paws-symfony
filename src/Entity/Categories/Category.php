@@ -2,11 +2,10 @@
 
 namespace App\Entity\Categories;
 
-use App\Repository\Categories\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: categoryRepository::class)]
+#[ORM\Entity]
 class Category
 {
     #[ORM\Id]
