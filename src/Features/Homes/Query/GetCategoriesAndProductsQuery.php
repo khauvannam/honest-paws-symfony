@@ -4,11 +4,13 @@ namespace App\Features\Homes\Query;
 
 class GetCategoriesAndProductsQuery
 {
-    private int $productLimit = 6;
-    private int $categoryLimit = 4;
+    private int $productLimit;
+    private int $categoryLimit;
 
-    public function __construct()
+    public function __construct(int $productLimit, int $categoryLimit)
     {
+        $this->productLimit = $productLimit;
+        $this->categoryLimit = $categoryLimit;
     }
 
     public function getProductLimit(): int

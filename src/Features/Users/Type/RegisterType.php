@@ -5,6 +5,7 @@ namespace App\Features\Users\Type;
 use App\Features\Users\Command\RegisterUserCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,6 +28,10 @@ class RegisterType extends AbstractType
             ])
             ->add("password", PasswordType::class, [
                 "label" => "Password",
+            ])
+
+            ->add("imageFile", FileType::class, [
+                "label" => "Image URL",
             ])
             ->add("register", SubmitType::class, [
                 "label" => "Register",

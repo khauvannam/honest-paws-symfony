@@ -25,9 +25,9 @@ class HomeController extends AbstractController
      * @throws ExceptionInterface
      */
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(int $productLimit = 6, int $categoryLimit = 4): Response
     {
-        $command = new GetCategoriesAndProductsQuery();
+        $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
         return $this->render('home/home.html.twig', $result);
