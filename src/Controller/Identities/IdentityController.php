@@ -43,15 +43,22 @@ class IdentityController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/insertEmail', name: 'insertEmail')]
+    public function insertEmail(): Response
+    {
+        return $this->render('emails/insertEmail.html.twig');
+    }
+    #[Route('/resetPassword', name: 'resetPassword')]
+    public function resetPassword(Request $request): Response
+    {
+        return $this->render('emails/resetPassword.html.twig');
+    }
 
     #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
 
     {
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('/security/login.html.twig', [

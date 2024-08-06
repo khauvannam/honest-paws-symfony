@@ -85,5 +85,3 @@ class ProductRepository extends ServiceEntityRepository
             ->getresult();
     }
 }
-
-?>

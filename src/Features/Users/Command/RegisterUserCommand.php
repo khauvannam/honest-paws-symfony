@@ -14,6 +14,7 @@ class RegisterUserCommand
 
     private string $password = '';
 
+
     public function setUsername(string $username): void
     {
         $this->username = $username;

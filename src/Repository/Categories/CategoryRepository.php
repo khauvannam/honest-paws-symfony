@@ -2,29 +2,30 @@
 
 namespace App\Repository\Categories;
 
-
 use App\Entity\Categories\Category;
-use App\Entity\Products\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Category>
+ *
+ * @method Category|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Category|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Category[]    findAll()
+ * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, private EntityManagerInterface $entityManager)
     {
-        parent::__construct($registry, Product::class);
+        parent::__construct($registry, Category::class);
     }
 
     public function save(Category $category): void
     {
         $this->entityManager->persist($category);
         $this->entityManager->flush();
-    }
-
-    public function findById(string $id): ?Category
-    {
-        return $this->entityManager->getRepository(Category::class)->find($id);
     }
 
     public function delete(Category $category): void
@@ -35,10 +36,16 @@ class CategoryRepository extends ServiceEntityRepository
 
     public function findAllCategory(int $limit, int $offset = 0): array
     {
-        return $this->createquerybuilder("p")
-            ->setmaxresults($limit)
-            ->setfirstresult($offset)
-            ->getquery()
-            ->getresult();
+        return $this->createQueryBuilder('c')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function update(Category $category): Category
+    {
+        $this->entityManager->flush();
+        return $category;
     }
 }

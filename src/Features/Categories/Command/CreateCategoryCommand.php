@@ -22,12 +22,12 @@ class CreateCategoryCommand
         return $this;
     }
 
-    public function getUploadedFile(): UploadedFile
+    public function getUploadedFile(): ?UploadedFile
     {
         return $this->uploadedFile;
     }
 
-    public function setUploadedFile(UploadedFile $uploadedFile): CreateCategoryCommand
+    public function setUploadedFile(?UploadedFile $uploadedFile): CreateCategoryCommand
     {
         $this->uploadedFile = $uploadedFile;
         return $this;

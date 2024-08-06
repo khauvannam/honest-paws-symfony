@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}insertEmail{% endblock %}
+
+{% block body %}
+    <div class="w-full flex justify-center items-center bg-gray-100 min-h-screen">
+        <div class="flex w-full max-w-6xl">
+        
+            <div class="bg-white p-8 w-full lg:w-1/2 rounded-lg">
+                <h1 class="text-4xl font-bold mb-6 ">Forgot Password?</h1>
+                <h3 class="text-xl mb-6  text-gray-600" opacity-70">
+                    No worries, we'll send you a reset instruction
+                </h3>
+
+                <form method="post" action="{{ path('insertEmail') }}">
+                    <div class="mb-4">
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            class="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            required
+                        >
+                    </div>
+                    <div class="w-full flex justify-center mt-3">
+                        <button type="submit"
+                                class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Reset Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="hidden lg:flex w-1/2">
+                <div class="w-full h-screen bg-cover bg-center"
+                     style="background-image: url('{{ asset('img/Register/login-img.jpg') }}');">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -5,8 +5,10 @@ namespace App\Features\Categories\Type;
 use App\Features\Categories\Command\CreateCategoryCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CreateCategoryType extends AbstractType
 {
@@ -18,6 +20,13 @@ class CreateCategoryType extends AbstractType
             ])
             ->add('description', TextType::class, [
                 'label' => 'Category Description',
+            ])
+            ->add('uploadedFile', FileType::class, [
+                'label' => 'Image (JPEG, PNG file)',
+                'required' => true,
+            ])
+            ->add("save", SubmitType::class, [
+                "label" => "Save",
             ]);
     }
 

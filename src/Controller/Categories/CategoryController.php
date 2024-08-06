@@ -34,8 +34,8 @@ class CategoryController extends AbstractController
     {
         $command = new CreateCategoryCommand();
         $form = $this->createForm(CreateCategoryType::class, $command);
-
         $form->handleRequest($request);
+        $command->setUploadedFile($form->get('uploadedFile')->getData());
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -60,7 +60,7 @@ class CategoryController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-//    #[Route("/categories", methods: ["GET"])]
+    //    #[Route("/categories", methods: ["GET"])]
     public function showAll(): Response
     {
         $query = new GetAllCategoryQuery();
@@ -71,12 +71,14 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route("/categories/{id}/edit", name: "category_edit", methods: ["POST"])]
+    /**
+     * @throws \Exception
+     */
+    #[Route("/categories/edit/{id}", name: "category_edit", methods: ["GET", "POST"])]
     public function edit(
         Request $request,
         string  $id
-    ): RedirectResponse|Response
-    {
+    ): RedirectResponse|Response {
         $command = new UpdateCategoryCommand($id);
         $form = $this->createForm(UpdateCategoryType::class, $command);
 
@@ -84,14 +86,13 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $result = $this->bus->dispatch($command);
+                $this->bus->dispatch($command);
 
                 return $this->redirectToRoute("category_success");
             } catch (ExceptionInterface $e) {
-                // Handle the exception or display an error message
+                throw new \Exception($e->getMessage());
             }
         }
-
         return $this->render("category/edit.html.twig", [
             "form" => $form->createView(),
 
