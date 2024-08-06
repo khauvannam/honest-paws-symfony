@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {# Breadcrumb Navigation #}
+    <div class="w-full pt-5 px-10 flex justify-center">
+        <div class="w-full max-w-[1300px] flex items-center text-main">
+            <a href="/" class="hover:underline">Home</a>
+            <span class="mx-2">></span>
+            <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">All Products</a>
+            <span class="mx-2">></span>
+            {% for categories in categories %}
+            <span>{{ categories.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# Header Section #}
+    <div class="w-full pt-10 px-10 flex justify-center">
+        <div class="w-full max-w-[1300px] justify-between flex">
+            <div class="w-6/12 mt-20">
+                <p class="pt-4 text-main">
+                    Trusted, Effective Solutions
+                </p>
+                <h1 class="text-4xl font-extrabold text-main uppercase">
+                    All Products
+                </h1>
+                <p class="pt-4 pb-6 text-main max-w-[550px]">
+                    Elevate your pet's well-being with our range of products designed to support your pet’s health and happiness. From calming treats and joint support chews to grooming essentials, all crafted with natural ingredients and rigorously tested for quality. Trust Honest Paws to provide the best for your furry friend’s wellness.
+                </p>
+            </div>
+            <div class="w-6/12">
+                <img src="{{ asset('/img/index/allproductslider.png') }}" alt="Image of a cat and a dog playing together">
+            </div>
+        </div>
+    </div>
+    
+    {# Categories Section #}
+    <div class="w-full pt-10 px-10 flex justify-center">
+        <div class="w-full max-w-[1300px] flex justify-center gap-5">
+        {% for categories in categories %}
+            <a href="{{ path('categorybyid', {'id': categories.id}) }}"><button class="bg-blue-200 text-main py-2 px-4 rounded-full">{{ categories.name }}</button></a>
+        {% endfor %}
+        </div>
+    </div>
+    
+    {# Features Section #}
+    <div class="w-full pt-10 px-10 flex justify-center">
+        <div class="w-full max-w-[1300px] flex justify-center gap-10">
+            <div class="flex flex-col items-center">
+                <img class="max-h-[32px]" src="{{ asset('/img/index/icons/USA_200x.svg') }}" alt="USA Made">
+                <span class="text-main">USA Made</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <img class="max-h-[32px]" src="{{ asset('/img/index/icons/traceble.svg') }}" alt="100% Traceable">
+                <span class="text-main">100% Traceable</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <img class="max-h-[32px]" src="{{ asset('/img/index/icons/lab.svg') }}" alt="Lab Tested">
+                <span class="text-main">Lab Tested</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <img class="max-h-[32px]" src="{{ asset('/img/index/icons/orgainc.svg') }}" alt="USDA Organic">
+                <span class="text-main">USDA Organic</span>
+            </div>
+        </div>
+    </div>
+    
+    {# Products Section #}
+    <div class="flex justify-center w-full pt-12">
+        <div class="flex gap-x-10 w-full max-w-[1400px] flex-wrap">
+            {% for product in products %}
+                <div class="flex flex-col justify-between bg-[#f0f5ff] items-center rounded-lg w-[300px] mt-4 p-4 mx-2">
+                    <div class="relative">
+                        <span class="absolute top-2 left-2 bg-yellow-400 text-main font-bold py-1 px-2 rounded">Bestseller</span>
+                        <div class="w-[90%] flex justify-center bg-white rounded-lg">
+                            <img class="h-[350px] object-fill"
+                                 src="{{ asset('img/blobs/' ~ product.imageUrl) }}"
+                                 alt="{{ product.name }}">
+                        </div>
+                    </div>
+                    <div class="flex items-center ">
+                        <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
+                    </div>
+                    <p class="pb-4 text-center">{{ product.description }}</p>
+                    <a href="{#{{ path('product_detail', {'id': product.id}) }}#}"
+                       class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
+                        <p class="text-white group-hover:text-main">
+                            Add to Cart
+                        </p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+{% endblock body %}
