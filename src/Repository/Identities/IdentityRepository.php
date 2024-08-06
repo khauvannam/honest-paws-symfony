@@ -7,6 +7,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<User>
+ */
 class IdentityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, private EntityManagerInterface $entityManager)
@@ -24,6 +27,7 @@ class IdentityRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(["email" => $email]);
     }
+
     public function update(User $user): User
     {
         $this->entityManager->flush();

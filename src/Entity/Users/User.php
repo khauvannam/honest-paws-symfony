@@ -28,8 +28,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
     #[ORM\Column(type: "string", length: 180)]
     private string $passwordHash;
-    #[ORM\OneToMany(targetEntity: UserProvider::class, mappedBy: "userId", cascade: ["persist", "remove"])]
+    #[ORM\Column(type: "string", length: 180)]
+    private string $avatarLink;
+    #[ORM\Column]
+    private UserVerify $userVerify = UserVerify::unverify;
+    #[ORM\OneToMany(targetEntity: UserProvider::class, mappedBy: "user", cascade: ["persist", "remove"])]
     private Collection $userProviders;
+
+    public function getUserVerify(): UserVerify
+    {
+        return $this->userVerify;
+    }
+
+    public function setUserVerify(UserVerify $userVerify): User
+    {
+        $this->userVerify = $userVerify;
+        return $this;
+    }
+
+    public function getAvatarLink(): string
+    {
+        return $this->avatarLink;
+    }
+
+    public function setAvatarLink(string $avatarLink): User
+    {
+        $this->avatarLink = $avatarLink;
+        return $this;
+    }
+
+    public function isVerify() : bool
+    {
+        return $this->userVerify == UserVerify::verify;
+    }
+
 
     public function getEmail(): string
     {
@@ -41,6 +73,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
         return $this;
     }
+
     #[ORM\Column(type: "json")]
     private array $roles = [];
 

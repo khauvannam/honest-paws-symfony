@@ -21,12 +21,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class CategoryController extends AbstractController
 {
     private MessageBusInterface $bus;
-    private GetEnvelopeResultService $envelopeResultService;
 
-    public function __construct(MessageBusInterface $bus, GetEnvelopeResultService $envelopeResultService)
+    public function __construct(MessageBusInterface $bus)
     {
         $this->bus = $bus;
-        $this->envelopeResultService = $envelopeResultService;
     }
 
     #[Route("/categories/new", name: "category_new", methods: ["GET", "POST"])]
@@ -103,7 +101,7 @@ class CategoryController extends AbstractController
         Route(
             "/categories/{id}/delete",
             name: "category_delete",
-            methods: ["POST"]
+            methods: ["POST", "GET", "DELETE"]
         )
     ]
     public function delete(string $id): RedirectResponse
@@ -115,6 +113,6 @@ class CategoryController extends AbstractController
             throw new Exception($e);
         }
 
-        return $this->redirectToRoute("category_index");
+        return $this->redirectToRoute("category_delete");
     }
 }

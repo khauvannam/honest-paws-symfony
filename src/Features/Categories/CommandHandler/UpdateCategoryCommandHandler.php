@@ -27,7 +27,7 @@ class UpdateCategoryCommandHandler
      */
     public function __invoke(UpdateCategoryCommand $command): void
     {
-        $category = $this->categoryRepository->findOneBy(['id' => $command->getId()]);
+        $category = $this->categoryRepository->find($command->getId());
 
         if (!$category) {
             throw new Exception("Category not found");

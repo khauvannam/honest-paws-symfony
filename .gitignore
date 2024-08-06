@@ -14,15 +14,9 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
 ###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
-/assets/img/blobs/
 ###< symfony/asset-mapper ###
 
 ###> symfony/webpack-encore-bundle ###

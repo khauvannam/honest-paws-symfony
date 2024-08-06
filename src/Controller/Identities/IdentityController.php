@@ -3,6 +3,7 @@
 namespace App\Controller\Identities;
 
 use App\Features\Users\Command\RegisterUserCommand;
+use App\Features\Users\Command\VerifyUserCommand;
 use App\Features\Users\Type\RegisterType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -35,6 +36,7 @@ class IdentityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $command->setImageFile($form->get('imageFile')->getData());
             $this->bus->dispatch($command);
             return $this->redirectToRoute('login');
         }
@@ -56,7 +58,6 @@ class IdentityController extends AbstractController
 
     #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
-
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -66,4 +67,16 @@ class IdentityController extends AbstractController
             'error' => $error,
         ]);
     }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Route('/verify/{userId}', name: 'verify')]
+    public function verify(Request $request, int $userId): Response
+    {
+        $command = new VerifyUserCommand($userId);
+        $this->bus->dispatch($command);
+        return $this->redirectToRoute('login');
+    }
+
 }
