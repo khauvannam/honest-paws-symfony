@@ -5,6 +5,7 @@ namespace App\Features\Users\CommandHandler;
 use App\Entity\Users\User;
 use App\Features\Users\Command\RegisterUserCommand;
 use App\Repository\Identities\IdentityRepository;
+use App\Services\BlobService;
 use App\Services\MailerService;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -20,14 +21,18 @@ class RegisterUserCommandHandler
     private IdentityRepository $identityRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
     private MailerService $mailSuccess;
+    private BlobService $blobService;
     public function __construct(
-        IdentityRepository $identityRepository,
+        IdentityRepository          $identityRepository,
         UserPasswordHasherInterface $userPasswordHasher,
-        MailerService $mailSuccess
-    ) {
+        MailerService               $mailSuccess,
+        BlobService                 $blobService
+    )
+    {
         $this->identityRepository = $identityRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->mailSuccess = $mailSuccess;
+        $this->blobService = $blobService;
     }
 
 
@@ -45,7 +50,9 @@ class RegisterUserCommandHandler
             $user,
             $plainTextPassword
         );
+        $fileName = $this->blobService->upload($command->getImageFile());
         $user->setPassword($hashPassword);
+        $user->setAvatarLink($fileName);
         $this->mailSuccess->sendRegistrationEmail($user->getEmail(), $user->getUsername());
         $this->identityRepository->createAsync($user);
     }

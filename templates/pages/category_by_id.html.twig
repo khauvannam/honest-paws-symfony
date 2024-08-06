@@ -1,143 +1,106 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-    {# slider #}
-    <div class="w-full pt-10 px-10 flex justify-center">
-        <div class="w-full max-w-[1300px] justify-between flex">
-            <div class="w-5/12 mt-20">
-                <h1 class="text-4xl font-extrabold text-main uppercase">
-                    Every dog deserves to feel their best
-                </h1>
-                <p class="pt-4 pb-6 text-main">
-                    Help your pet stay calm through stressful situations like fireworks, separation anxiety, new
-                    routines,
-                    and travel. Order now and watch their transformation.
-                </p>
-                <div class="mb-12">
-                    <button class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
-                        <p class="text-white group-hover:text-main">
-                            Learn More
-                        </p>
-                    </button>
-                </div>
-                <div class="flex justify-between w-full gap-10">
-                    <div class="flex flex-col gap-5 justify-center">
-                        <img class="max-h-[32px]" src="{{ asset('/img/index/icons/USA_200x.svg') }}" alt=""><span
-                                class="text-main">USA Made</span>
-                    </div>
-                    <div class="flex flex-col gap-5 justify-center">
-                        <img class="max-h-[32px]" src="{{ asset('/img/index/icons/traceble.svg') }}" alt=""><span
-                                class="text-main">100% Traceable</span>
-                    </div>
-                    <div class="flex flex-col gap-5 justify-center">
-                        <img class="max-h-[32px]" src="{{ asset('/img/index/icons/lab.svg') }}" alt=""><span class="text-main">Lab Tested</span>
-                    </div>
-                    <div class="flex flex-col gap-5 justify-center">
-                        <img class="max-h-[32px]" src="{{ asset('/img/index/icons/orgainc.svg') }}" alt=""><span class="text-main">USA Organic</span>
-                    </div>
-                </div>
-            </div>
-            <div class="w-5/12">
-                <img src="{{ asset('/img/index/slider.webp') }}" alt="">
-            </div>
+    {# Breadcrumb Navigation #}
+    <div class="w-full pt-5 px-10 flex justify-center">
+        <div class="w-full max-w-[1300px] flex items-center text-main">
+            <a href="/" class="hover:underline">Home</a>
+            <span class="mx-2">></span>
+            <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">All Products</a>
+            <span class="mx-2">></span>
+            {% for category in categories  %}
+                {% if category.id == id %}
+                    <span>{{ category.name }}</span>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 
-    {# category #}
-    <div class="pt-10 pb-8">
-        <h1 class="font-extrabold text-3xl mb-12 text-center text-main">
-            Science-backed essentials for your pets
-        </h1>
-        <div class="flex w-full h-full justify-center">
-            {% for category in categories %}
-                <div class="flex flex-col text-main justify-between bg-[#f0f5ff] items-center rounded-2xl w-[300px] m-3 transition-all duration-300 group">
-                    <a href="{{ path('category_by_id', {'id': category.id}) }}"
-                       class="rounded-t-2xl flex justify-center w-[95%] bg-white">
-                        <img class="h-[168px] object-fill" src="{{ asset('img/blobs/' ~ category.imgurl) }}" alt="">
+    {# Header Section #}
+    <div class="w-full pt-10 px-10 flex justify-center">
+        <div class="w-full max-w-[1300px] justify-between flex">
+            <div class="w-6/12 mt-20">
+                <h1 class="text-4xl font-extrabold text-main uppercase">
+                    {% for category in categories  %}
+                        {% if category.id == id %}
+                            <span>{{ category.name }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </h1>
+                <p class="pt-4 pb-6 text-main max-w-[550px]">
+                    {% for category in categories  %}
+                        {% if category.id == id %}
+                            <span>{{ category.description }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="w-6/12">
+                <img src="{{ asset('/img/index/allproductslider.png') }}" alt="Image of a cat and a dog playing together">
+            </div>
+        </div>
+    </div>
+    
+    {# Categories Section #}
+    <div class="w-full pt-10 px-10 flex justify-center">
+        <div class="w-full max-w-[1300px] flex justify-center gap-5">
+        {% for categories in categories %}
+            <a href="{{ path('category_by_id', {'id': categories.id}) }}"><button class="bg-blue-200 text-main py-2 px-4 rounded-full">{{ categories.name }}</button></a>
+        {% endfor %}
+        </div>
+    </div>
+    
+    {# Features Section #}
+    <div class="w-full pt-10 px-10 flex justify-center">
+        <div class="w-full max-w-[1300px] flex justify-center gap-10">
+            <div class="flex flex-col items-center">
+                <img class="max-h-[32px]" src="{{ asset('/img/index/icons/USA_200x.svg') }}" alt="USA Made">
+                <span class="text-main">USA Made</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <img class="max-h-[32px]" src="{{ asset('/img/index/icons/traceble.svg') }}" alt="100% Traceable">
+                <span class="text-main">100% Traceable</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <img class="max-h-[32px]" src="{{ asset('/img/index/icons/lab.svg') }}" alt="Lab Tested">
+                <span class="text-main">Lab Tested</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <img class="max-h-[32px]" src="{{ asset('/img/index/icons/orgainc.svg') }}" alt="USDA Organic">
+                <span class="text-main">USDA Organic</span>
+            </div>
+        </div>
+    </div>
+    
+    {# Products Section #}
+    <div class="flex justify-center w-full pt-12">
+        <div class="flex gap-x-10 w-full max-w-[1400px] flex-wrap">
+            {% for product in products %}
+                <div class="flex flex-col justify-between bg-[#f0f5ff] items-center rounded-lg w-[300px] mt-4 p-4 mx-2">
+                    <div class="relative">
+                        <span class="absolute top-2 left-2 bg-yellow-400 text-main font-bold py-1 px-2 rounded">Bestseller</span>
+                        <div class="w-[90%] flex justify-center bg-white rounded-lg">
+                            <img class="h-[350px] object-fill"
+                                 src="{{ asset('img/blobs/' ~ product.imageUrl) }}"
+                                 alt="{{ product.name }}">
+                        </div>
+                    </div>
+                    <div class="flex items-center ">
+                        <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
+                    </div>
+                    <p class="pb-4 text-center">{{ product.description }}</p>
+                    <a href="{{ path('product_details', {'id': product.id}) }}"
+                       class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
+                        <p class="text-white group-hover:text-main">
+                            More Details
+                        </p>
                     </a>
-                    <p class="rounded-b-2xl py-4 w-full text-center group-hover:bg-[#FADC6F] bg-transparent">{{ category.name }}</p>
                 </div>
             {% endfor %}
         </div>
     </div>
 
-    {# details #}
-    <div class="pb-10 w-full flex justify-center items-center">
-        <div class="w-full max-w-[1300px] flex-col flex items-center">
-            <h3 class="pb-6 text-center">
-                <span class="text-2xl text-main font-bold">Honest Paws essentials</span><span
-                        class="text-4xl text-main">-</span><span class="italic text-2xl text-main font-bold">Daily Routines. Long Term Benefits.</span>
-                <p class="text-main pt-2">Their products are science-backed and formulated by a team of scientists,
-                    veterinarians, and PhDs.</p>
-            </h3>
-            <div class="flex justify-between w-full">
-                <div class="w-6/12 pt-10">
-                    <img src="{{ asset('/img/index/science-backed.webp') }}" alt="">
-                </div>
-                <div class="w-5/12 flex flex-col justify-center ">
-                    <div class="pb-6">
-                        <p class="font-bold text-2xl text-main">
-                            Science-backed
-                        </p>
-                    </div>
-                    <div class="text-main">
-                        <p>We're committed to revolutionizing pet health with premium, scientifically formulated
-                            products.
-                            Made in the USA, by a team of scientists, veterinarians, and PhDs, we prioritize effective
-                            and
-                            organic ingredients for clean-crafted health solutions. We're transparent every step of the
-                            way,
-                            empowering pet parents with trust and confidence. With Honest Paws, pets receive the care
-                            they
-                            deserve for a vibrant, fulfilling
-                            life.</p>
-                    </div>
-                    <div class="pt-10">
-                        <button class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
-                            <p class="text-white group-hover:text-main">
-                                Learn More
-                            </p>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {# best seller #}
-    <div class="w-full px-20 py-10 bg-[#f0f5ff] text-main flex justify-center">
-        <div class="w-full max-w-[1440px]">
-            <div class="flex justify-between capitalize">
-                <h1 class="text-2xl font-extrabold">Best seller</h1>
-                <h3>
-                    <a href="{{ path('product_index') }}" class="underline">Shop all</a>
-                </h3>
-            </div>
-            <div class="flex w-full max-w-[1440px] justify-between pt-12">
-                {% for product in products %}
-                    <div class="flex flex-col justify-between bg-[#f0f5ff] items-center rounded-lg w-[250px] mt-4">
-                        <div class="w-[90%] flex justify-center bg-white rounded-lg">
-                            <img class="h-[168px] object-fill"
-                                 src="{{ asset('img/blobs/' ~ product.imageUrl) }}"
-                                 alt="{{ product.name }}">
-                        </div>
-                        <div class="flex items-center ">
-                            <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
-                        </div>
-                        <p class="pb-4">{{ product.description }}</p>
-                        <a href="{#  { path('product_detail', {'id': product.id}) } #}"
-                           class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
-                            <p class="text-white group-hover:text-main">
-                                Learn More
-                            </p>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    {# feature collection #}
+{# feature collection #}
 
     <div class="py-10 w-full flex justify-center items-center">
         <div class="w-full max-w-[1300px] flex-col flex items-center">
@@ -251,36 +214,22 @@
         </div>
     </div>
 
-    {# collections #}
-    <div class="w-full px-20 py-10 bg-[#f0f5ff] text-main flex justify-center">
-        <div class="w-full max-w-[1440px]">
-            <div class="flex justify-between capitalize">
-                <h1 class="text-2xl font-extrabold">Feature collections</h1>
-                <h3>
-                    <a href="{{ path('product_index') }}" class="underline">Shop all</a>
-                </h3>
-            </div>
-            <div class="flex w-full max-w-[1440px] justify-between pt-12">
-                {% for category in categories %}
-                    <div class="flex flex-col justify-between bg-[#f0f5ff] items-center rounded-lg w-[250px] mt-4">
-                        <div class="w-[90%] flex justify-center bg-white rounded-lg">
-                            <img class="h-[168px] object-fill"
-                                 src="{{ asset('img/blobs/' ~ category.imgUrl) }}"
-                                 alt="{{ category.name }}">
-                        </div>
-                        <div class="flex items-center ">
-                            <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ category.name }}</p>
-                        </div>
-                        <p class="pb-4">{{ category.description }}</p>
-                        <button class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
-                            <p class="text-white group-hover:text-main">
-                                Learn More
-                            </p>
-                        </button>
-                    </div>
-                {% endfor %}
-            </div>
+    {# category #}
+    <div class="pt-10 pb-8">
+        <h1 class="font-extrabold text-3xl mb-12 text-center text-main">
+            Science-backed essentials for your pets
+        </h1>
+        <div class="flex w-full h-full justify-center">
+            {% for categories in categories %}
+                <div class="flex flex-col text-main justify-between bg-[#f0f5ff] items-center rounded-2xl w-[300px] m-3 transition-all duration-300 group">
+                    <a href="{{ path('category_by_id', {'id': categories.id}) }}"
+                       class="rounded-t-2xl flex justify-center w-[95%] bg-white">
+                        <img class="h-[168px] object-fill" src="{{ asset('img/blobs/' ~ categories.imgurl) }}" alt="">
+                    </a>
+                    <p class="rounded-b-2xl py-4 w-full text-center group-hover:bg-[#FADC6F] bg-transparent">{{ categories.name }}</p>
+                </div>
+            {% endfor %}
         </div>
     </div>
-
+    
 {% endblock body %}
