@@ -6,10 +6,14 @@
         <div class="w-full max-w-[1300px] flex items-center text-main">
             <a href="/" class="hover:underline">Home</a>
             <span class="mx-2">></span>
-            <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">All Products</a>
+            <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">All
+                Products</a>
             <span class="mx-2">></span>
             {% for category in categories %}
-            <span>{{ category.name }}</span>
+                {% if id = category.id %}
+                    <span>{{ category.name }}</span>
+                {% endif %}
+
             {% endfor %}
         </div>
     </div>
@@ -25,24 +29,30 @@
                     All Products
                 </h1>
                 <p class="pt-4 pb-6 text-main max-w-[550px]">
-                    Elevate your pet's well-being with our range of products designed to support your pet’s health and happiness. From calming treats and joint support chews to grooming essentials, all crafted with natural ingredients and rigorously tested for quality. Trust Honest Paws to provide the best for your furry friend’s wellness.
+                    Elevate your pet's well-being with our range of products designed to support your pet’s health and
+                    happiness. From calming treats and joint support chews to grooming essentials, all crafted with
+                    natural ingredients and rigorously tested for quality. Trust Honest Paws to provide the best for
+                    your furry friend’s wellness.
                 </p>
             </div>
             <div class="w-6/12">
-                <img src="{{ asset('/img/index/allproductslider.png') }}" alt="Image of a cat and a dog playing together">
+                <img src="{{ asset('/img/index/allproductslider.png') }}"
+                     alt="Image of a cat and a dog playing together">
             </div>
         </div>
     </div>
-    
+
     {# Categories Section #}
     <div class="w-full pt-10 px-10 flex justify-center">
         <div class="w-full max-w-[1300px] flex justify-center gap-5">
-        {% for categories in categories %}
-            <a href="{{ path('category_by_id', {'id': categories.id}) }}"><button class="bg-blue-200 text-main py-2 px-4 rounded-full">{{ categories.name }}</button></a>
-        {% endfor %}
+            {% for categories in categories %}
+                <a href="{{ path('category_by_id', {'id': categories.id}) }}">
+                    <button class="bg-blue-200 text-main py-2 px-4 rounded-full">{{ categories.name }}</button>
+                </a>
+            {% endfor %}
         </div>
     </div>
-    
+
     {# Features Section #}
     <div class="w-full pt-10 px-10 flex justify-center">
         <div class="w-full max-w-[1300px] flex justify-center gap-10">
@@ -64,7 +74,7 @@
             </div>
         </div>
     </div>
-    
+
     {# Products Section #}
     <div class="flex justify-center w-full pt-12">
         <div class="flex gap-x-10 w-full max-w-[1400px] flex-wrap">
@@ -82,7 +92,7 @@
                         <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
                     </div>
                     <p class="pb-4 text-center">{{ product.description }}</p>
-                    <a href="{#{{ path('product_detail', {'id': product.id}) }}#}"
+                    <a href="{# {{ path('product_detail', {'id': product.id}) }} #}"
                        class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
                             Add to Cart
@@ -92,5 +102,5 @@
             {% endfor %}
         </div>
     </div>
-    
+
 {% endblock body %}

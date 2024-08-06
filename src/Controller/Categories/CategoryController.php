@@ -58,7 +58,7 @@ class CategoryController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-//    #[Route("/categories", methods: ["GET"])]
+    //    #[Route("/categories", methods: ["GET"])]
     public function showAll(): Response
     {
         $query = new GetAllCategoryQuery();
@@ -76,8 +76,7 @@ class CategoryController extends AbstractController
     public function edit(
         Request $request,
         string  $id
-    ): RedirectResponse|Response
-    {
+    ): RedirectResponse|Response {
         $command = new UpdateCategoryCommand($id);
         $form = $this->createForm(UpdateCategoryType::class, $command);
 

@@ -28,6 +28,7 @@ class RegisterUserCommand
         return $this;
     }
 
+
     public function setUsername(string $username): void
     {
         $this->username = $username;

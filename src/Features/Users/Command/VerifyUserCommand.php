@@ -4,7 +4,7 @@ namespace App\Features\Users\Command;
 
 class VerifyUserCommand
 {
-private string $userId;
+    private string $userId;
 
     /**
      * @param string $userId

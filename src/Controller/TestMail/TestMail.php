@@ -37,7 +37,7 @@ class TestMail extends AbstractController
         } catch (\Exception $e) {
             $message = 'Failed to send test email: ' . $e->getMessage();
         } catch (TransportExceptionInterface $e) {
-           $message = 'Failed to send test email: ' . $e->getMessage(); 
+            $message = 'Failed to send test email: ' . $e->getMessage();
         }
 
         return new Response($message);
@@ -47,12 +47,13 @@ class TestMail extends AbstractController
      * @throws ExceptionInterface
      */
     #[Route('/all-products', name: 'all_products', methods: ['GET'])]
-    public function AllProducts(#[MapQueryParameter]int $productLimit, #[MapQueryParameter]int $categoryLimit): Response
+    public function AllProducts(#[MapQueryParameter] int $productLimit, #[MapQueryParameter] int $categoryLimit): Response
     {
-        $command = new GetCategoriesAndProductsQuery( $productLimit, $categoryLimit);
+        $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
-        return $this->render('all_products.html.twig', $result);
+      
+        return $this->render('pages/all_products.html.twig', $result);
 
     }
 
@@ -65,7 +66,8 @@ class TestMail extends AbstractController
         $command = new GetProductCategoryId($id);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
-        return $this->render('category_by_id.html.twig', $result);
+        $result['id'] = $id; 
+        return $this->render('pages/category_by_id.html.twig', $result);
 
     }
 }
