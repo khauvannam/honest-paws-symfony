@@ -52,7 +52,7 @@ class TestMail extends AbstractController
         $command = new GetCategoriesAndProductsQuery( $productLimit, $categoryLimit);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
-        return $this->render('pages/allproducts.html.twig', $result);
+        return $this->render('all_products.html.twig', $result);
 
     }
 
@@ -65,7 +65,7 @@ class TestMail extends AbstractController
         $command = new GetProductCategoryId($id);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
-        return $this->render('pages/categorybyid.html.twig', $result);
+        return $this->render('category_by_id.html.twig', $result);
 
     }
 }
