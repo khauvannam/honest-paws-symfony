@@ -104,7 +104,7 @@ class CategoryController extends AbstractController
         Route(
             "/categories/{id}/delete",
             name: "category_delete",
-            methods: ["POST"]
+            methods: ["POST", "GET", "DELETE"]
         )
     ]
     public function delete(string $id): RedirectResponse
@@ -116,6 +116,6 @@ class CategoryController extends AbstractController
             throw new Exception($e);
         }
 
-        return $this->redirectToRoute("category_index");
+        return $this->redirectToRoute("category_delete");
     }
 }
