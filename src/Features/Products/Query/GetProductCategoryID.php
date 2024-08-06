@@ -2,7 +2,7 @@
 
 namespace App\Features\Products\Query;
 
-class GetProductByCategoryID
+class GetProductByCategoryIDQuery
 {
     private string $categoryId;
 

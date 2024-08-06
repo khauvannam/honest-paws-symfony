@@ -3,7 +3,7 @@
 namespace App\Controller\TestMail;
 
 use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
-use App\Features\Products\Query\GetProductByCategoryID;
+use App\Features\Products\Query\GetProductByCategoryIDQuery;
 use App\Services\GetEnvelopeResultService;
 use App\Services\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,10 +51,10 @@ class TestMail extends AbstractController
         return $this->render('pages/allproducts.html.twig', $result);
 
     }
-    #[Route('/category/{id}', name: 'categorybyid', methods: ['GET'])]
+    #[Route('/category/{id}', name: 'categorybyid', methods: ['POST','GET'])]
     public function ProductByCategoryId(string $id): Response
     {
-        $command = new GetProductByCategoryID($id);
+        $command = new GetProductByCategoryIDQuery($id);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
         return $this->render('pages/categorybyid.html.twig', $result);

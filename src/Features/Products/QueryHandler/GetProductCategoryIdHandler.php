@@ -3,7 +3,7 @@
 namespace App\Features\Products\QueryHandler;
 
 use App\Entity\Products\Product;
-use App\Features\Products\Query\GetProductByCategoryID;
+use App\Features\Products\Query\GetProductByCategoryIDQuery;
 use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -18,7 +18,7 @@ class GetProductByCategoryIDQueryHandler
         $this->productRepository = $productRepository;
     }
 
-    public function __invoke(GetProductByCategoryID $query): array
+    public function __invoke(GetProductByCategoryIDQuery $query): array
     {
         return $this->productRepository->findByCategoryId($query->getCategoryId());
     }
