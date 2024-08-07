@@ -8,12 +8,12 @@ use App\Repository\Identities\IdentityRepository;
 use App\Services\BlobService;
 use App\Services\MailerService;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 class RegisterUserCommandHandler

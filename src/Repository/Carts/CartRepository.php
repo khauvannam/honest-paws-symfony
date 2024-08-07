@@ -40,6 +40,16 @@ class CartRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($entity);
     }
 
+    public function findByCustomerId(string $customerId): ?Cart
+        {
+            return $this->createQueryBuilder('c')
+                ->andWhere('c.customerId = :customerId')
+                ->setParameter('customerId', $customerId)
+                ->setMaxResults(1) // Ensure single result
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+
     public function findByIdAndCustomerId(string $id, string $customerId): ?Cart
     {
         return $this->createQueryBuilder('c')
@@ -50,4 +60,5 @@ class CartRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+    
 }

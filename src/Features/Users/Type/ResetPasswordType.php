@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace App\Features\Users\Type;
 
@@ -16,13 +15,19 @@ class ResetPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('password', PasswordType::class, ['label' => 'Password'])
-            ->add('newPassword', PasswordType::class, ['label' => 'New Password'])
-            ->add('userId', HiddenType::class);
+            ->add('newPassword', PasswordType::class, [
+                'label' => 'New Password',
+                'required' => true,
+            ])
+            ->add('token', HiddenType::class, [
+                'required' => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ResetPasswordCommand::class]);
+        $resolver->setDefaults([
+            "data_class" => ResetPasswordCommand::class,
+        ]);
     }
 }

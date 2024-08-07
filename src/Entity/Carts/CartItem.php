@@ -11,11 +11,11 @@ class CartItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'uuid')]
     private string $id;
 
     #[ORM\Column(length: 255)]
-    private string $ProductId;
+    private string $productId;
 
     #[ORM\Column(length: 255)]
     private string $Name;
@@ -23,13 +23,16 @@ class CartItem
     private int $Quantity;
 
     #[ORM\Column]
-    private float $Price;
+    private int $quantity;
+
+    #[ORM\Column(type: 'float')]
+    private float $price;
 
     #[ORM\Column(length: 255)]
-    private string $ImageUrl;
+    private string $imageUrl;
 
-    #[ORM\Column(type: "datetime")]
-    private DateTime $AddedAt;
+    #[ORM\Column(type: 'datetime')]
+    private DateTime $addedAt;
 
     #[ORM\Column]
     private string $TotalPrice;
@@ -43,20 +46,20 @@ class CartItem
     )
     {
         $this->id = Uuid::v4()->toString();
-        $this->ProductId = $productId;
+        $this->productId = $productId;
         $this->Name = $name;
         $this->Quantity = $quantity;
-        $this->Price = $price;
-        $this->ImageUrl = $imgUrl;
-        $this->AddedAt = new DateTime();
-        $this->TotalPrice = $this->Price * $this->Quantity;
+        $this->price = $price;
+        $this->imageUrl = $imgUrl;
+        $this->addedAt = new DateTime();
+        $this->TotalPrice = $this->price * $this->Quantity;
     }
 
     public static function create(
         string $productId,
         string $name,
-        int    $quantity,
-        float  $price,
+        int $quantity,
+        float $price,
         string $imageUrl,
     ): self
     {
@@ -78,15 +81,11 @@ class CartItem
     {
         $this->Name = $name;
         $this->Quantity = $quantity;
-        $this->Price = $price;
-        $this->ImageUrl = $imageUrl;
+        $this->price = $price;
+        $this->imageUrl = $imageUrl;
 
     }
 
-    public function getCartItemId(): string
-    {
-        return $this->id;
-    }
 
     public function getId(): string
     {
@@ -95,7 +94,7 @@ class CartItem
 
     public function getProductId(): string
     {
-        return $this->ProductId;
+        return $this->productId;
     }
 
 
@@ -104,24 +103,56 @@ class CartItem
         return $this->Name;
     }
 
+    public function setName(string $name): self
+    {
+        $this->Name = $name;
+        return $this;
+    }
+
     public function getQuantity(): int
     {
-        return $this->Quantity;
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+        $this->TotalPrice = $this->price * $quantity;
+        return $this;
     }
 
     public function getPrice(): float
     {
-        return $this->Price;
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+        $this->TotalPrice = $price * $this->quantity;
+        return $this;
     }
 
     public function getImageUrl(): string
     {
-        return $this->ImageUrl;
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
+        return $this;
     }
 
     public function getAddedAt(): DateTime
     {
-        return $this->AddedAt;
+        return $this->addedAt;
+    }
+
+    public function setAddedAt(DateTime $addedAt): self
+    {
+        $this->addedAt = $addedAt;
+        return $this;
     }
 
     public function getTotalPrice(): string
