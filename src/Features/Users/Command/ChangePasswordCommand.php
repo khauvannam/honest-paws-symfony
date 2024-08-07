@@ -5,19 +5,15 @@ namespace App\Features\Users\Command;
 class ChangePasswordCommand
 {
     private string $userId;
-    private string $newPassword;
-    private string $password;
+    private string $newPassword = '';
+    private string $password = '';
 
     /**
      * @param string $userId
-     * @param string $newPassword
-     * @param string $password
      */
-    public function __construct(string $userId, string $newPassword, string $password)
+    public function __construct(string $userId)
     {
         $this->userId = $userId;
-        $this->newPassword = $newPassword;
-        $this->password = $password;
     }
 
     public function getNewPassword(): string

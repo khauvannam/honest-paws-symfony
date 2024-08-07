@@ -17,8 +17,7 @@ class UpdateCategoryCommandHandler
     public function __construct(
         CategoryRepository $categoryRepository,
         BlobService        $blobService
-    )
-    {
+    ) {
         $this->categoryRepository = $categoryRepository;
         $this->blobService = $blobService;
     }
@@ -44,5 +43,4 @@ class UpdateCategoryCommandHandler
 
         $this->categoryRepository->update($category);
     }
-
 }

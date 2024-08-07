@@ -25,15 +25,9 @@ class ProductVariant
     #[ORM\Column(precision: 10)]
     private ?float $discountedPrice;
 
-    #[ORM\Column(length: 255)]
-    private ?string $productId;
-
-    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: "productVariants")]
-    #[ORM\JoinColumn(name: "product_id", referencedColumnName: "id")]
-    private Product $product;
-
-    private function __construct($variantName, $quantity) {
-        $this->id = Uuid::v4()->toString() ;
+    private function __construct($variantName, $quantity)
+    {
+        $this->id = Uuid::v4()->toString();
         $this->variantName = $variantName;
         $this->quantity = $quantity;
     }
@@ -89,20 +83,6 @@ class ProductVariant
         return $this->discountedPrice;
     }
 
-    public function getProductId(): string
-    {
-        return $this->productId;
-    }
-
-    public function getProduct(): Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(Product $product): void
-    {
-        $this->product = $product;
-    }
     public function setId(string $id): void
     {
         $this->id = $id;
@@ -128,10 +108,7 @@ class ProductVariant
         $this->discountedPrice = $discountedPrice;
     }
 
-    public function setProductId(string $productId): void
-    {
-        $this->productId = $productId;
-    }   
+   
 }
 
 

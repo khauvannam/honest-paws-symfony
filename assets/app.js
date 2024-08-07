@@ -6,4 +6,17 @@
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+const avatarDropdown = document.querySelector('#avatar');
+const changePassword = document.querySelector('#change-password');
+
+avatarDropdown.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (changePassword.style.display === 'block') {
+        changePassword.style.display = 'none';
+    } else {
+        changePassword.style.display = 'block';
+    }
+
+});

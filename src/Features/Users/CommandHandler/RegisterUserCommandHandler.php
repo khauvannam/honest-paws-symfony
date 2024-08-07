@@ -8,12 +8,12 @@ use App\Repository\Identities\IdentityRepository;
 use App\Services\BlobService;
 use App\Services\MailerService;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 class RegisterUserCommandHandler
@@ -22,6 +22,7 @@ class RegisterUserCommandHandler
     private UserPasswordHasherInterface $userPasswordHasher;
     private MailerService $mailSuccess;
     private BlobService $blobService;
+
     public function __construct(
         IdentityRepository          $identityRepository,
         UserPasswordHasherInterface $userPasswordHasher,
@@ -53,7 +54,7 @@ class RegisterUserCommandHandler
         $fileName = $this->blobService->upload($command->getImageFile());
         $user->setPassword($hashPassword);
         $user->setAvatarLink($fileName);
-        $this->mailSuccess->sendRegistrationEmail($user->getEmail(), $user->getUsername());
+        $this->mailSuccess->sendRegistrationEmail($user->getEmail(), $user->getUsername(), $user->getId());
         $this->identityRepository->createAsync($user);
     }
 }

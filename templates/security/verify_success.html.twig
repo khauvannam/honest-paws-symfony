@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="flex w-full text-main justify-center">
+        <div class="text-3xl py-8 flex">
+            {% if verify %}
+                <p>You have verified before</p>
+                <a class="font-extrabold ml-4 uppercase underline" href="{{ path('login') }}">Login now</a>
+            {% else %}
+                <p>You are verify success</p>
+                <a class="font-extrabold ml-4 uppercase underline" href="{{ path('login') }}">Login now</a>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,25 +1,19 @@
 <?php
-
-
 namespace App\Features\Users\Type;
 
-use App\Features\Users\Command\ResetPasswordCommand;
+use App\Features\Users\Command\ResetPasswordRequestCommand;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ResetPasswordType extends AbstractType
+class ResetPasswordRequestType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('newPassword', PasswordType::class, [
-                'label' => 'New Password',
-                'required' => true,
-            ])
-            ->add('token', HiddenType::class, [
+            ->add('email', EmailType::class, [
+                'label' => 'Your Email',
                 'required' => true,
             ]);
     }
@@ -27,7 +21,7 @@ class ResetPasswordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            "data_class" => ResetPasswordCommand::class,
+            "data_class" => ResetPasswordRequestCommand::class,
         ]);
     }
 }

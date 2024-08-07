@@ -15,4 +15,9 @@ class OrderController extends AbstractController
     {
         return $this->render('order/index.html.twig');
     }
+    #[Route('/order_item', name: 'order_item')]
+    public function order_item(): Response
+    {
+        return $this->render('order/order_item.html.twig');
+    }
 }

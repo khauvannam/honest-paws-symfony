@@ -4,41 +4,29 @@ namespace App\Features\Users\Command;
 
 class ResetPasswordCommand
 {
-    private string $userId;
-    private string $password;
+    private string $email;
+    private string $newPassword;
+    private string $token;
 
-    public function getUserId(): string
+    public function __construct(string $email, string $newPassword, string $token)
     {
-        return $this->userId;
+        $this->email = $email;
+        $this->newPassword = $newPassword;
+        $this->token = $token;
     }
 
-    public function setUserId(string $userId): ResetPasswordCommand
+    public function getEmail(): string
     {
-        $this->userId = $userId;
-        return $this;
+        return $this->email;
     }
 
-    public function getPassword(): string
+    public function getNewPassword(): string
     {
-        return $this->password;
+        return $this->newPassword;
     }
 
-    public function setPassword(string $password): ResetPasswordCommand
+    public function getToken(): string
     {
-        $this->password = $password;
-        return $this;
+        return $this->token;
     }
-
-
-    /**
-     * @param string $userId
-     * @param string $password
-     */
-    public function __construct(string $userId, string $password)
-    {
-        $this->userId = $userId;
-        $this->password = $password;
-    }
-
-
 }

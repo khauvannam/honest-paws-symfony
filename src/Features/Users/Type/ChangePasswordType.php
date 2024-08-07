@@ -6,8 +6,8 @@ namespace App\Features\Users\Type;
 
 use App\Features\Users\Command\ChangePasswordCommand;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +18,7 @@ class ChangePasswordType extends AbstractType
         $builder
             ->add('password', PasswordType::class, ['label' => 'Password'])
             ->add('newPassword', PasswordType::class, ['label' => 'New Password'])
-            ->add('userId', HiddenType::class);
+           ->add('save', SubmitType::class, ['label' => 'Change Password']); 
     }
 
     public function configureOptions(OptionsResolver $resolver): void
