@@ -30,7 +30,6 @@ class CreateCartCommandHandler
                 $command->getDescription()
             );
             $cart = new Cart('49cc70b3-34cb-4153-8f04-827330bc6bb9');
-            $cartItem->setCart($cart);
 
             $this->cartItemRepository->save($cartItem); 
             $this->cartRepository->save($cart);
