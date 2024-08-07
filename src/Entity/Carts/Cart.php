@@ -13,26 +13,6 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
 {
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function getCustomerId(): string
-    {
-        return $this->CustomerId;
-    }
-
-    public function getCartItemsList(): Collection
-    {
-        return $this->CartItemsList;
-    }
-
-    public function getUpdateDate(): DateTime
-    {
-        return $this->UpdateDate;
-    }
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'string')]
@@ -41,13 +21,13 @@ class Cart
     #[ORM\Column(length: 255)]
     private string $CustomerId;
 
-    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
+    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart", cascade: ["persist", "remove"])]
     private Collection $CartItemsList;
 
     #[ORM\Column(type: 'datetime')]
     private DateTime $UpdateDate;
 
-    private function __construct(string $CustomerId)
+    public function __construct(string $CustomerId)
     {
         $this->id = Uuid::v4()->toString();
         $this->CustomerId = $CustomerId;
@@ -60,16 +40,16 @@ class Cart
         return new self($customerId);
     }
 
-    public function addItem(string $productId, string $variantId, string $name, int $quantity, float $price, string $imageUrl, string $description): void
+    public function addItem(string $productId, string $name, int $quantity, float $price, string $imageUrl, string $description): void
     {
         foreach ($this->CartItemsList as $item) {
-            if ($item->getProductId() === $productId && $item->getVariantId() === $variantId) {
+            if ($item->getProductId() === $productId) {
                 $item->update($name, $quantity, $price, $imageUrl, $description);
                 return;
             }
         }
 
-        $item = CartItem::create($productId, $variantId, $name, $quantity, $price, $imageUrl, $description);
+        $item = CartItem::create($productId, $name, $quantity, $price, $imageUrl, $description);
         $item->setCart($this);
         $this->CartItemsList->add($item);
     }
@@ -78,7 +58,7 @@ class Cart
     public function Update(CartItemRequest $cartItemRequest): void
     {
         $existingItem = $this->CartItemsList->filter(function (CartItem $item) use ($cartItemRequest) {
-            return $item->getCartItemId() === $cartItemRequest->getCartItemId();
+            return $item->getId() === $cartItemRequest->getCartItemId();
         })->first();
 
         if ($existingItem !== false) {
@@ -116,6 +96,26 @@ class Cart
     public function removeAllCartItem(): void
     {
         $this->CartItemsList->clear();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getCustomerId(): string
+    {
+        return $this->CustomerId;
+    }
+
+    public function getCartItemsList(): Collection
+    {
+        return $this->CartItemsList;
+    }
+
+    public function getUpdateDate(): DateTime
+    {
+        return $this->UpdateDate;
     }
 
 }

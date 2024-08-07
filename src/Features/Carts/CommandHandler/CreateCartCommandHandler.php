@@ -1,43 +1,38 @@
-<?php
-
+<?php 
 namespace App\Features\Carts\CommandHandler;
 
+use App\Entity\Carts\CartItem;
 use App\Entity\Carts\Cart;
-use App\Entity\Product;
 use App\Features\Carts\Command\CreateCartCommand;
-use App\Interfaces\CommandHandlerInterface;
+use App\Repository\Carts\CartItemRepository;
 use App\Repository\Carts\CartRepository;
-use App\Repository\Products\ProductRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-
 #[AsMessageHandler]
-class CreateCartCommandHandler implements CommandHandlerInterface
+class CreateCartCommandHandler
 {
+    private CartItemRepository $cartItemRepository;
     private CartRepository $cartRepository;
-    private ProductRepository $productRepository;
 
-    public function __construct(CartRepository $cartRepository, ProductRepository $productRepository)
+    public function __construct(CartItemRepository $cartItemRepository, CartRepository $cartRepository)
     {
+        $this->cartItemRepository = $cartItemRepository;
         $this->cartRepository = $cartRepository;
-        $this->productRepository = $productRepository;
     }
 
-    public function __invoke(CreateCartCommand $command): void
-    {
-        $cart = $this->cartRepository->findByCustomerId($command->getCustomerId());
+     public function __invoke(CreateCartCommand $command): void
+        {
+            $cartItem = CartItem::create(
+                $command->getProductId(),
+                $command->getName(),
+                $command->getQuantity(),
+                $command->getPrice(),
+                $command->getImageUrl(),
+                $command->getDescription()
+            );
+            $cart = new Cart('49cc70b3-34cb-4153-8f04-827330bc6bb9');
+            $cartItem->setCart($cart);
 
-        if (!$cart) {
-            $cart = Cart::create($command->getCustomerId());
+            $this->cartItemRepository->save($cartItem); 
+            $this->cartRepository->save($cart);
         }
-
-        $product = $this->productRepository->findById($command->getProductId());
-
-        if (!$product) {
-            throw new \Exception('Product not found.');
-        }
-
-        $cart->addItem($product, $command->getQuantity());
-
-        $this->cartRepository->save($cart);
-    }
 }

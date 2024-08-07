@@ -12,76 +12,72 @@ class CartItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'uuid')]
     private string $id;
 
-    #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: "cartItems")]
+    #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: 'cartItems')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Cart $Cart;
+    private ?Cart $cart;
 
+    #[ORM\ManyToOne(targetEntity: Product::class)]
     #[ORM\JoinColumn(nullable: false)]
     private Product $product;
 
     #[ORM\Column(length: 255)]
-    private string $ProductId;
+    private string $productId;
 
     #[ORM\Column(length: 255)]
-    private string $VariantId;
-
-    #[ORM\Column(length: 255)]
-    private string $Name;
-    #[ORM\Column]
-    private int $Quantity;
+    private string $name;
 
     #[ORM\Column]
-    private float $Price;
+    private int $quantity;
+
+    #[ORM\Column(type: 'float')]
+    private float $price;
 
     #[ORM\Column(length: 255)]
-    private string $ImageUrl;
+    private string $imageUrl;
 
-    #[ORM\Column(type: "datetime")]
-    private DateTime $AddedAt;
+    #[ORM\Column(type: 'datetime')]
+    private DateTime $addedAt;
 
     #[ORM\Column(length: 255)]
-    private string $Description;
+    private string $description;
 
-    #[ORM\Column]
-    private string $TotalPrice;
+    #[ORM\Column(type: 'float')]
+    private float $totalPrice;
 
     public function __construct(
         string $productId,
-        string $variantId,
         string $name,
-        int    $quantity,
-        float  $price,
-        string $imgUrl,
+        int $quantity,
+        float $price,
+        string $imageUrl,
         string $description
     )
     {
         $this->id = Uuid::v4()->toString();
-        $this->ProductId = $productId;
-        $this->VariantId = $variantId;
-        $this->Name = $name;
-        $this->Quantity = $quantity;
-        $this->Price = $price;
-        $this->ImageUrl = $imgUrl;
-        $this->Description = $description;
-        $this->AddedAt = new DateTime();
+        $this->productId = $productId;
+        $this->name = $name;
+        $this->quantity = $quantity;
+        $this->price = $price;
+        $this->imageUrl = $imageUrl;
+        $this->description = $description;
+        $this->addedAt = new DateTime();
+        $this->totalPrice = $price * $quantity;
     }
 
     public static function create(
         string $productId,
-        string $variantId,
         string $name,
-        int    $quantity,
-        float  $price,
+        int $quantity,
+        float $price,
         string $imageUrl,
         string $description
     ): self
     {
         return new self(
             $productId,
-            $variantId,
             $name,
             $quantity,
             $price,
@@ -91,36 +87,43 @@ class CartItem
     }
 
     public function update(
-        $name,
-        $quantity,
-        $price,
-        $imageUrl,
-        $description
+        string $name,
+        int $quantity,
+        float $price,
+        string $imageUrl,
+        string $description
     ): void
     {
-        $this->Name = $name;
-        $this->Quantity = $quantity;
-        $this->Price = $price;
-        $this->ImageUrl = $imageUrl;
-        $this->Description = $description;
+        $this->name = $name;
+        $this->quantity = $quantity;
+        $this->price = $price;
+        $this->imageUrl = $imageUrl;
+        $this->description = $description;
+        $this->totalPrice = $price * $quantity;
     }
 
     public function getCart(): ?Cart
     {
-        return $this->Cart;
+        return $this->cart;
     }
 
     public function setCart(?Cart $cart): self
     {
-        $this->Cart = $cart;
+        $this->cart = $cart;
         return $this;
     }
 
-    public function getCartItemId() : string
+    public function getProduct(): Product
     {
-        return $this->id;
+        return $this->product;
     }
-    
+
+    public function setProduct(Product $product): self
+    {
+        $this->product = $product;
+        return $this;
+    }
+
     public function getId(): string
     {
         return $this->id;
@@ -128,46 +131,85 @@ class CartItem
 
     public function getProductId(): string
     {
-        return $this->ProductId;
+        return $this->productId;
     }
 
-    public function getVariantId(): string
+    public function setProductId(string $productId): self
     {
-        return $this->VariantId;
+        $this->productId = $productId;
+        return $this;
     }
 
     public function getName(): string
     {
-        return $this->Name;
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getQuantity(): int
     {
-        return $this->Quantity;
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+        $this->totalPrice = $this->price * $quantity;
+        return $this;
     }
 
     public function getPrice(): float
     {
-        return $this->Price;
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+        $this->totalPrice = $price * $this->quantity;
+        return $this;
     }
 
     public function getImageUrl(): string
     {
-        return $this->ImageUrl;
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
+        return $this;
     }
 
     public function getAddedAt(): DateTime
     {
-        return $this->AddedAt;
+        return $this->addedAt;
+    }
+
+    public function setAddedAt(DateTime $addedAt): self
+    {
+        $this->addedAt = $addedAt;
+        return $this;
     }
 
     public function getDescription(): string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function getTotalPrice(): string
+    public function setDescription(string $description): self
     {
-        return $this->TotalPrice = $this->Price * $this->Quantity;
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getTotalPrice(): float
+    {
+        return $this->totalPrice;
     }
 }

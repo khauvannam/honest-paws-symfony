@@ -2,19 +2,23 @@
 
 namespace App\Controller\Carts;
 
-use App\Features\Carts\Command\CartType;
+use App\Entity\Carts\Cart;
+use App\Entity\Users\User;
 use App\Features\Carts\Command\CreateCartCommand;
 use App\Features\Carts\Command\DeleteCartCommand;
 use App\Features\Carts\Command\UpdateCartCommand;
 use App\Features\Carts\Query\GetCartQuery;
+use App\Features\Carts\Type\CartType;
 use App\Services\GetEnvelopeResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class CartController extends AbstractController
 {
@@ -31,21 +35,41 @@ class CartController extends AbstractController
     #[Route('/cart/new', name: 'cart_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        $command = CreateCartCommand::create('');
-        $form = $this->createForm(CartType::class, $command);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $command = $form->getData(); // Get updated data from the form
-            $this->bus->dispatch($command);
-            return $this->redirectToRoute('cart_success');
+        // Check if the user is fully authenticated
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('login');
         }
 
-        return $this->render('cart/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        /** @var \App\Entity\Users\User $user */
+        $user = $this->getUser();
+        $customerId = $user->getId();
+        $productId = $request->request->get('product_id');
+        $name = $request->request->get('name');
+        $quantity = (int)$request->request->get('quantity', 1);
+        $price = (float)$request->request->get('price');
+        $imageUrl = $request->request->get('image_url');
+        $description = $request->request->get('description');
+
+        if (empty($customerId)) {
+            return $this->redirectToRoute('login');
+        }
+
+        // Create a new CreateCartCommand instance
+        $command = CreateCartCommand::create(
+            $customerId,
+            $productId,
+            $name,
+            $quantity,
+            $price,
+            $imageUrl,
+            $description
+        );
+
+        $this->bus->dispatch($command);
+
+        return $this->redirectToRoute('cart_success');
     }
+
 
     #[Route('/cart/success', name: 'cart_success')]
     public function createSuccess(): Response
@@ -79,7 +103,7 @@ class CartController extends AbstractController
     #[Route('/cart/{id}/edit', name: 'cart_edit', methods: ['POST'])]
     public function editAsync(Request $request, string $customerId, string $id): RedirectResponse|Response
     {
-        $command = UpdateCartCommand::create($id, $customerId, []); // Use an empty array or proper cart items if needed
+        $command = UpdateCartCommand::create($id, $customerId, []); 
 
         $form = $this->createForm(CartType::class, $command);
         $form->handleRequest($request);

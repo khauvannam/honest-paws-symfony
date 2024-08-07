@@ -6,24 +6,26 @@
             <div class="flex">
                 <!-- Product Image -->
                 <div class="w-1/2">
-                    <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}" alt="Product Image">
+                    <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}" alt="{{ product.name }}" class="w-full h-auto">
                 </div>
 
                 <!-- Product Details -->
                 <div class="w-1/2 pl-8">
                     <h2 class="text-4xl font-bold mb-4">{{ product.name }}</h2>
                     <p class="text-lg mb-2">{{ product.description }}</p>
+
+                    <!-- Product Price -->
                     <div class="flex items-center mb-4">
-                        <div class="text-3xl font-bold text-red-600 mr-2"></div>
-                        <div class="text-gray-500 line-through"></div>
-                        <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">SAVE</div>
+                        <div class="text-3xl font-bold text-red-600 mr-2">$100</div>
+                            <div class="text-gray-500 line-through">$150</div>
+                            <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">SAVE 20%</div>
                     </div>
 
                     <!-- Subscription Options -->
                     <div class="mb-4">
                         <label>
                             <input type="radio" name="purchase_option" value="subscribe" checked>
-                            Subscribe & Save 15% 
+                            Subscribe & Save 15%
                         </label>
                         <br>
                         <label>
@@ -53,26 +55,57 @@
 
                     <!-- Quantity Selector -->
                     <div class="mb-4 flex items-center">
-                        <button class="bg-gray-200 text-gray-800 px-2 py-1">-</button>
-                        <input type="text" value="1" class="w-12 text-center mx-2 border border-gray-300 rounded">
-                        <button class="bg-gray-200 text-gray-800 px-2 py-1">+</button>
+                        <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="decreaseQuantity">-</button>
+                        <input type="text" value="1" class="w-12 text-center mx-2 border border-gray-300 rounded" id="quantityInput">
+                        <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="increaseQuantity">+</button>
                     </div>
 
                     <!-- Stock Status -->
                     <div class="mb-4 text-green-600">Item is in stock</div>
 
                     <!-- Add to Cart Button -->
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-full">Add to Cart</button>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <form action="{{ path('cart_new') }}" method="POST">
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="name" value="{{ product.name }}">
+                            <input type="hidden" name="quantity" value="1" id="hiddenQuantity">
+                            <input type="hidden" name="price" value="100">
+                            <input type="hidden" name="image_url" value="{{ product.imageUrl }}">
+                            <input type="hidden" name="description" value="{{ product.description }}">
+                            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-full">Add to Cart</button>
+                        </form>
+                    {% else %}
+                        <p>You need to <a href="{{ path('login') }}">login</a> to add items to the cart.</p>
+                    {% endif %}
                     <div class="mt-2">Earns 275 rewards points!</div>
 
-                    <!-- Product Description -->
                     <div class="mt-6">
                         <h3 class="text-xl font-semibold mb-2">Product Use Guide</h3>
-                        <p>{{ product.productuseguide }}</p>
+                        <p>{{ product.productUseGuide }}</p>
                     </div>
-                </div>t
+                </div>
             </div>
         </div>
+
+        <script>
+            document.getElementById('increaseQuantity').addEventListener('click', function() {
+                var quantityInput = document.getElementById('quantityInput');
+                var hiddenQuantity = document.getElementById('hiddenQuantity');
+                var currentQuantity = parseInt(quantityInput.value, 10);
+                quantityInput.value = currentQuantity + 1;
+                hiddenQuantity.value = currentQuantity + 1;
+            });
+
+            document.getElementById('decreaseQuantity').addEventListener('click', function() {
+                var quantityInput = document.getElementById('quantityInput');
+                var hiddenQuantity = document.getElementById('hiddenQuantity');
+                var currentQuantity = parseInt(quantityInput.value, 10);
+                if (currentQuantity > 1) {
+                    quantityInput.value = currentQuantity - 1;
+                    hiddenQuantity.value = currentQuantity - 1;
+                }
+            });
+        </script>
     {% else %}
         <p>Product not found.</p>
     {% endif %}
