@@ -23,7 +23,9 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
 class ProductController extends AbstractController
 {
     private MessageBusInterface $bus;
@@ -36,6 +38,7 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/products', name: 'product_index', methods: ['GET'])]
     public function index(int $limit = 20, int $offset = 0): Response
     {
@@ -77,6 +80,8 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
+
+    #[IsGranted('ROLE_USER')]
     #[Route('product/show/{id}', name: 'product_show', methods: ['GET'])]
     public function show(string $id): Response
     {
@@ -134,7 +139,9 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[\Symfony\Component\Routing\Annotation\Route('/all-products', name: 'all_products', methods: ['GET'])]
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/all-products', name: 'all_products', methods: ['GET'])]
     public function AllProducts(#[MapQueryParameter] int $productLimit, #[MapQueryParameter] int $categoryLimit): Response
     {
         $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
@@ -147,6 +154,8 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
+
+    #[IsGranted('ROLE_USER')]
     #[Route('/category-products/{id}', name: 'category_by_id', methods: ['GET'])]
     public function ProductByCategoryId(string $id): Response
     {
@@ -161,6 +170,7 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/product_details/{id}', name: 'product_details', methods: ['GET'])]
     public function GetProductId(string $id): Response
     {
