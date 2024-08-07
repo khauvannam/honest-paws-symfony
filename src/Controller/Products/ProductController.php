@@ -5,6 +5,8 @@ namespace App\Controller\Products;
 
 // Import ArrayCollection
 
+use App\Features\Carts\Command\CreateCartItemCommand;
+use App\Features\Carts\Type\CreateCartItemType;
 use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
 use App\Features\Products\Command\CreateProductCommand;
 use App\Features\Products\Command\DeleteProductCommand;
@@ -154,9 +156,12 @@ class ProductController extends AbstractController
     public function GetProductId(string $id): Response
     {
         $command = new GetProductQuery($id);
+        $cartItemCommand = new CreateCartItemCommand();
+        $form = $this->createForm(CreateCartItemType::class, $cartItemCommand);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
         $result['id'] = $id;
+        $result['cartForm'] = $form->createView();
         return $this->render('product/product_details.html.twig', $result);
     }
 }

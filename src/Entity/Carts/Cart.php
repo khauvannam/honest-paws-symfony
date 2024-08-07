@@ -21,7 +21,7 @@ class Cart
     private string $CustomerId;
 
     #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
-    private Collection $CartItemsList;
+    private Collection $cartItems;
 
     #[ORM\Column(type: 'datetime')]
     private DateTime $UpdateDate;
@@ -32,7 +32,7 @@ class Cart
         $this->id = Uuid::v4()->toString();
         $this->CustomerId = $CustomerId;
         $this->UpdateDate = new DateTime();
-        $this->CartItemsList = new ArrayCollection();
+        $this->cartItems = new ArrayCollection();
         $this->cartStatus = CartStatus::preparing;
     }
 
@@ -59,7 +59,7 @@ class Cart
 
     public function getCartItemsList(): Collection
     {
-        return $this->CartItemsList;
+        return $this->cartItems;
     }
 
     public function getUpdateDate(): DateTime

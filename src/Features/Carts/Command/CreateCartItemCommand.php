@@ -8,6 +8,30 @@ class CreateCartItemCommand
     private int $quantity = 1;
     private string $imgUrl = '';
     private string $name = '';
+    private float $price = 0;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): CreateCartItemCommand
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getProductPrice(): int
+    {
+        return $this->productPrice;
+    }
+
+    public function setProductPrice(int $productPrice): CreateCartItemCommand
+    {
+        $this->productPrice = $productPrice;
+        return $this;
+    }
+
     private int $productPrice = 0;
 
     public function __construct()
@@ -52,5 +76,15 @@ class CreateCartItemCommand
     public function setProductName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): void
+    {
+        $this->price = $price;
     }
 }

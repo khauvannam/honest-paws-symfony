@@ -106,9 +106,6 @@ class Product
     }
 
 
-    /**
-     * @param array<int,mixed> $updateVariants
-     */
 
     public function getId(): string
     {

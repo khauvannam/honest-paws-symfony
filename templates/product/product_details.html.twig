@@ -5,13 +5,8 @@
         <div class="container mx-auto px-4 py-8 text-main">
             <div class="flex">
                 <!-- Product Image -->
-<<<<<<< HEAD:templates/pages/product_details.html.twig
-                <div class="w-1/2">
-                    <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}" alt="{{ product.name }}" class="w-full h-auto">
-=======
                 <div class="w-1/2 shadow-lg">
                     <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}" alt="Product Image">
->>>>>>> origin/namdeptrai:templates/product/product_details.html.twig
                 </div>
 
                 <!-- Product Details -->
@@ -22,8 +17,10 @@
                     <!-- Product Price -->
                     <div class="flex items-center mb-4">
                         <div class="text-3xl font-bold text-red-600 mr-2">$100</div>
-                            <div class="text-gray-500 line-through">$150</div>
-                            <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">SAVE 20%</div>
+                        <div class="text-gray-500 line-through">$150</div>
+                        <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">
+                            SAVE {{ product.discountPercent }}%
+                        </div>
                     </div>
 
                     <!-- Subscription Options -->
@@ -60,28 +57,31 @@
 
                     <!-- Quantity Selector -->
                     <div class="mb-4 flex items-center">
-                        <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="decreaseQuantity">-</button>
-                        <input type="text" value="1" class="w-12 text-center mx-2 border border-gray-300 rounded" id="quantityInput">
-                        <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="increaseQuantity">+</button>
+                        <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="decreaseQuantity">-
+                        </button>
+                        <input type="text" value="1" class="w-12 text-center mx-2 border border-gray-300 rounded"
+                               id="quantityInput">
+                        <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="increaseQuantity">+
+                        </button>
                     </div>
 
                     <!-- Stock Status -->
                     <div class="mb-4 text-green-600">Item is in stock</div>
 
-                    <!-- Add to Cart Button -->
+                    <!-- Add to Cart Form -->
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <form action="{{ path('cart_new') }}" method="POST">
-                            <input type="hidden" name="product_id" value="{{ product.id }}">
-                            <input type="hidden" name="name" value="{{ product.name }}">
-                            <input type="hidden" name="quantity" value="1" id="hiddenQuantity">
-                            <input type="hidden" name="price" value="100">
-                            <input type="hidden" name="image_url" value="{{ product.imageUrl }}">
-                            <input type="hidden" name="description" value="{{ product.description }}">
-                            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-full">Add to Cart</button>
-                        </form>
+                        {{ form_start(cartForm, {'action' : path('cart_new', {'customerId' : app.user.id})}) }}
+                        {{ form_widget(cartForm.productId, {'value': product.id}) }}
+                        {{ form_widget(cartForm.quantity, {'value': 1, 'attr': {'id': 'hiddenQuantity'}}) }}
+                        {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}
+                        {{ form_widget(cartForm.name, {'value': product.name}) }}
+                        {{ form_widget(cartForm.price, {'value': 100}) }}
+                        {{ form_widget(cartForm.save) }}
+                        {{ form_end(cartForm) }}
                     {% else %}
                         <p>You need to <a href="{{ path('login') }}">login</a> to add items to the cart.</p>
                     {% endif %}
+
                     <div class="mt-2">Earns 275 rewards points!</div>
 
                     <div class="mt-6">
@@ -93,18 +93,18 @@
         </div>
 
         <script>
-            document.getElementById('increaseQuantity').addEventListener('click', function() {
-                var quantityInput = document.getElementById('quantityInput');
-                var hiddenQuantity = document.getElementById('hiddenQuantity');
-                var currentQuantity = parseInt(quantityInput.value, 10);
+            document.getElementById('increaseQuantity').addEventListener('click', function () {
+                const quantityInput = document.getElementById('quantityInput');
+                const hiddenQuantity = document.getElementById('hiddenQuantity');
+                const currentQuantity = parseInt(quantityInput.value, 10);
                 quantityInput.value = currentQuantity + 1;
                 hiddenQuantity.value = currentQuantity + 1;
             });
 
-            document.getElementById('decreaseQuantity').addEventListener('click', function() {
-                var quantityInput = document.getElementById('quantityInput');
-                var hiddenQuantity = document.getElementById('hiddenQuantity');
-                var currentQuantity = parseInt(quantityInput.value, 10);
+            document.getElementById('decreaseQuantity').addEventListener('click', function () {
+                const quantityInput = document.getElementById('quantityInput');
+                const hiddenQuantity = document.getElementById('hiddenQuantity');
+                const currentQuantity = parseInt(quantityInput.value, 10);
                 if (currentQuantity > 1) {
                     quantityInput.value = currentQuantity - 1;
                     hiddenQuantity.value = currentQuantity - 1;
