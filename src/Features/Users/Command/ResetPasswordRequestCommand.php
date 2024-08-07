@@ -1,5 +1,4 @@
 <?php
-// src/Features/Users/Command/ResetPasswordRequestCommand.php
 
 namespace App\Features\Users\Command;
 
@@ -16,4 +15,10 @@ class ResetPasswordRequestCommand
     {
         return $this->email;
     }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
 }
+

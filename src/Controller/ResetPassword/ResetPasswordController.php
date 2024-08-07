@@ -10,26 +10,21 @@ use App\Features\Users\Command\ResetPasswordRequestCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ResetPasswordController extends AbstractController
 {
-    /**
-     * @throws ExceptionInterface
-     */
     #[Route('/reset-password/request', name: 'reset_password_request', methods: ['GET', 'POST'])]
     public function request(Request $request, MessageBusInterface $bus): Response
     {
-        $command = new ResetPasswordRequestCommand(''); 
+        $command = new ResetPasswordRequestCommand('');
         $form = $this->createForm(ResetPasswordRequestType::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->get('email')->getData();
-
-            $command = new CreateTokenCommand($email, CaseDescription::ResetPassword);
+            $command = new ResetPasswordRequestCommand($email);
             $bus->dispatch($command);
 
             $this->addFlash('success', 'Password reset token sent to your email.');
@@ -37,18 +32,15 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('reset_password_request');
         }
 
-        return $this->render('reset_password/request_reset_password.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('security/request_reset_password.html.twig', [
+            'form' => $form->createView(), 
         ]);
     }
 
-    /**
-     * @throws ExceptionInterface
-     */
+
     #[Route('/reset-password/{token}', name: 'reset_password', methods: ['GET', 'POST'])]
     public function reset(string $token, Request $request, MessageBusInterface $bus): Response
     {
-        $command = new ResetPasswordCommand('', '', $token);
         $form = $this->createForm(ResetPasswordType::class, ['token' => $token]);
         $form->handleRequest($request);
 
@@ -64,7 +56,7 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('login'); 
         }
 
-        return $this->render('reset_password/reset_password.html.twig', [
+        return $this->render('security/reset_password.html.twig', [
             'form' => $form->createView(),
         ]);
     }

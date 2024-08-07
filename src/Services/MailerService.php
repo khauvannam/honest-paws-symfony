@@ -44,4 +44,26 @@ class MailerService
 
         $this->mailer->send($email);
     }
+    /**
+     * @throws SyntaxError
+     * @throws TransportExceptionInterface
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function sendResetPasswordEmail(string $to, string $resetToken): void
+    {
+        $resetLink = $this->router->generate('reset_password', [
+            'token' => $resetToken
+        ], RouterInterface::ABSOLUTE_URL);
+
+        $email = (new Email())
+            ->from('singaporestore220803@gmail.com')
+            ->to($to)
+            ->subject('Reset Your Password')
+            ->html($this->twig->render('security/reset_password.html.twig', [
+                'resetLink' => $resetLink
+            ]));
+
+        $this->mailer->send($email);
+    }
 }
