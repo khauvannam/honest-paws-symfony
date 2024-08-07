@@ -2,6 +2,7 @@
 
 namespace App\Entity\Carts;
 
+use App\Entity\Products\Product;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -18,55 +19,8 @@ class CartItem
     #[ORM\JoinColumn(nullable: false)]
     private ?Cart $Cart;
 
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function getProductId(): string
-    {
-        return $this->ProductId;
-    }
-
-    public function getVariantId(): string
-    {
-        return $this->VariantId;
-    }
-
-    public function getName(): string
-    {
-        return $this->Name;
-    }
-
-    public function getQuantity(): int
-    {
-        return $this->Quantity;
-    }
-
-    public function getPrice(): float
-    {
-        return $this->Price;
-    }
-
-    public function getImageUrl(): string
-    {
-        return $this->ImageUrl;
-    }
-
-    public function getAddedAt(): DateTime
-    {
-        return $this->AddedAt;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->Description;
-    }
-
-    public function getTotalPrice(): string
-    {
-        return $this->TotalPrice = $this->Price * $this->Quantity;
-    }
+    #[ORM\JoinColumn(nullable: false)]
+    private Product $product;
 
     #[ORM\Column(length: 255)]
     private string $ProductId;
@@ -165,5 +119,55 @@ class CartItem
     public function getCartItemId() : string
     {
         return $this->id;
+    }
+    
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getProductId(): string
+    {
+        return $this->ProductId;
+    }
+
+    public function getVariantId(): string
+    {
+        return $this->VariantId;
+    }
+
+    public function getName(): string
+    {
+        return $this->Name;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->Quantity;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->Price;
+    }
+
+    public function getImageUrl(): string
+    {
+        return $this->ImageUrl;
+    }
+
+    public function getAddedAt(): DateTime
+    {
+        return $this->AddedAt;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->Description;
+    }
+
+    public function getTotalPrice(): string
+    {
+        return $this->TotalPrice = $this->Price * $this->Quantity;
     }
 }

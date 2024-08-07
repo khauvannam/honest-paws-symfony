@@ -2,48 +2,36 @@
 
 namespace App\Features\Carts\Command;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 class CreateCartCommand
 {
     private string $customerId;
-    private function __construct(string $customerId)
+    private string $productId;
+    private int $quantity;
+
+    private function __construct(string $customerId, string $productId, int $quantity)
     {
         $this->customerId = $customerId;
+        $this->productId = $productId;
+        $this->quantity = $quantity;
     }
 
-    public static function Create(string $CustomerId): self
+    public static function create(string $customerId, string $productId, int $quantity): self
     {
-        return new self($CustomerId);
+        return new self($customerId, $productId, $quantity);
     }
 
     public function getCustomerId(): string
     {
         return $this->customerId;
     }
-}
 
-class CartType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function getProductId(): string
     {
-        $builder
-            ->add('CustomerId', TextType::class, [
-                'label' => 'Customer ID',
-            ])
-            ->add('createCart', SubmitType::class, [
-                'label' => 'Create Cart',
-            ]);
+        return $this->productId;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function getQuantity(): int
     {
-        $resolver->setDefaults([
-            'data_class' => CreateCartCommand::class,
-        ]);
+        return $this->quantity;
     }
 }
