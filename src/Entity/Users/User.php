@@ -32,6 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $avatarLink;
     #[ORM\Column]
     private UserVerify $userVerify = UserVerify::unverify;
+
+    #[ORM\Column(type: "json")]
+    private array $roles = ["ROLE_ADMIN"];
     #[ORM\OneToMany(targetEntity: UserProvider::class, mappedBy: "user", cascade: ["persist", "remove"])]
     private Collection $userProviders;
 
@@ -57,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isVerify() : bool
+    public function isVerify(): bool
     {
         return $this->userVerify == UserVerify::verify;
     }
@@ -74,8 +77,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    #[ORM\Column(type: "json")]
-    private array $roles = [];
 
     public static function Create(string $username, string $email): self
     {
