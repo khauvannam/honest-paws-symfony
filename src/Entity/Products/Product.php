@@ -105,24 +105,10 @@ class Product
         return $this;
     }
 
-    public function addProductVariant(ProductVariant $productVariant): void
-    {
-        if (!$this->productVariants->contains($productVariant)) {
-            $this->productVariants[] = $productVariant;
-            $productVariant->setProduct($this);
-        }
-    }
 
     /**
      * @param array<int,mixed> $updateVariants
      */
-    public function updateVariantList(array $updateVariants): void
-    {
-        $this->productVariants->clear();
-        foreach ($updateVariants as $variant) {
-            $this->addProductVariant($variant);
-        }
-    }
 
     public function getId(): string
     {
