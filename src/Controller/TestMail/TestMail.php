@@ -4,6 +4,7 @@ namespace App\Controller\TestMail;
 
 use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
 use App\Features\Products\Query\GetProductCategoryId;
+use App\Features\Products\Query\GetProductQuery;
 use App\Services\GetEnvelopeResultService;
 use App\Services\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,7 +51,7 @@ class TestMail extends AbstractController
         $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
-        return $this->render('all_products.html.twig', $result);
+        return $this->render('pages/all_products.html.twig', $result);
     }
 
     /**
@@ -62,6 +63,16 @@ class TestMail extends AbstractController
         $command = new GetProductCategoryId($id);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
-        return $this->render('category_by_id.html.twig', $result);
+        $result['id'] = $id;
+        return $this->render('pages/category_by_id.html.twig', $result);
+    }
+    #[Route('/product_details/{id}', name: 'product_details', methods: ['GET'])]
+    public function GetProductId(string $id): Response
+    {
+        $command = new GetProductQuery($id);
+        $handler = $this->bus->dispatch($command);
+        $result = GetEnvelopeResultService::invoke($handler);
+        $result['id'] = $id;
+        return $this->render('pages/product_details.html.twig', $result);
     }
 }

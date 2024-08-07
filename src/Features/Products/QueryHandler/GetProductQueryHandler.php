@@ -17,8 +17,9 @@ class GetProductQueryHandler
         $this->productRepository = $productRepository;
     }
 
-    public function __invoke(GetProductQuery $query): ?Product
+    public function __invoke(GetProductQuery $query): array
     {
-        return $this->productRepository->find($query->getId());
+        $product = $this->productRepository->findById($query->getId());
+        return ['product' => $product];
     }
 }

@@ -6,9 +6,13 @@
         <div class="w-full max-w-[1300px] flex items-center text-main">
             <a href="/" class="hover:underline">Home</a>
             <span class="mx-2">></span>
-            <a href="/collections" class="hover:underline">Collections</a>
+            <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">All Products</a>
             <span class="mx-2">></span>
-            <span>Shop All</span>
+            {% for category in categories  %}
+                {% if category.id == id %}
+                    <span>{{ category.name }}</span>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 
@@ -16,14 +20,19 @@
     <div class="w-full pt-10 px-10 flex justify-center">
         <div class="w-full max-w-[1300px] justify-between flex">
             <div class="w-6/12 mt-20">
-                <p class="pt-4 text-main">
-                    Trusted, Effective Solutions
-                </p>
                 <h1 class="text-4xl font-extrabold text-main uppercase">
-                    All Products
+                    {% for category in categories  %}
+                        {% if category.id == id %}
+                            <span>{{ category.name }}</span>
+                        {% endif %}
+                    {% endfor %}
                 </h1>
                 <p class="pt-4 pb-6 text-main max-w-[550px]">
-                    Elevate your pet's well-being with our range of products designed to support your pet’s health and happiness. From calming treats and joint support chews to grooming essentials, all crafted with natural ingredients and rigorously tested for quality. Trust Honest Paws to provide the best for your furry friend’s wellness.
+                    {% for category in categories  %}
+                        {% if category.id == id %}
+                            <span>{{ category.description }}</span>
+                        {% endif %}
+                    {% endfor %}
                 </p>
             </div>
             <div class="w-6/12">
@@ -80,25 +89,16 @@
                         <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
                     </div>
                     <p class="pb-4 text-center">{{ product.description }}</p>
-<<<<<<< HEAD
-                    <a href="{#{{ path('product_detail', {'id': product.id}) }}#}"
-                       class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
-                        <p class="text-white group-hover:text-main">
-                            Add to Cart
-=======
                     <a href="{{ path('product_details', {'id': product.id}) }}"
                        class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
                             More Details
->>>>>>> origin/tranthang
                         </p>
                     </a>
                 </div>
             {% endfor %}
         </div>
     </div>
-<<<<<<< HEAD
-=======
 
 {# feature collection #}
 
@@ -231,6 +231,5 @@
             {% endfor %}
         </div>
     </div>
->>>>>>> origin/tranthang
     
 {% endblock body %}
