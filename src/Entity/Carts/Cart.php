@@ -2,7 +2,7 @@
 
 namespace App\Entity\Carts;
 
-
+use App\Entity\Products\Product;
 use App\Repository\Carts\CartRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -55,14 +55,28 @@ class Cart
         $this->CartItemsList = new ArrayCollection();
     }
 
-    public static function Create(string $CustomerId): self
+    public static function create(string $customerId): self
     {
-        return new self($CustomerId);
+        return new self($customerId);
     }
+
+    public function addItem(string $productId, string $variantId, string $name, int $quantity, float $price, string $imageUrl, string $description): void
+    {
+        foreach ($this->CartItemsList as $item) {
+            if ($item->getProductId() === $productId && $item->getVariantId() === $variantId) {
+                $item->update($name, $quantity, $price, $imageUrl, $description);
+                return;
+            }
+        }
+
+        $item = CartItem::create($productId, $variantId, $name, $quantity, $price, $imageUrl, $description);
+        $item->setCart($this);
+        $this->CartItemsList->add($item);
+    }
+
 
     public function Update(CartItemRequest $cartItemRequest): void
     {
-// Find the existing cart item
         $existingItem = $this->CartItemsList->filter(function (CartItem $item) use ($cartItemRequest) {
             return $item->getCartItemId() === $cartItemRequest->getCartItemId();
         })->first();
