@@ -2,15 +2,10 @@
 
 namespace App\Controller\TestMail;
 
-use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
-use App\Features\Products\Query\GetProductCategoryId;
-use App\Services\GetEnvelopeResultService;
 use App\Services\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -43,5 +38,10 @@ class TestMail extends AbstractController
         return new Response($message);
     }
 
+    #[Route('/test_dutch', name: 'dutch', methods: ['GET'])]
+    public function dutch()
+    {
+        return $this->render('security/insert-email.html.twig');
+    }
 
 }

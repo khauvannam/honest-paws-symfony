@@ -81,27 +81,6 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
 
-    #[IsGranted('ROLE_USER')]
-    #[Route('product/show/{id}', name: 'product_show', methods: ['GET'])]
-    public function show(string $id): Response
-    {
-        $command = new GetProductQuery($id);
-        $result = $this->bus->dispatch($command);
-        $product = GetEnvelopeResultService::invoke($result);
-
-        if (!$product) {
-            throw $this->createNotFoundException('The product does not exist');
-        }
-
-        return $this->render('product/show.html.twig', [
-            'product' => $product,
-        ]);
-    }
-
-    /**
-     * @throws ExceptionInterface
-     */
-
     #[Route('/products/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, string $id): RedirectResponse|Response
     {

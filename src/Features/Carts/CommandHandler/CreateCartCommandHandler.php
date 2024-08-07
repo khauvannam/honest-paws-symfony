@@ -3,7 +3,6 @@
 namespace App\Features\Carts\CommandHandler;
 
 use App\Entity\Carts\Cart;
-use App\Entity\Product;
 use App\Features\Carts\Command\CreateCartCommand;
 use App\Interfaces\CommandHandlerInterface;
 use App\Repository\Carts\CartRepository;

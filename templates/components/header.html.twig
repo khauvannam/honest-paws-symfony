@@ -19,8 +19,13 @@
         </div>
         <div class="flex">
             {% if app.user and app.user.avatarLink %}
-                <img src="{{ asset('/img/blobs/' ~ app.user.avatarLink) }}" alt="User Avatar"
-                     class="p-2.5 rounded-full w-16 h-16  justify-center items-center flex">
+                <div class="relative" id="avatar">
+                    <img src="{{ asset('/img/blobs/' ~ app.user.avatarLink) }}"  alt="User Avatar"
+                         class="p-2.5 rounded-full w-16 h-16  justify-center items-center flex">
+                </div>
+                <div id="change-password" class="hidden absolute top-[64px] w-[200px] left-[70%] py-10 px-5 shadow-lg bg-[#f0f5ff] rounded-2xl text-main ">
+                    <a class="hover:underline " href="{{ path('changePassword', {'userId' : app.user.id}) }}">Change Password</a>
+                </div>
             {% else %}
                 <a href="{{ path('login') }}" class="p-2.5 justify-center items-center flex">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
@@ -42,9 +47,9 @@
                 </svg>
             </a>
             {% if app.user %}
-               <div class="flex items-center">
-                   <a href="{{ path('_logout_main') }}" class="text-main ml-2">Log out</a>
-               </div> 
+                <div class="flex items-center">
+                    <a href="{{ path('_logout_main') }}" class="text-main ml-2">Log out</a>
+                </div>
             {% endif %}
         </div>
     </div>
