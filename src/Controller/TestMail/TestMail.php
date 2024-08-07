@@ -43,31 +43,5 @@ class TestMail extends AbstractController
         return new Response($message);
     }
 
-    /**
-     * @throws ExceptionInterface
-     */
-    #[Route('/all-products', name: 'all_products', methods: ['GET'])]
-    public function AllProducts(#[MapQueryParameter] int $productLimit, #[MapQueryParameter] int $categoryLimit): Response
-    {
-        $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
-        $handler = $this->bus->dispatch($command);
-        $result = GetEnvelopeResultService::invoke($handler);
-      
-        return $this->render('pages/all_products.html.twig', $result);
 
-    }
-
-    /**
-     * @throws ExceptionInterface
-     */
-    #[Route('/category-products/{id}', name: 'category_by_id', methods: ['GET'])]
-    public function ProductByCategoryId(string $id): Response
-    {
-        $command = new GetProductCategoryId($id);
-        $handler = $this->bus->dispatch($command);
-        $result = GetEnvelopeResultService::invoke($handler);
-        $result['id'] = $id; 
-        return $this->render('pages/category_by_id.html.twig', $result);
-
-    }
 }

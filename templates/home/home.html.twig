@@ -51,7 +51,7 @@
         <div class="flex w-full h-full justify-center">
             {% for category in categories %}
                 <div class="flex flex-col text-main justify-between bg-[#f0f5ff] items-center rounded-2xl w-[300px] m-3 transition-all duration-300 group">
-                    <a href="{# {{ path('route_name', {'page': 'categories', 'id': category.id}) }} #}"
+                    <a href="{{ path('category_by_id', {'id': category.id}) }}"
                        class="rounded-t-2xl flex justify-center w-[95%] bg-white">
                         <img class="h-[168px] object-fill" src="{{ asset('img/blobs/' ~ category.imgurl) }}" alt="">
                     </a>

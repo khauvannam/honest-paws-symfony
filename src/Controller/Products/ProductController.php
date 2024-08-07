@@ -5,9 +5,11 @@ namespace App\Controller\Products;
 
 // Import ArrayCollection
 
+use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
 use App\Features\Products\Command\CreateProductCommand;
 use App\Features\Products\Command\DeleteProductCommand;
 use App\Features\Products\Command\UpdateProductCommand;
+use App\Features\Products\Query\GetProductCategoryId;
 use App\Features\Products\Query\GetProductQuery;
 use App\Features\Products\Query\ListProductQuery;
 use App\Features\Products\Type\CreateProductType;
@@ -17,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -126,5 +129,45 @@ class ProductController extends AbstractController
         } catch (ExceptionInterface $e) {
         }
         return $this->redirectToRoute('product_success');
+    }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    #[\Symfony\Component\Routing\Annotation\Route('/all-products', name: 'all_products', methods: ['GET'])]
+    public function AllProducts(#[MapQueryParameter] int $productLimit, #[MapQueryParameter] int $categoryLimit): Response
+    {
+        $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
+        $handler = $this->bus->dispatch($command);
+        $result = GetEnvelopeResultService::invoke($handler);
+        return $this->render('pages/all_products.html.twig', $result);
+
+    }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Route('/category-products/{id}', name: 'category_by_id', methods: ['GET'])]
+    public function ProductByCategoryId(string $id): Response
+    {
+        $command = new GetProductCategoryId($id);
+        $handler = $this->bus->dispatch($command);
+        $result = GetEnvelopeResultService::invoke($handler);
+        $result['id'] = $id;
+        return $this->render('pages/category_by_id.html.twig', $result);
+
+    }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Route('/product_details/{id}', name: 'product_details', methods: ['GET'])]
+    public function GetProductId(string $id): Response
+    {
+        $command = new GetProductQuery($id);
+        $handler = $this->bus->dispatch($command);
+        $result = GetEnvelopeResultService::invoke($handler);
+        $result['id'] = $id;
+        return $this->render('pages/product_details.html.twig', $result);
     }
 }
