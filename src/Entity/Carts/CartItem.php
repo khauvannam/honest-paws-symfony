@@ -10,8 +10,7 @@ use Symfony\Component\Uid\Uuid;
 class CartItem
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'uuid')]
+    #[ORM\Column]
     private string $id;
 
     #[ORM\Column(length: 255)]
@@ -19,8 +18,6 @@ class CartItem
 
     #[ORM\Column(length: 255)]
     private string $Name;
-    #[ORM\Column]
-    private int $Quantity;
 
     #[ORM\Column]
     private int $quantity;
@@ -36,6 +33,8 @@ class CartItem
 
     #[ORM\Column]
     private string $TotalPrice;
+    #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: 'cartItems')]
+    private Cart $cart;
 
     public function __construct(
         string $productId,
@@ -48,18 +47,18 @@ class CartItem
         $this->id = Uuid::v4()->toString();
         $this->productId = $productId;
         $this->Name = $name;
-        $this->Quantity = $quantity;
+        $this->quantity = $quantity;
         $this->price = $price;
         $this->imageUrl = $imgUrl;
         $this->addedAt = new DateTime();
-        $this->TotalPrice = $this->price * $this->Quantity;
+        $this->TotalPrice = $this->price * $this->quantity;
     }
 
     public static function create(
         string $productId,
         string $name,
-        int $quantity,
-        float $price,
+        int    $quantity,
+        float  $price,
         string $imageUrl,
     ): self
     {
@@ -80,7 +79,7 @@ class CartItem
     ): void
     {
         $this->Name = $name;
-        $this->Quantity = $quantity;
+        $this->quantity = $quantity;
         $this->price = $price;
         $this->imageUrl = $imageUrl;
 

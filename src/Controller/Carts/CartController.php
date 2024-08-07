@@ -2,14 +2,13 @@
 
 namespace App\Controller\Carts;
 
+use App\Features\Carts\Command\CreateCartItemCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class CartController extends AbstractController
 {
@@ -21,10 +20,10 @@ class CartController extends AbstractController
     }
 
 
-    #[Route('/cart/new', name: 'cart_new', methods: ['GET', 'POST'])]
-    public function createAsync(Request $request): RedirectResponse|Response
+    #[Route('/cart/new/{customerId}', name: 'cart_new', methods: ['GET', 'POST'])]
+    public function createAsync(Request $request, string $customerId): RedirectResponse|Response
     {
-        return $this->render('home/home.html.twig');
+        
     }
 
 }

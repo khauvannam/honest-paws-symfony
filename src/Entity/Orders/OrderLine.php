@@ -11,8 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class OrderLine
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column]
     private string $id;
 
     #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderLines')]
