@@ -6,10 +6,10 @@ use App\Entity\Users\UserProvider;
 use App\Features\Users\Command\ResetPasswordCommand;
 use App\Repository\Identities\IdentityRepository;
 use App\Repository\Identities\UserProviderRepository;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class ResetPasswordCommandHandler
 {
