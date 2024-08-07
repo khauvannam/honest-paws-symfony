@@ -25,7 +25,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
 class ProductController extends AbstractController
 {
     private MessageBusInterface $bus;
@@ -38,7 +37,6 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[IsGranted('ROLE_USER')]
     #[Route('/products', name: 'product_index', methods: ['GET'])]
     public function index(int $limit = 20, int $offset = 0): Response
     {
@@ -52,6 +50,8 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
+
+    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/product/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
@@ -71,6 +71,7 @@ class ProductController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/success', name: 'product_success')]
     public function createSuccess(): Response
     {
@@ -81,6 +82,7 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
 
+    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, string $id): RedirectResponse|Response
     {
@@ -104,6 +106,7 @@ class ProductController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/delete/{id}', name: 'product_delete', methods: ['POST'])]
     public function delete(string $id): RedirectResponse
     {
@@ -119,14 +122,13 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
 
-    #[IsGranted('ROLE_USER')]
     #[Route('/all-products', name: 'all_products', methods: ['GET'])]
-    public function AllProducts(#[MapQueryParameter] int $productLimit, #[MapQueryParameter] int $categoryLimit): Response
+    public function AllProducts(#[MapQueryParameter] int $productLimit = 20, #[MapQueryParameter] int $categoryLimit = 20): Response
     {
         $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
-        return $this->render('pages/all_products.html.twig', $result);
+        return $this->render('product/all_products.html.twig', $result);
 
     }
 
@@ -134,7 +136,6 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
 
-    #[IsGranted('ROLE_USER')]
     #[Route('/category-products/{id}', name: 'category_by_id', methods: ['GET'])]
     public function ProductByCategoryId(string $id): Response
     {
@@ -142,14 +143,13 @@ class ProductController extends AbstractController
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
         $result['id'] = $id;
-        return $this->render('pages/category_by_id.html.twig', $result);
+        return $this->render('product/category_by_id.html.twig', $result);
 
     }
 
     /**
      * @throws ExceptionInterface
      */
-    #[IsGranted('ROLE_USER')]
     #[Route('/product_details/{id}', name: 'product_details', methods: ['GET'])]
     public function GetProductId(string $id): Response
     {
@@ -157,6 +157,6 @@ class ProductController extends AbstractController
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
         $result['id'] = $id;
-        return $this->render('pages/product_details.html.twig', $result);
+        return $this->render('product/product_details.html.twig', $result);
     }
 }

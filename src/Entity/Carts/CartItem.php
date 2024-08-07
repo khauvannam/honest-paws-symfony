@@ -2,7 +2,6 @@
 
 namespace App\Entity\Carts;
 
-use App\Entity\Products\Product;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -15,6 +14,7 @@ class CartItem
     #[ORM\Column(type: 'uuid')]
     private string $id;
 
+<<<<<<< HEAD
     #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: 'cartItems')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Cart $cart;
@@ -23,11 +23,19 @@ class CartItem
     #[ORM\JoinColumn(nullable: false)]
     private Product $product;
 
+=======
+>>>>>>> origin/namdeptrai
     #[ORM\Column(length: 255)]
     private string $productId;
 
     #[ORM\Column(length: 255)]
+<<<<<<< HEAD
     private string $name;
+=======
+    private string $Name;
+    #[ORM\Column]
+    private int $Quantity;
+>>>>>>> origin/namdeptrai
 
     #[ORM\Column]
     private int $quantity;
@@ -41,15 +49,21 @@ class CartItem
     #[ORM\Column(type: 'datetime')]
     private DateTime $addedAt;
 
+<<<<<<< HEAD
     #[ORM\Column(length: 255)]
     private string $description;
 
     #[ORM\Column(type: 'float')]
     private float $totalPrice;
+=======
+    #[ORM\Column]
+    private string $TotalPrice;
+>>>>>>> origin/namdeptrai
 
     public function __construct(
         string $productId,
         string $name,
+<<<<<<< HEAD
         int $quantity,
         float $price,
         string $imageUrl,
@@ -65,6 +79,21 @@ class CartItem
         $this->description = $description;
         $this->addedAt = new DateTime();
         $this->totalPrice = $price * $quantity;
+=======
+        int    $quantity,
+        float  $price,
+        string $imgUrl,
+    )
+    {
+        $this->id = Uuid::v4()->toString();
+        $this->ProductId = $productId;
+        $this->Name = $name;
+        $this->Quantity = $quantity;
+        $this->Price = $price;
+        $this->ImageUrl = $imgUrl;
+        $this->AddedAt = new DateTime();
+        $this->TotalPrice = $this->Price * $this->Quantity;
+>>>>>>> origin/namdeptrai
     }
 
     public static function create(
@@ -73,7 +102,6 @@ class CartItem
         int $quantity,
         float $price,
         string $imageUrl,
-        string $description
     ): self
     {
         return new self(
@@ -82,11 +110,11 @@ class CartItem
             $quantity,
             $price,
             $imageUrl,
-            $description
         );
     }
 
     public function update(
+<<<<<<< HEAD
         string $name,
         int $quantity,
         float $price,
@@ -114,16 +142,35 @@ class CartItem
     }
 
     public function getProduct(): Product
+=======
+        $name,
+        $quantity,
+        $price,
+        $imageUrl,
+    ): void
+    {
+        $this->Name = $name;
+        $this->Quantity = $quantity;
+        $this->Price = $price;
+        $this->ImageUrl = $imageUrl;
+
+    }
+
+    public function getCartItemId(): string
+>>>>>>> origin/namdeptrai
     {
         return $this->product;
     }
 
+<<<<<<< HEAD
     public function setProduct(Product $product): self
     {
         $this->product = $product;
         return $this;
     }
 
+=======
+>>>>>>> origin/namdeptrai
     public function getId(): string
     {
         return $this->id;
@@ -134,11 +181,14 @@ class CartItem
         return $this->productId;
     }
 
+<<<<<<< HEAD
     public function setProductId(string $productId): self
     {
         $this->productId = $productId;
         return $this;
     }
+=======
+>>>>>>> origin/namdeptrai
 
     public function getName(): string
     {
@@ -197,6 +247,7 @@ class CartItem
         return $this;
     }
 
+<<<<<<< HEAD
     public function getDescription(): string
     {
         return $this->description;
@@ -211,5 +262,10 @@ class CartItem
     public function getTotalPrice(): float
     {
         return $this->totalPrice;
+=======
+    public function getTotalPrice(): string
+    {
+        return $this->TotalPrice;
+>>>>>>> origin/namdeptrai
     }
 }

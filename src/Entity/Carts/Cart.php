@@ -2,17 +2,19 @@
 
 namespace App\Entity\Carts;
 
-use App\Entity\Products\Product;
-use App\Repository\Carts\CartRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: CartRepository::class)]
+#[ORM\Entity]
 class Cart
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/namdeptrai
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'string')]
@@ -21,18 +23,63 @@ class Cart
     #[ORM\Column(length: 255)]
     private string $CustomerId;
 
+<<<<<<< HEAD
     #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart", cascade: ["persist", "remove"])]
+=======
+    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
+>>>>>>> origin/namdeptrai
     private Collection $CartItemsList;
 
     #[ORM\Column(type: 'datetime')]
     private DateTime $UpdateDate;
+<<<<<<< HEAD
 
     public function __construct(string $CustomerId)
+=======
+    private CartStatus $cartStatus;
+
+    private function __construct(string $CustomerId)
+>>>>>>> origin/namdeptrai
     {
         $this->id = Uuid::v4()->toString();
         $this->CustomerId = $CustomerId;
         $this->UpdateDate = new DateTime();
         $this->CartItemsList = new ArrayCollection();
+<<<<<<< HEAD
+=======
+        $this->cartStatus = CartStatus::preparing;
+    }
+
+    public function getCartStatus(): CartStatus
+    {
+        return $this->cartStatus;
+    }
+
+    public function setCartStatus(CartStatus $cartStatus): Cart
+    {
+        $this->cartStatus = $cartStatus;
+        return $this;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getCustomerId(): string
+    {
+        return $this->CustomerId;
+    }
+
+    public function getCartItemsList(): Collection
+    {
+        return $this->CartItemsList;
+    }
+
+    public function getUpdateDate(): DateTime
+    {
+        return $this->UpdateDate;
+>>>>>>> origin/namdeptrai
     }
 
     public static function create(string $customerId): self

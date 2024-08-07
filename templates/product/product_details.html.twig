@@ -2,11 +2,16 @@
 
 {% block body %}
     {% if product %}
-        <div class="container mx-auto px-4 py-8">
+        <div class="container mx-auto px-4 py-8 text-main">
             <div class="flex">
                 <!-- Product Image -->
+<<<<<<< HEAD:templates/pages/product_details.html.twig
                 <div class="w-1/2">
                     <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}" alt="{{ product.name }}" class="w-full h-auto">
+=======
+                <div class="w-1/2 shadow-lg">
+                    <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}" alt="Product Image">
+>>>>>>> origin/namdeptrai:templates/product/product_details.html.twig
                 </div>
 
                 <!-- Product Details -->

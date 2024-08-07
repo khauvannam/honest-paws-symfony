@@ -2,6 +2,7 @@
 
 namespace App\Controller\Carts;
 
+<<<<<<< HEAD
 use App\Entity\Carts\Cart;
 use App\Entity\Users\User;
 use App\Features\Carts\Command\CreateCartCommand;
@@ -10,12 +11,14 @@ use App\Features\Carts\Command\UpdateCartCommand;
 use App\Features\Carts\Query\GetCartQuery;
 use App\Features\Carts\Type\CartType;
 use App\Services\GetEnvelopeResultService;
+=======
+
+>>>>>>> origin/namdeptrai
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,12 +32,11 @@ class CartController extends AbstractController
         $this->bus = $bus;
     }
 
-    /**
-     * @throws ExceptionInterface
-     */
+
     #[Route('/cart/new', name: 'cart_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
+<<<<<<< HEAD
         // Check if the user is fully authenticated
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('login');
@@ -138,4 +140,9 @@ class CartController extends AbstractController
         }
         return $this->redirectToRoute('cart_success');
     }
+=======
+        return $this->render('home/home.html.twig');
+    }
+
+>>>>>>> origin/namdeptrai
 }
