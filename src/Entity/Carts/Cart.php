@@ -2,17 +2,51 @@
 
 namespace App\Entity\Carts;
 
-use App\Entity\Products\Product;
-use App\Repository\Carts\CartRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: CartRepository::class)]
+#[ORM\Entity]
 class Cart
 {
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'string')]
+    private string $id;
+
+    #[ORM\Column(length: 255)]
+    private string $CustomerId;
+
+    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
+    private Collection $CartItemsList;
+
+    #[ORM\Column(type: 'datetime')]
+    private DateTime $UpdateDate;
+    private CartStatus $cartStatus;
+
+    private function __construct(string $CustomerId)
+    {
+        $this->id = Uuid::v4()->toString();
+        $this->CustomerId = $CustomerId;
+        $this->UpdateDate = new DateTime();
+        $this->CartItemsList = new ArrayCollection();
+        $this->cartStatus = CartStatus::preparing;
+    }
+
+    public function getCartStatus(): CartStatus
+    {
+        return $this->cartStatus;
+    }
+
+    public function setCartStatus(CartStatus $cartStatus): Cart
+    {
+        $this->cartStatus = $cartStatus;
+        return $this;
+    }
+
     public function getId(): string
     {
         return $this->id;
@@ -31,28 +65,6 @@ class Cart
     public function getUpdateDate(): DateTime
     {
         return $this->UpdateDate;
-    }
-
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'string')]
-    private string $id;
-
-    #[ORM\Column(length: 255)]
-    private string $CustomerId;
-
-    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
-    private Collection $CartItemsList;
-
-    #[ORM\Column(type: 'datetime')]
-    private DateTime $UpdateDate;
-
-    private function __construct(string $CustomerId)
-    {
-        $this->id = Uuid::v4()->toString();
-        $this->CustomerId = $CustomerId;
-        $this->UpdateDate = new DateTime();
-        $this->CartItemsList = new ArrayCollection();
     }
 
     public static function create(string $customerId): self

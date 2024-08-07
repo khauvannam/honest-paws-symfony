@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -30,18 +30,16 @@ class MailerService
      * @throws RuntimeError
      * @throws LoaderError
      */
-    public function sendRegistrationEmail(string $to, string $username): void
+    public function sendRegistrationEmail(string $to, string $username, string $userId): void
     {
-        // Generate the URL for login page
-        $loginUrl = $this->router->generate('login', [], RouterInterface::ABSOLUTE_URL);
 
         $email = (new Email())
             ->from('singaporestore220803@gmail.com')
             ->to($to)
             ->subject('Registration Successful')
-            ->html($this->twig->render('emails/mailer.html.twig', [
+            ->html($this->twig->render('emails/mailer-verify.html.twig', [
                 'username' => $username,
-                'loginUrl' => $loginUrl,
+                'userId' => $userId
             ]));
 
         $this->mailer->send($email);

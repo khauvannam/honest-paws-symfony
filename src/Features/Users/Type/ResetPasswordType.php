@@ -17,6 +17,7 @@ class ResetPasswordType extends AbstractType
     {
         $builder
             ->add('password', PasswordType::class, ['label' => 'Password'])
+            ->add('newPassword', PasswordType::class, ['label' => 'New Password'])
             ->add('userId', HiddenType::class);
     }
 

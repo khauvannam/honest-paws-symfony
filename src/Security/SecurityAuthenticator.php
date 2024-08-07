@@ -44,6 +44,9 @@ class SecurityAuthenticator extends AbstractAuthenticator
                 if (!$user) {
                     throw new UserNotFoundException();
                 }
+                if (!$user->isVerify()) {
+                    throw new AuthenticationException("User account is not verified.");
+                }
                 return $user;
             }),
             new PasswordCredentials($password),

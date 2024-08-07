@@ -15,15 +15,16 @@ class VerifyUserCommandHandler
     {
     }
 
-    public function __invoke(VerifyUserCommand $command): void
+    public function __invoke(VerifyUserCommand $command): UserVerify
     {
         $user = $this->repository->findOneBy(['id' => $command->getUserId()]);
-        if ($user) {
+        if (!$user) {
             throw new UserNotFoundException();
         }
-        if (!$user->isVerified()) {
-            $user->setVerified(UserVerify::verify);
+        if (!$user->isVerify()) {
+            $user->setUserVerify(UserVerify::verify);
         }
-
+        $this->repository->update($user);
+        return $user->getUserVerify();
     }
 }

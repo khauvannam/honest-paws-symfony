@@ -2,54 +2,51 @@
 {% block body %}
 
     {# Breadcrumb Navigation #}
-    <div class="w-full pt-5 px-10 flex justify-center">
+    <div class="w-full pt-5 px-10 flex justify-center text-xl">
         <div class="w-full max-w-[1300px] flex items-center text-main">
             <a href="/" class="hover:underline">Home</a>
             <span class="mx-2">></span>
-            <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">All Products</a>
+            <a href="/collections" class="hover:underline">Collections</a>
             <span class="mx-2">></span>
-            {% for category in categories  %}
-                {% if category.id == id %}
-                    <span>{{ category.name }}</span>
-                {% endif %}
-            {% endfor %}
+            <span>Shop All</span>
         </div>
     </div>
 
     {# Header Section #}
     <div class="w-full pt-10 px-10 flex justify-center">
         <div class="w-full max-w-[1300px] justify-between flex">
-            <div class="w-6/12 mt-20">
+            <div class="w-6/12 mt-10">
+                <p class="pt-4 text-main">
+                    Trusted, Effective Solutions
+                </p>
                 <h1 class="text-4xl font-extrabold text-main uppercase">
-                    {% for category in categories  %}
-                        {% if category.id == id %}
-                            <span>{{ category.name }}</span>
-                        {% endif %}
-                    {% endfor %}
+                    All Products
                 </h1>
                 <p class="pt-4 pb-6 text-main max-w-[550px]">
-                    {% for category in categories  %}
-                        {% if category.id == id %}
-                            <span>{{ category.description }}</span>
-                        {% endif %}
-                    {% endfor %}
+                    Elevate your pet's well-being with our range of products designed to support your pet’s health and
+                    happiness. From calming treats and joint support chews to grooming essentials, all crafted with
+                    natural ingredients and rigorously tested for quality. Trust Honest Paws to provide the best for
+                    your furry friend’s wellness.
                 </p>
             </div>
-            <div class="w-6/12">
-                <img src="{{ asset('/img/index/allproductslider.png') }}" alt="Image of a cat and a dog playing together">
+            <div class="w-6/12 ">
+                <img class="rounded-2xl" src="{{ asset('/img/index/allproductslider.png') }}"
+                     alt="Image of a cat and a dog playing together">
             </div>
         </div>
     </div>
-    
+
     {# Categories Section #}
     <div class="w-full pt-10 px-10 flex justify-center">
         <div class="w-full max-w-[1300px] flex justify-center gap-5">
-        {% for categories in categories %}
-            <a href="{{ path('category_by_id', {'id': categories.id}) }}"><button class="bg-blue-200 text-main py-2 px-4 rounded-full">{{ categories.name }}</button></a>
-        {% endfor %}
+            {% for categories in categories %}
+                <a href="{{ path('category_by_id', {'id': categories.id}) }}">
+                    <button class="bg-blue-200 text-main py-2 px-4 rounded-full">{{ categories.name }}</button>
+                </a>
+            {% endfor %}
         </div>
     </div>
-    
+
     {# Features Section #}
     <div class="w-full pt-10 px-10 flex justify-center">
         <div class="w-full max-w-[1300px] flex justify-center gap-10">
@@ -71,15 +68,15 @@
             </div>
         </div>
     </div>
-    
+
     {# Products Section #}
     <div class="flex justify-center w-full pt-12">
         <div class="flex gap-x-10 w-full max-w-[1400px] flex-wrap">
             {% for product in products %}
-                <div class="flex flex-col justify-between bg-[#f0f5ff] items-center rounded-lg w-[300px] mt-4 p-4 mx-2">
+                <div class="flex flex-col justify-between bg-[#f0f5ff] items-center rounded-lg w-[400px] my-6 p-4 mx-2">
                     <div class="relative">
                         <span class="absolute top-2 left-2 bg-yellow-400 text-main font-bold py-1 px-2 rounded">Bestseller</span>
-                        <div class="w-[90%] flex justify-center bg-white rounded-lg">
+                        <div class="flex justify-center bg-white rounded-lg">
                             <img class="h-[350px] object-fill"
                                  src="{{ asset('img/blobs/' ~ product.imageUrl) }}"
                                  alt="{{ product.name }}">
@@ -89,18 +86,36 @@
                         <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
                     </div>
                     <p class="pb-4 text-center">{{ product.description }}</p>
+<<<<<<< HEAD:templates/pages/all_products.html.twig
+<<<<<<< HEAD
+                    <a href="{#{{ path('product_detail', {'id': product.id}) }}#}"
+                       class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
+                        <p class="text-white group-hover:text-main">
+                            Add to Cart
+=======
+=======
+>>>>>>> origin/namdeptrai:templates/product/all_products.html.twig
                     <a href="{{ path('product_details', {'id': product.id}) }}"
                        class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
                             More Details
+<<<<<<< HEAD:templates/pages/all_products.html.twig
+>>>>>>> origin/tranthang
+=======
+>>>>>>> origin/namdeptrai:templates/product/all_products.html.twig
                         </p>
                     </a>
                 </div>
             {% endfor %}
         </div>
     </div>
+<<<<<<< HEAD:templates/pages/all_products.html.twig
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/namdeptrai:templates/product/all_products.html.twig
 
-{# feature collection #}
+    {# feature collection #}
 
     <div class="py-10 w-full flex justify-center items-center">
         <div class="w-full max-w-[1300px] flex-col flex items-center">
@@ -214,6 +229,7 @@
         </div>
     </div>
 
+<<<<<<< HEAD:templates/pages/all_products.html.twig
     {# category #}
     <div class="pt-10 pb-8">
         <h1 class="font-extrabold text-3xl mb-12 text-center text-main">
@@ -231,5 +247,9 @@
             {% endfor %}
         </div>
     </div>
+>>>>>>> origin/tranthang
     
+=======
+
+>>>>>>> origin/namdeptrai:templates/product/all_products.html.twig
 {% endblock body %}

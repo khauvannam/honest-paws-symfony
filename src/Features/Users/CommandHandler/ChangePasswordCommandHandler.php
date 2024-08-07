@@ -23,7 +23,8 @@ class ChangePasswordCommandHandler
         if (!$validPassword) {
             throw new InvalidPasswordException();
         }
-        $user->setPassword($command->getNewPassword());
+        $newHasherPassword = $this->hasher->hashPassword($user, $command->getNewPassword());
+        $user->setPassword($newHasherPassword);
         $this->identityRepository->update($user);
 
     }
