@@ -98,7 +98,7 @@ class Product
         return $this;
     }
 
-    public function getDiscountPrice(): float
+    public function getDiscountedPrice(): float
     {
         return $this->discountPercent == 0 ? $this->price : $this->price * $this->discountPercent / 100;
     }
