@@ -4,11 +4,9 @@
     {# Breadcrumb Navigation #}
     <div class="w-full pt-5 px-10 flex justify-center text-xl">
         <div class="w-full max-w-[1300px] flex items-center text-main">
-            <a href="/" class="hover:underline">Home</a>
+            <a href="/" class="hover:underline">Trang chủ</a>
             <span class="mx-2">></span>
-            <a href="/collections" class="hover:underline">Collections</a>
-            <span class="mx-2">></span>
-            <span>Shop All</span>
+            <span>Tất cả sản phẩm</span>
         </div>
     </div>
 
@@ -17,16 +15,16 @@
         <div class="w-full max-w-[1300px] justify-between flex">
             <div class="w-6/12 mt-10">
                 <p class="pt-4 text-main">
-                    Trusted, Effective Solutions
+                    Giải pháp đáng tin cậy, hiệu quả
                 </p>
                 <h1 class="text-4xl font-extrabold text-main uppercase">
-                    All Products
+                    Tất cả sản phẩm
                 </h1>
                 <p class="pt-4 pb-6 text-main max-w-[550px]">
-                    Elevate your pet's well-being with our range of products designed to support your pet’s health and
-                    happiness. From calming treats and joint support chews to grooming essentials, all crafted with
-                    natural ingredients and rigorously tested for quality. Trust Honest Paws to provide the best for
-                    your furry friend’s wellness.
+                    Nâng cao sức khỏe cho thú cưng của bạn với nhiều sản phẩm của chúng tôi được thiết kế để hỗ trợ sức khỏe và sự phát triển của thú cưng của bạn.
+ niềm hạnh phúc. Từ những món ăn nhẹ dịu và nhai hỗ trợ khớp cho đến những thứ cần thiết cho việc chải chuốt, tất cả đều được chế tạo bằng
+ Thành phần tự nhiên và được kiểm tra nghiêm ngặt về chất lượng. Hãy tin tưởng Honest Paws để mang đến những điều tốt nhất cho
+ sức khỏe của người bạn lông xù của bạn.
                 </p>
             </div>
             <div class="w-6/12 ">
@@ -86,49 +84,35 @@
                         <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
                     </div>
                     <p class="pb-4 text-center">{{ product.description }}</p>
-<<<<<<< HEAD:templates/pages/all_products.html.twig
-<<<<<<< HEAD
+
                     <a href="{#{{ path('product_detail', {'id': product.id}) }}#}"
                        class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
                             Add to Cart
-=======
-=======
->>>>>>> origin/namdeptrai:templates/product/all_products.html.twig
+
                     <a href="{{ path('product_details', {'id': product.id}) }}"
                        class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
-                            More Details
-<<<<<<< HEAD:templates/pages/all_products.html.twig
->>>>>>> origin/tranthang
-=======
->>>>>>> origin/namdeptrai:templates/product/all_products.html.twig
+                            Chi tiết
+
                         </p>
                     </a>
                 </div>
             {% endfor %}
         </div>
     </div>
-<<<<<<< HEAD:templates/pages/all_products.html.twig
-<<<<<<< HEAD
-=======
-=======
->>>>>>> origin/namdeptrai:templates/product/all_products.html.twig
 
     {# feature collection #}
 
     <div class="py-10 w-full flex justify-center items-center">
         <div class="w-full max-w-[1300px] flex-col flex items-center">
             <h3 class="pb-6 text-center">
-                <span class="text-2xl text-main font-bold">Making healthy habits easy</span>
-                <span class="italic text-2xl text-main font-bold">
-                Subscribe & Save
-            </span>
+                <span class="text-2xl text-main font-bold"> Đơn giản hóa thói quen</span>
+                
                 <p class="text-main pt-6 max-w-[800px]">
-                    Be the first to know about our latest offers and save on your pet's favorite products. Join us today
-                    and
-                    make your pet's well-being our priority. Sign up now and never miss out on the best for your best
-                    friend!
+                    Hãy là người đầu tiên biết về các ưu đãi mới nhất của chúng tôi và tiết kiệm trên những sản phẩm yêu thích của thú cưng của bạn. Tham gia cùng chúng tôi ngay hôm nay và biến sự chăm sóc thú cưng của bạn thành ưu tiên hàng đầu. Đăng ký ngay để không bỏ lỡ cơ hội nhận những điều tốt nhất cho người bạn thân thiết của bạn!
+
+
                 </p>
             </h3>
             <div class="pt-10 w-full">
@@ -141,11 +125,9 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-                            Delivered monthly, to your door
-                        </h3>
+Giao hàng hàng tháng, tận cửa nhà bạn                        </h3>
                         <p class="font-light">
-                            Your order arrives monthly, so you don’t run out of your Honest Paws Essentials.
-                        </p>
+Đơn hàng của bạn sẽ được giao hàng tháng, đảm bảo rằng bạn luôn có sẵn các sản phẩm Dog Parasite mà bạn yêu thích.                        </p>
                     </div>
                     <div class="flex flex-col items-center">
                         <div class="pb-5">
@@ -155,10 +137,10 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-                            Free shipping for subscribers, always
-                        </h3>
+Miễn phí vận chuyển cho người đăng ký                  </h3>
                         <p class="font-light">
-                            Even when you need to snooze or rush your order.
+Ngay cả khi bạn cần tạm hoãn hoặc gấp rút xử lý đơn hàng của mình.
+
                         </p>
                     </div>
                     <div class="flex flex-col items-center">
@@ -169,10 +151,12 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-                            Control your delivery date
+Điều chỉnh ngày giao hàng theo ý bạn
+
                         </h3>
                         <p class="font-light">
-                            Make adjustments whenever you need to.
+Thực hiện điều chỉnh bất cứ khi nào bạn cần.
+
                         </p>
                     </div>
                     <div class="flex flex-col items-center">
@@ -183,10 +167,12 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-                            Easy cancellation, anytime
+Hủy đơn dễ dàng, bất cứ lúc nào
+
                         </h3>
                         <p class="font-light">
-                            Cancel your subscription at any time—no strings attached, ever.
+Hủy đăng ký của bạn bất cứ lúc nào—hoàn toàn không ràng buộc.
+
                         </p>
                     </div>
                     <div class="flex flex-col items-center">
@@ -197,10 +183,12 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-                            30 days money-back guarantee
+Bảo đảm hoàn tiền trong 30 ngày
+
                         </h3>
                         <p class="font-light">
-                            Don't love it within 30 days? It's on us.
+Không hài lòng trong vòng 30 ngày? Chúng tôi sẽ hoàn lại tiền cho bạn.
+
                         </p>
                     </div>
                     <div class="flex flex-col items-center">
@@ -211,17 +199,16 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-                            Earn Honest Paws Cash for each order
+                            Chó là thành viên gia đình
                         </h3>
                         <p class="font-light">
-                            Keeping up healthy habits can be easier when you earn more.
-                        </p>
+Chắc chắn rồi                        </p>
                     </div>
                 </div>
                 <div class="pt-10 flex justify-center">
                     <button class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
-                            Learn More
+                            Tìm hiểu thêm
                         </p>
                     </button>
                 </div>
@@ -229,11 +216,10 @@
         </div>
     </div>
 
-<<<<<<< HEAD:templates/pages/all_products.html.twig
     {# category #}
     <div class="pt-10 pb-8">
         <h1 class="font-extrabold text-3xl mb-12 text-center text-main">
-            Science-backed essentials for your pets
+            Bộ sưu tập
         </h1>
         <div class="flex w-full h-full justify-center">
             {% for categories in categories %}
@@ -247,9 +233,4 @@
             {% endfor %}
         </div>
     </div>
->>>>>>> origin/tranthang
-    
-=======
-
->>>>>>> origin/namdeptrai:templates/product/all_products.html.twig
 {% endblock body %}

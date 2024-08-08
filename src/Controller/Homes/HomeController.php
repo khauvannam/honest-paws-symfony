@@ -25,7 +25,7 @@ class HomeController extends AbstractController
      * @throws ExceptionInterface
      */
     #[Route('/', name: 'home')]
-    public function index(int $productLimit = 6, int $categoryLimit = 4 ): Response
+    public function index(int $productLimit = 4, int $categoryLimit = 4 ): Response
     {
         $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
         $handler = $this->bus->dispatch($command);

@@ -7,11 +7,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class CreateProductCommand
 {
     private string $name = '';
+    private float $price = 0;
     private string $description = '';
     private string $productUseGuide = '';
     private ?UploadedFile $imgFile = null;
     private string $categoryId = '';
-    private float $price = 0;
 
     public function getPrice(): string
     {

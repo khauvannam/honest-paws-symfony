@@ -28,12 +28,12 @@ class CreateProductCommandHandler
         $fileName = $this->blobService->upload($command->getImgFile());
         $product = Product::create(
             $command->getName(),
+            $command->getPrice(),
             $command->getDescription(),
             $command->getProductUseGuide(),
             $fileName,
             $command->getDiscountPercent(),
             $command->getCategoryId(),
-            $command->getPrice()
         );
 
         $this->productRepository->save($product);

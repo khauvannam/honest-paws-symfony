@@ -34,7 +34,7 @@ class RegisterType extends AbstractType
                 "label" => "Image URL",
             ])
             ->add("register", SubmitType::class, [
-                "label" => "Register",
+                "label" => "Đăng ký",
             ]);
     }
 

@@ -60,7 +60,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
+    // #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/success', name: 'product_success')]
     public function createSuccess(): Response
     {
@@ -71,7 +71,7 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
 
-    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
+    // #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, string $id): RedirectResponse|Response
     {
@@ -95,7 +95,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
+    // #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/delete/{id}', name: 'product_delete', methods: ['POST'])]
     public function delete(string $id): RedirectResponse
     {

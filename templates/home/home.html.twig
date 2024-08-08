@@ -44,9 +44,9 @@
     </div>
 
     {# category #}
-    <div class="pt-10 pb-8">
+    <div class="pt-10 pb-8 overflow-scroll">
         <h1 class="font-extrabold text-3xl mb-12 text-center text-main">
-           Những Tinh Hoa Khoa Học Cho Thú Cưng Của Bạn
+           DANH MỤC
         </h1>
         <div class="flex w-full h-full justify-center">
             {% for category in categories %}
@@ -95,11 +95,11 @@
 
     {# best seller #}
     <div class="w-full px-20 py-10 bg-[#f0f5ff] text-main flex justify-center">
-        <div class="w-full max-w-[1440px]">
+        <div class="w-full max-w-[1300px]">
             <div class="flex justify-between capitalize">
-                <h1 class="text-2xl font-extrabold">Best seller</h1>
+                <h1 class="text-2xl font-extrabold">Bán chạy nhất</h1>
                 <h3>
-                    <a href="{{ path('all_products') }}" class="underline">Shop all</a>
+                    <a href="{{ path('all_products') }}" class="underline">Tất cả sản phẩm</a>
                 </h3>
             </div>
             <div class="flex w-full max-w-[1440px] justify-between pt-12">
@@ -242,11 +242,11 @@ Chắc chắn rồi                        </p>
 
     {# collections #}
     <div class="w-full px-20 py-10 bg-[#f0f5ff] text-main flex justify-center">
-        <div class="w-full max-w-[1440px]">
+        <div class="w-full max-w-[1300px]">
             <div class="flex justify-between capitalize">
-                <h1 class="text-2xl font-extrabold">Feature collections</h1>
+                <h1 class="text-2xl font-extrabold">Bộ sưu tập</h1>
                 <h3>
-                    <a href="{{ path('all_products') }}" class="underline">Shop all</a>
+                    <a href="{{ path('all_products') }}" class="underline">Tất cả sản phẩm</a>
                 </h3>
             </div>
             <div class="flex w-full max-w-[1440px] justify-between pt-12">
@@ -264,7 +264,7 @@ Chắc chắn rồi                        </p>
                         <button class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                             <a href="{{ path('category_by_id', {'id' : category.id}) }}"
                                class="text-white group-hover:text-main">
-                                Learn More
+                                Xem thêm
                             </a>
                         </button>
                     </div>

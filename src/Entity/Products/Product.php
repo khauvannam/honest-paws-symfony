@@ -40,10 +40,10 @@ class Product
 
     public function __construct(
         string $name,
+        float  $price,
         string $description,
         string $productUseGuide,
         string $imageUrl,
-        float  $price,
         string $discountPercent,
         string $categoryId
     )
@@ -62,22 +62,22 @@ class Product
 
     public static function create(
         string $name,
+        float  $price,
         string $description,
         string $productUseGuide,
         string $imageUrl,
         string $discountPercent,
         string $categoryId,
-        float  $price
     ): self
     {
         return new Product(
             $name,
+            $price,
             $description,
             $productUseGuide,
             $imageUrl,
             $discountPercent,
             $categoryId,
-            $price
         );
     }
 
