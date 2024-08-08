@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
-
 class Category
 {
     public function getId(): string
@@ -25,7 +24,6 @@ class Category
     }
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
     private string $id;
     #[ORM\Column(type: 'string', length: 255)]

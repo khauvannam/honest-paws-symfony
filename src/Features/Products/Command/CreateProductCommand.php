@@ -1,17 +1,8 @@
 <?php
+
 namespace App\Features\Products\Command;
 
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateProductCommand
 {
@@ -19,30 +10,47 @@ class CreateProductCommand
     private string $description;
     private string $productUseGuide;
     private ?UploadedFile $imgFile;
+    private string $categoryId;
+
+    public function getCategoryId(): string
+    {
+        return $this->categoryId;
+    }
+
+    public function setCategoryId(string $categoryId): CreateProductCommand
+    {
+        $this->categoryId = $categoryId;
+        return $this;
+    }
     private string $discountPercent;
 
     public function __construct(
-        string $name, 
-        string $description, 
-        string $productUseGuide, 
-        UploadedFile $imgFile, 
-        string $discountPercent, 
-    ) {
+        string       $name,
+        string       $description,
+        string       $productUseGuide,
+        UploadedFile $imgFile,
+        string       $discountPercent,
+                     $categoryId
+    )
+    {
         $this->name = $name;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
         $this->imgFile = $imgFile;
         $this->discountPercent = $discountPercent;
+        $this->categoryId = $categoryId;
     }
 
     public static function create(
-        string $name, 
-        string $description, 
-        string $productUseGuide, 
-        UploadedFile $imgFile, 
-        string $discountPercent, 
-    ): self {
-        return new self($name, $description, $productUseGuide, $imgFile, $discountPercent);
+        string       $name,
+        string       $description,
+        string       $productUseGuide,
+        UploadedFile $imgFile,
+        string       $discountPercent,
+        string       $categoryId
+    ): self
+    {
+        return new self($name, $description, $productUseGuide, $imgFile, $discountPercent, $categoryId);
     }
 
     public function getName(): string

@@ -2,14 +2,11 @@
 
 namespace App\Features\Categories\Command;
 
-
-use Symfony\Component\Uid\Uuid;
-
 class DeleteCategoryCommand
 {
-    public Uuid $id;
+    public string $id;
 
-    public function __construct(Uuid $id)
+    public function __construct(string $id)
     {
         $this->id = $id;
     }

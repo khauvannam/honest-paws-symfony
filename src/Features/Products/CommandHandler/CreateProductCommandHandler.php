@@ -9,14 +9,15 @@ use App\Services\BlobService;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class CreateProductCommandHandler 
+class CreateProductCommandHandler
 {
     private ProductRepository $productRepository;
     private BlobService $blobService;
 
-    public function __construct(ProductRepository $productRepository, BlobService $blobService)
-
-    {
+    public function __construct(
+        ProductRepository $productRepository,
+        BlobService $blobService
+    ) {
         $this->productRepository = $productRepository;
         $this->blobService = $blobService;
     }
@@ -30,6 +31,7 @@ class CreateProductCommandHandler
             $command->getProductUseGuide(),
             $fileName,
             $command->getDiscountPercent(),
+            $command->getCategoryId()
         );
 
         $this->productRepository->save($product);

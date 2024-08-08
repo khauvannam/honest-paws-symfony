@@ -2,9 +2,8 @@
 
 namespace App\Features\Categories\CommandHandler;
 
-
 use App\Entity\Categories\Category;
-use App\Features\Categories\Command\CreateCategoryCommand;
+use App\Features\Categories\Type\CreateCategoryCommand;
 use App\Repository\Categories\CategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

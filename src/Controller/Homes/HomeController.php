@@ -3,7 +3,7 @@
 namespace App\Controller\Homes;
 
 use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
-use App\Services\GetHandlerResult;
+use App\Services\GetEnvelopeResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
@@ -29,7 +29,7 @@ class HomeController extends AbstractController
     {
         $command = new GetCategoriesAndProductsQuery();
         $handler = $this->bus->dispatch($command);
-        $result = GetHandlerResult::invoke($handler);
+        $result = GetEnvelopeResultService::invoke($handler);
         return $this->render('home/home.html.twig', $result);
 
     }

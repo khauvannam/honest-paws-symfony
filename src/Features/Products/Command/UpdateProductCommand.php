@@ -2,26 +2,27 @@
 
 namespace App\Features\Products\Command;
 
-use DateTime;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UpdateProductCommand
 {
     private string $id;
     private string $name;
+
+
     private string $description;
     private string $productUseGuide;
     private ?UploadedFile $imageFile;
     private string $discountPercent;
-    private DateTime $updatedAt;
 
-    public function __construct(string $id, string $name, string $description, string $productUseGuide, ?UploadedFile $imageFile, string $discountPercent, DateTime $updatedAt)
+    public function __construct(
+        string        $id,
+        string        $name,
+        string        $description,
+        string        $productUseGuide,
+        ?UploadedFile $imageFile,
+        string        $discountPercent
+    )
     {
         $this->id = $id;
         $this->name = $name;
@@ -29,15 +30,28 @@ class UpdateProductCommand
         $this->productUseGuide = $productUseGuide;
         $this->imageFile = $imageFile;
         $this->discountPercent = $discountPercent;
-        $this->updatedAt = $updatedAt;
     }
 
-    public static function create(int $id, string $name, string $description, string $productUseGuide, ?UploadedFile $imageFile, string $discountPercent, DateTime $updatedAt): self
+    public static function create(
+        string        $id,
+        string        $name,
+        string        $description,
+        string        $productUseGuide,
+        ?UploadedFile $imageFile,
+        string        $discountPercent
+    ): self
     {
-        return new self($id, $name, $description, $productUseGuide, $imageFile, $discountPercent, $updatedAt);
+        return new self(
+            $id,
+            $name,
+            $description,
+            $productUseGuide,
+            $imageFile,
+            $discountPercent
+        );
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -57,7 +71,7 @@ class UpdateProductCommand
         return $this->productUseGuide;
     }
 
-    public function getImageFile(): ?UploadedFile 
+    public function getImageFile(): ?UploadedFile
     {
         return $this->imageFile;
     }
@@ -67,8 +81,39 @@ class UpdateProductCommand
         return $this->discountPercent;
     }
 
-    public function getUpdatedAt(): DateTime
+    public function setId(string $id): UpdateProductCommand
     {
-        return $this->updatedAt;
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setName(string $name): UpdateProductCommand
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setDescription(string $description): UpdateProductCommand
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function setProductUseGuide(string $productUseGuide): UpdateProductCommand
+    {
+        $this->productUseGuide = $productUseGuide;
+        return $this;
+    }
+
+    public function setImageFile(?UploadedFile $imageFile): UpdateProductCommand
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    public function setDiscountPercent(string $discountPercent): UpdateProductCommand
+    {
+        $this->discountPercent = $discountPercent;
+        return $this;
     }
 }

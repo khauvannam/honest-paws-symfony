@@ -1,14 +1,59 @@
 {% extends 'base.html.twig' %}
+{% block title %}Login{% endblock %}
+
 {% block body %}
-    <h1>Login</h1>
-    {{ form_start(form) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.password) }}
-    <button type="submit">Login</button>
-    {{ form_end(form) }}
-{% endblock %}
+    <div class=" w-full  flex justify-center text-main  ">
+       <div class="flex w-full">
+           <div class="w-1/2 flex">
+               <div class="w-full h-[100vh] bg-cover bg-center"
+                    style="background-image: url('{{ asset('img/Register/login-img.jpg') }}');">
+               </div>
+           </div>
+           <div class="bg-white p-8 w-1/2 rounded-lg pt-[10%] px-[5%]">
+               <h1 class=" text-4xl font-bold mb-6 text-center">Welcome Back!</h1>
+               <form method="post" action="{{ path('login') }}">
+                   <div class="mb-4">
+                       <input
+                               type="email"
+                               name="email"
+                               placeholder="Email"
+                               class="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                               required
+                       >
+                   </div>
+                   <div class="mb-4">
+                       <input
+                               type="password"
+                               name="password"
+                               placeholder="Password"
+                               class="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                               required
+                       >
+                   </div>
 
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+                   <div>
+                       <button type="submit"
+                               class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                           Login
+                       </button>
+                   </div>
 
+                   <div class="w-full flex justify-between mt-3  ">
+                       <button class="hover:underline" type="button"
+                               onclick="window.location.href='{{ path('register') }}'">
+                           Create Account
+                       </button>
+                       <button class="hover:underline " type="submit">
+                           Forgot Your Password ?
+                       </button>
+                   </div>
+               </form>
+               {% if error %}
+                   <div class="mt-4 text-red-600 text-sm">
+                       {{ error.messageKey|trans(error.messageData, 'security') }}
+                   </div>
+               {% endif %}
+           </div>
+       </div> 
+    </div>
+{% endblock body %}
