@@ -39,19 +39,6 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/products', name: 'product_index', methods: ['GET'])]
-    public function index(int $limit = 20, int $offset = 0): Response
-    {
-        $command = new ListProductQuery($limit, $offset);
-        $products = $this->bus->dispatch($command);
-        return $this->render('product/index.html.twig', [
-            'products' => $products,
-        ]);
-    }
-
-    /**
-     * @throws ExceptionInterface
-     */
 
     #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/product/new', name: 'product_new', methods: ['GET', 'POST'])]

@@ -2,7 +2,7 @@
 
 namespace App\Repository\Carts;
 
-interface CartSessionRepository
+class CartSessionRepository
 {
 
 }

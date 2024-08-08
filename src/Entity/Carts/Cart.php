@@ -18,7 +18,7 @@ class Cart
     private string $id;
 
     #[ORM\Column(length: 255)]
-    private string $CustomerId;
+    private ?string $CustomerId;
 
     #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
     private Collection $cartItems;
@@ -27,7 +27,7 @@ class Cart
     private DateTime $UpdateDate;
     private CartStatus $cartStatus;
 
-    private function __construct(string $CustomerId)
+    private function __construct(?string $CustomerId)
     {
         $this->id = Uuid::v4()->toString();
         $this->CustomerId = $CustomerId;

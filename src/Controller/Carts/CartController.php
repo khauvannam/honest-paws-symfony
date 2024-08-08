@@ -19,7 +19,7 @@ class CartController extends AbstractController
     }
 
 
-    #[Route('/cart/new/{customerId}', name: 'cart_new', methods: ['GET', 'POST'])]
+    #[Route('/cart/new', name: 'cart_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request, string $customerId): RedirectResponse|Response
     {
        
