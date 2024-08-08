@@ -16,26 +16,12 @@
 
                     <!-- Product Price -->
                     <div class="flex items-center mb-4">
-                        <div class="text-3xl font-bold text-red-600 mr-2"></div>
-                        <div class="text-gray-500 line-through">$150</div>
+                        <div class="text-3xl font-bold text-red-600 mr-2">getDiscountPrice()</div>
+                        <div class="text-gray-500 line-through">{{ product.price }}</div>
                         <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">
                             SAVE {{ product.discountPercent }}%
                         </div>
                     </div>
-
-                    <!-- Subscription Options -->
-                    <div class="mb-4">
-                        <label>
-                            <input type="radio" name="purchase_option" value="subscribe" checked>
-                            Subscribe & Save 15%
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" name="purchase_option" value="one_time">
-                            One Time Purchase
-                        </label>
-                    </div>
-
                     <!-- Delivery Options -->
                     <div class="mb-4">
                         <label for="delivery_option">Deliver Every:</label>

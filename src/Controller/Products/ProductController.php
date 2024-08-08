@@ -40,7 +40,7 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
 
-    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
+    // #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/product/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {

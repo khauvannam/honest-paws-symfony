@@ -27,7 +27,7 @@ class UpdateCategoryType extends AbstractType
                 "label" => "Image URL",
             ])
             ->add("save", SubmitType::class, [
-                "label" => "Update",
+                "label" => "Cập nhật Danh Mục",
             ]);
     }
 

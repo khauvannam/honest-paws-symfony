@@ -5,24 +5,28 @@
 {% block body %}
     <div class="w-full flex justify-center text-main">
         <div class="max-w-md w-full my-7 mx-10 bg-white rounded-lg">
-            <h1 class="text-2xl font-bold mb-4 text-center">Create Product</h1>
+            <h1 class="text-2xl font-bold mb-4 text-center">Tạo Sản Phẩm</h1>
             {{ form_start(form, { 'attr': { 'class': 'form' } }) }}
-            <div class="mb-4">Name:
+            <div class="mb-4">Tên sản phẩm:
                 {{ form_widget(form.name, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
-            <div class="mb-4">Description:
+                <div class="mb-4">Giá sản phẩm:
+                {{ form_widget(form.price, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+            </div>
+            <div class="mb-4">Mô tả:
                 {{ form_widget(form.description, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
-            <div class="mb-4">Product Use Guide:
+            
+            <div class="mb-4">Hướng dẫn sử dụng:
                 {{ form_widget(form.productUseGuide, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
-            <div class="mb-4">Image File:
+            <div class="mb-4">Hình ảnh:
                 {{ form_widget(form.imgFile, { 'attr': { 'class': ' form-control relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-gray-300 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:text-main file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-main focus:shadow-inset focus:outline-none file:border-[#00205c]   ' } }) }}
             </div>
-            <div class="mb-4">Discount Percent:
+            <div class="mb-4">Giảm giá:
                 {{ form_widget(form.discountPercent, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
-            <div class="mb-4">Choose Category:
+            <div class="mb-4">Chọn danh mục:
                 {{ form_widget(form.categoryId, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
             <div>
