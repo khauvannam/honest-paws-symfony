@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240807151811 extends AbstractMigration
+final class Version20240808120440 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,7 +25,7 @@ final class Version20240807151811 extends AbstractMigration
         $this->addSql('CREATE TABLE category (id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, img_url VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE `order` (id VARCHAR(36) NOT NULL, user_id VARCHAR(255) NOT NULL, order_date DATETIME NOT NULL, order_total NUMERIC(10, 2) NOT NULL, order_status INT NOT NULL, shipping_method_id VARCHAR(255) NOT NULL, shipping_address VARCHAR(500) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE order_line (id VARCHAR(255) NOT NULL, order_id VARCHAR(36) NOT NULL, product_id VARCHAR(255) NOT NULL, product_name VARCHAR(255) NOT NULL, quantity INT NOT NULL, price NUMERIC(10, 2) NOT NULL, INDEX IDX_9CE58EE18D9F6D38 (order_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE product (id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(2000) NOT NULL, product_use_guide VARCHAR(2000) NOT NULL, image_url VARCHAR(500) NOT NULL, discount_percent VARCHAR(500) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, category_id VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE product (id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(2000) NOT NULL, product_use_guide VARCHAR(2000) NOT NULL, image_url VARCHAR(500) NOT NULL, discount_percent VARCHAR(500) NOT NULL, price DOUBLE PRECISION NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, category_id VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE product_variant (id VARCHAR(255) NOT NULL, variant_name VARCHAR(500) NOT NULL, quantity INT NOT NULL, discounted_price DOUBLE PRECISION NOT NULL, original_price_value NUMERIC(10, 2) NOT NULL, original_price_currency VARCHAR(3) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id VARCHAR(255) NOT NULL, username VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, password_hash VARCHAR(180) NOT NULL, avatar_link VARCHAR(180) NOT NULL, user_verify VARCHAR(255) NOT NULL, roles JSON NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user_provider (user_id VARCHAR(255) NOT NULL, case_description VARCHAR(255) NOT NULL, token VARCHAR(255) NOT NULL, PRIMARY KEY(user_id, case_description, token)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

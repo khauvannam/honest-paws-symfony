@@ -10,19 +10,23 @@
     <div class="max-w-md w-full my-7 mx-10 bg-white rounded-lg">
         <h1 class="text-2xl font-bold mb-4 text-center">Edit Product</h1>
         {{ form_start(form, { 'attr': { 'class': 'form' } }) }}
-            <div class="mb-4">Name:
+            <div class="mb-4">Tên sản phẩm:
                 {{ form_widget(form.name, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
-            <div class="mb-4">Description:
+            <div class="mb-4">Mô tả:
                 {{ form_widget(form.description, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
-            <div class="mb-4">Product Use Guide:
+            </div>
+                <div class="mb-4">Giá sản phẩm:
+                {{ form_widget(form.price, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+            </div>
+            <div class="mb-4">Hướng dẫn sử dụng:
                 {{ form_widget(form.productUseGuide, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
-            <div class="mb-4">Image File:
+            <div class="mb-4">Hình ảnh:
                 {{ form_widget(form.imageFile, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
-            <div class="mb-4">Discount Percent:
+            <div class="mb-4">Giảm giá:
                 {{ form_widget(form.discountPercent, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
             </div>
             <div>

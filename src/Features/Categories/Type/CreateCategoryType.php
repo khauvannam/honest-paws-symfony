@@ -26,7 +26,7 @@ class CreateCategoryType extends AbstractType
                 'required' => true,
             ])
             ->add("save", SubmitType::class, [
-                "label" => "Save",
+                "label" => "Lưu Danh Mục",
             ]);
     }
 

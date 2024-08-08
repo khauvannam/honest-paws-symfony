@@ -38,7 +38,7 @@ class UpdateProductType extends AbstractType
                 "label" => "Discount Percent",
             ])
             ->add("save", SubmitType::class, [
-                "label" => "Update",
+                "label" => "Cập nhật Sản Phẩm",
             ]);
     }
 

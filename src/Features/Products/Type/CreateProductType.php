@@ -54,7 +54,7 @@ class CreateProductType extends AbstractType
                 "choices" => $categoryChoices,
             ])
             ->add("save", SubmitType::class, [
-                "label" => "Save",
+                "label" => "Lưu Sản Phẩm",
             ]);
     }
 
