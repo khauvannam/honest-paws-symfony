@@ -69,7 +69,6 @@
                     <div class="mb-4 text-green-600">Item is in stock</div>
 
                     <!-- Add to Cart Form -->
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         {{ form_start(cartForm, {'action' : path('cart_new', {'customerId' : app.user.id})}) }}
                         {{ form_widget(cartForm.productId, {'value': product.id}) }}
                         {{ form_widget(cartForm.quantity, {'value': 1, 'attr': {'id': 'hiddenQuantity'}}) }}
@@ -78,12 +77,6 @@
                         {{ form_widget(cartForm.price, {'value': 100}) }}
                         {{ form_widget(cartForm.save) }}
                         {{ form_end(cartForm) }}
-                    {% else %}
-                        <p>You need to <a href="{{ path('login') }}">login</a> to add items to the cart.</p>
-                    {% endif %}
-
-                    <div class="mt-2">Earns 275 rewards points!</div>
-
                     <div class="mt-6">
                         <h3 class="text-xl font-semibold mb-2">Product Use Guide</h3>
                         <p>{{ product.productUseGuide }}</p>

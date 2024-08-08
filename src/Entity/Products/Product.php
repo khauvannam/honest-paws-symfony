@@ -4,8 +4,6 @@ namespace App\Entity\Products;
 
 use App\Repository\Products\ProductRepository;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
@@ -30,7 +28,8 @@ class Product
 
     #[ORM\Column(length: 500)]
     private string $discountPercent;
-
+    #[ORM\Column]
+    private float $price;
     #[ORM\Column(type: "datetime")]
     private DateTime $createdAt;
 
@@ -39,21 +38,12 @@ class Product
     #[ORM\Column(length: 100)]
     private string $categoryId;
 
-
-    #[
-        ORM\OneToMany(
-            targetEntity: ProductVariant::class,
-            mappedBy: "product",
-            cascade: ["persist", "remove"]
-        )
-    ]
-    private Collection $productVariants;
-
     public function __construct(
         string $name,
         string $description,
         string $productUseGuide,
         string $imageUrl,
+        float  $price,
         string $discountPercent,
         string $categoryId
     )
@@ -67,7 +57,7 @@ class Product
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
         $this->categoryId = $categoryId;
-        $this->productVariants = new ArrayCollection();
+        $this->price = $price;
     }
 
     public static function create(
@@ -76,7 +66,8 @@ class Product
         string $productUseGuide,
         string $imageUrl,
         string $discountPercent,
-        string $categoryId
+        string $categoryId,
+        float  $price
     ): self
     {
         return new Product(
@@ -85,7 +76,8 @@ class Product
             $productUseGuide,
             $imageUrl,
             $discountPercent,
-            $categoryId
+            $categoryId,
+            $price
         );
     }
 
@@ -93,7 +85,8 @@ class Product
         string $name,
         string $description,
         string $productUseGuide,
-        string $discountPercent
+        string $discountPercent,
+        float  $price
     ): Product
     {
         $this->name = $name;
@@ -101,10 +94,25 @@ class Product
         $this->productUseGuide = $productUseGuide;
         $this->discountPercent = $discountPercent;
         $this->updatedAt = new DateTime();
-
+        $this->price = $price;
         return $this;
     }
 
+    public function getDiscountPrice(): float
+    {
+        return $this->discountPercent == 0 ? $this->price : $this->price * $this->discountPercent / 100;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): Product
+    {
+        $this->price = $price;
+        return $this;
+    }
 
 
     public function getId(): string
@@ -150,11 +158,6 @@ class Product
     public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
-    }
-
-    public function getProductVariants(): Collection
-    {
-        return $this->productVariants;
     }
 
     public function setName(string $name): self

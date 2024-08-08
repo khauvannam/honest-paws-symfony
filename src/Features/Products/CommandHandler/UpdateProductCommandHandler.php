@@ -43,7 +43,8 @@ class UpdateProductCommandHandler
             $command->getName(),
             $command->getDescription(),
             $command->getProductUseGuide(),
-            $command->getDiscountPercent()
+            $command->getDiscountPercent(),
+            $command->getPrice()
         );
 
         $this->productRepository->update($product);

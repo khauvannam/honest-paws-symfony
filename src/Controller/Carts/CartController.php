@@ -2,7 +2,6 @@
 
 namespace App\Controller\Carts;
 
-use App\Features\Carts\Command\CreateCartItemCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +22,7 @@ class CartController extends AbstractController
     #[Route('/cart/new/{customerId}', name: 'cart_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request, string $customerId): RedirectResponse|Response
     {
-        
+       
     }
 
 }

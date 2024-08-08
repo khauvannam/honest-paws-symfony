@@ -11,6 +11,18 @@ class CreateProductCommand
     private string $productUseGuide = '';
     private ?UploadedFile $imgFile = null;
     private string $categoryId = '';
+    private float $price = 0;
+
+    public function getPrice(): string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): CreateProductCommand
+    {
+        $this->price = $price;
+        return $this;
+    }
 
     public function getCategoryId(): string
     {

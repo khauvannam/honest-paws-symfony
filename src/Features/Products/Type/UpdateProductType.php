@@ -6,6 +6,7 @@ use App\Features\Products\Command\UpdateProductCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,6 +33,7 @@ class UpdateProductType extends AbstractType
             ->add("imageFile", FileType::class, [
                 "label" => "Image URL",
             ])
+            ->add("price", NumberType::class, ['label' => "Price"])
             ->add("discountPercent", TextType::class, [
                 "label" => "Discount Percent",
             ])

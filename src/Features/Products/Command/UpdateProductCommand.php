@@ -12,6 +12,18 @@ class UpdateProductCommand
     private string $productUseGuide = '';
     private ?UploadedFile $imageFile = null;
     private string $discountPercent = '';
+    private float $price = 0;
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): UpdateProductCommand
+    {
+        $this->price = $price;
+        return $this;
+    }
 
     public function __construct(
         string $id

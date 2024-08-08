@@ -16,8 +16,9 @@ class CreateProductCommandHandler
 
     public function __construct(
         ProductRepository $productRepository,
-        BlobService $blobService
-    ) {
+        BlobService       $blobService
+    )
+    {
         $this->productRepository = $productRepository;
         $this->blobService = $blobService;
     }
@@ -31,7 +32,8 @@ class CreateProductCommandHandler
             $command->getProductUseGuide(),
             $fileName,
             $command->getDiscountPercent(),
-            $command->getCategoryId()
+            $command->getCategoryId(),
+            $command->getPrice()
         );
 
         $this->productRepository->save($product);
