@@ -11,15 +11,12 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity]
 class Cart
 {
-
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column(type: 'string')]
     private string $id;
 
     #[ORM\Column(length: 255)]
     private ?string $CustomerId;
-
     #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
     private Collection $cartItems;
 
@@ -70,5 +67,26 @@ class Cart
     public static function create(string $customerId): self
     {
         return new self($customerId);
+    }
+
+    public function AddCartItem(CartItem $newCartItem): self
+    {
+        foreach ($this->cartItems as $cartItem) {
+            if ($cartItem->getProductId() === $newCartItem->getProductId()) {
+                $newQuantity = $cartItem->getQuantity() + $newCartItem->getQuantity();
+                $cartItem->setQuantity($newQuantity);
+            }
+            $this->cartItems[] = $cartItem;
+            $cartItem->setCart($this);
+        }
+        return $this;
+    }
+
+    public function removeCartItem(CartItem $cartItem): self
+    {
+        if ($this->cartItems->contains($cartItem)) {
+            $this->cartItems->removeElement($cartItem);
+        }
+        return $this;
     }
 }

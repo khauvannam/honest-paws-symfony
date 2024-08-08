@@ -2,12 +2,21 @@
 
 namespace App\Features\Carts\Command;
 
-use Doctrine\Common\Collections\Collection;
-
 class UpdateCartCommand
 {
     private string $customerId = '';
-    private array $cartItems = [];
+    private CreateCartItemCommand $cartItem;
+
+    public function getCartItem(): CreateCartItemCommand
+    {
+        return $this->cartItem;
+    }
+
+    public function setCartItem(CreateCartItemCommand $cartItem): UpdateCartCommand
+    {
+        $this->cartItem = $cartItem;
+        return $this;
+    }
 
     public function getCustomerId(): string
     {
@@ -17,17 +26,6 @@ class UpdateCartCommand
     public function setCustomerId(string $customerId): UpdateCartCommand
     {
         $this->customerId = $customerId;
-        return $this;
-    }
-
-    public function getCartItems(): array
-    {
-        return $this->cartItems;
-    }
-
-    public function setCartItems(array $cartItems): UpdateCartCommand
-    {
-        $this->cartItems = $cartItems;
         return $this;
     }
 

@@ -2,8 +2,6 @@
 
 namespace App\Features\Carts\Command;
 
-use Doctrine\Common\Collections\Collection;
-
 class CreateCartItemCommand
 {
     private string $productId = '';
