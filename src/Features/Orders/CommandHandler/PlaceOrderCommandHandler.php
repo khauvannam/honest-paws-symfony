@@ -10,14 +10,14 @@ use App\Features\Orders\Command\PlaceOrderCommand;
 use App\Repository\Carts\CartRepository;
 use App\Repository\Orders\OrderRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use App\Services\MailerService;
+
 
 #[AsMessageHandler]
 class PlaceOrderCommandHandler
 {
 
-    public function __construct(private OrderRepository $orderRepository, private CartRepository $cartRepository)
-    {
-    }
+    public function __construct(private OrderRepository $orderRepository, private CartRepository $cartRepository, private MailerService $mailerService) {}
 
     public function __invoke(PlaceOrderCommand $command): OrderBase
     {
@@ -33,6 +33,9 @@ class PlaceOrderCommandHandler
         }
         $this->orderRepository->save($order);
         $cart->setCartStatus(CartStatus::checkout);
+
+        $this->mailerService->sendOrderConfirmationEmail($customer->getEmail(), $order);
+
 
         $this->cartRepository->save($cart);
         return $order;
