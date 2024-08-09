@@ -5,24 +5,25 @@ namespace App\Entity\Orders;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-
+#[ORM\Entity]
 class OrderLine
 {
     #[ORM\Id]
     #[ORM\Column]
     private string $id;
 
-    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderLines')]
-    #[ORM\JoinColumn(nullable: false)]
-    private Order $order;
+    #[ORM\ManyToOne(targetEntity: OrderBase::class, inversedBy: 'orderLines')]
+    private OrderBase $order;
 
     #[ORM\Column(type: "string", length: 255)]
     private string $productId;
 
     #[ORM\Column(type: "string", length: 255)]
     private string $productName;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $imgUrl;
 
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column]
     private int $quantity;
 
     #[ORM\Column(type: "decimal", scale: 2)]
@@ -31,6 +32,7 @@ class OrderLine
     public function __construct(
         string $productId,
         string $productName,
+        string $imgUrl,
         int    $quantity,
         float  $price
     )
@@ -38,8 +40,20 @@ class OrderLine
         $this->id = Uuid::v4()->toString();
         $this->productId = $productId;
         $this->productName = $productName;
+        $this->imgUrl = $imgUrl;
         $this->quantity = $quantity;
         $this->price = $price;
+    }
+
+    public function getImgUrl(): string
+    {
+        return $this->imgUrl;
+    }
+
+    public function setImgUrl(string $imgUrl): OrderLine
+    {
+        $this->imgUrl = $imgUrl;
+        return $this;
     }
 
     // Getters and setters...
@@ -49,12 +63,12 @@ class OrderLine
         return $this->id;
     }
 
-    public function getOrder(): Order
+    public function getOrder(): OrderBase
     {
         return $this->order;
     }
 
-    public function setOrder(Order $order): void
+    public function setOrder(OrderBase $order): void
     {
         $this->order = $order;
     }
@@ -103,4 +117,5 @@ class OrderLine
     {
         return $this->quantity * $this->price;
     }
+
 }

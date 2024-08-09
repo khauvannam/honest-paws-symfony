@@ -2,65 +2,51 @@
 
 namespace App\Entity\Orders;
 
-use App\Repository\Orders\OrderRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: OrderRepository::class)]
-class Order
+#[ORM\Entity]
+class OrderBase
 {
-    public function __construct(string $userId, string $shippingAddress, int $orderStatus = 0) // OrderStatus::PENDING
+    public function __construct(string $customerId, string $shippingAddress, string $shippingMethodId = '123', OrderStatus $orderStatus = OrderStatus::pending) // OrderStatus::PENDING
     {
         $this->id = Uuid::v4()->toString();
-        $this->userId = $userId;
+        $this->customerId = $customerId;
         $this->shippingAddress = $shippingAddress;
         $this->orderStatus = $orderStatus;
+        $this->shippingMethodId = $shippingMethodId;
         $this->orderDate = new \DateTime();
         $this->orderLines = new ArrayCollection();
-        $this->orderTotal = 0.0;
     }
 
-
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type:"string", length:36)]
-
-    private string $id ;
+    #[ORM\Column(type: "string")]
+    private string $id;
 
 
-    #[ORM\Column(type:"string", length:255)]
-    
-
-    private string $userId;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $customerId;
 
 
-    #[ORM\Column(type:"datetime")]
-
+    #[ORM\Column(type: "datetime")]
     private \DateTime $orderDate;
 
 
-    #[ORM\Column(type:"decimal", scale:2)]
-
-    private float $orderTotal;
-
-
-    #[ORM\Column(type:"integer")]
-
-    private int $orderStatus;
+    #[ORM\Column(type: "decimal", scale: 2)]
+    private float $orderTotal = 0;
 
 
-    #[ORM\Column(type:"string", length:255)]
-    
+    #[ORM\Column]
+    private OrderStatus $orderStatus;
 
+
+    #[ORM\Column(type: "string", length: 255)]
     private string $shippingMethodId;
 
 
-    #[ORM\Column(type:"string", length:500)]
-    
-
+    #[ORM\Column(type: "string", length: 500)]
     private string $shippingAddress;
 
 
@@ -68,20 +54,21 @@ class Order
     private Collection $orderLines;
 
     public static function create(
-        string $userId,
+        string $customerId,
         string $shippingAddress,
-        int $orderStatus = 0 // OrderStatus::PENDING
-    ): self {
-        return new self($userId, $shippingAddress, $orderStatus);
+    ): self
+    {
+        return new self($customerId, $shippingAddress);
     }
 
     public function addOrderLine(OrderLine $orderLine): void
     {
         $this->orderLines->add($orderLine);
-        $this->orderTotal += $orderLine->getPrice();
+        $this->orderTotal += $orderLine->getTotal();
+        $orderLine->setOrder($this);
     }
 
-    public function updateOrderStatus(int $orderStatus): void
+    public function updateOrderStatus(OrderStatus $orderStatus): void
     {
         $this->orderStatus = $orderStatus;
     }
@@ -94,7 +81,7 @@ class Order
 
     public function getUserId(): string
     {
-        return $this->userId;
+        return $this->customerId;
     }
 
     public function getOrderDate(): \DateTime
@@ -107,7 +94,7 @@ class Order
         return $this->orderTotal;
     }
 
-    public function getOrderStatus(): int
+    public function getOrderStatus(): OrderStatus
     {
         return $this->orderStatus;
     }
@@ -127,9 +114,9 @@ class Order
         return $this->orderLines;
     }
 
-    public function setUserId(string $userId): void
+    public function setUserId(string $customerId): void
     {
-        $this->userId = $userId;
+        $this->customerId = $customerId;
     }
 
     public function setOrderDate(\DateTime $orderDate): void
@@ -142,7 +129,7 @@ class Order
         $this->orderTotal = $orderTotal;
     }
 
-    public function setOrderStatus(int $orderStatus): void
+    public function setOrderStatus(OrderStatus $orderStatus): void
     {
         $this->orderStatus = $orderStatus;
     }

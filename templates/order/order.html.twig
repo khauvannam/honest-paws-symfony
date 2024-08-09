@@ -45,8 +45,33 @@
             {% endif %}
         </div>
 
-        <a href="{{ path('order') }}">Proceed to Checkout</a>
     {% else %}
         <p>No cart available.</p>
     {% endif %}
+    <h1>Place Order</h1>
+
+    {{ form_start(form) }}
+
+    <div>
+        {{ form_label(form.shippingAddress) }}
+        {{ form_widget(form.shippingAddress, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.shippingAddress) }}
+    </div>
+
+    <div>
+        {{ form_label(form.shippingMethod) }}
+        {{ form_widget(form.shippingMethod, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.shippingMethod) }}
+    </div>
+    <div>
+
+    </div>
+    <div>
+        <a href="{{ path('order_checkout') }}">Check out</a>
+    </div>
 {% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -52,15 +52,22 @@
                     </div>
 
                     <!-- Stock Status -->
-                    <div class="mb-4 text-green-600">Item is in stock</div>
-                    {{ form_start(cartForm, {'attr': {'action': path('cart_new')}}) }}
-                    {{ form_widget(cartForm.productId, {'value': product.id}) }}
-                    {{ form_widget(cartForm.quantity, {'value': 1, 'attr': {'id': 'hiddenQuantity'}}) }}
-                    {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}
-                    {{ form_widget(cartForm.name, {'value': product.name}) }}
-                    {{ form_widget(cartForm.price, {'value': product.getDiscountedPrice}) }}
-                    {{ form_widget(cartForm.save) }}
-                    {{ form_end(cartForm) }}
+                    <div class="w-full px-5">
+                        <!-- Add a valid href if "Add to Cart" should be a link, or change to a button -->
+                        {{ form_start(cartForm, {'attr': {'action': path('cart_new')}}) }}
+                        {{ form_widget(cartForm.productId, {'value': product.id}) }}
+                        {{ form_widget(cartForm.quantity, {'value': 1, 'attr': {'id': 'hiddenQuantity'}}) }}
+                        {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}
+                        {{ form_widget(cartForm.name, {'value': product.name}) }}
+                        {{ form_widget(cartForm.price, {'value': product.getDiscountedPrice}) }}
+                        <button type="submit"
+                                class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
+                            <p class="text-white group-hover:text-main">
+                                Add to Cart
+                            </p>
+                        </button>
+                        {{ form_end(cartForm) }}
+                    </div>
                     <div class="mt-4 pr-4">
                         <h3 class="text-xl font-semibold mb-2">Product Use Guide</h3>
                         <p>{{ product.productUseGuide }}</p>
