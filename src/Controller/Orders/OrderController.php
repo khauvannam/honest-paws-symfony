@@ -67,9 +67,8 @@ class OrderController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->bus->dispatch($orderCommand);
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('product_success');
         }
-
         return $this->render('order/order.html.twig', ['cart' => $cart, 'form' => $form->createView()]);
     }
 }

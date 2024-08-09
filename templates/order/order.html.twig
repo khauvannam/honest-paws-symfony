@@ -50,8 +50,7 @@
     {% endif %}
     <h1>Place Order</h1>
 
-    {{ form_start(form) }}
-
+    {{ form_start(form, { 'action' : path('order_checkout') }) }}
     <div>
         {{ form_label(form.shippingAddress) }}
         {{ form_widget(form.shippingAddress, {'attr': {'class': 'form-control'}}) }}
@@ -64,11 +63,9 @@
         {{ form_errors(form.shippingMethod) }}
     </div>
     <div>
-
+        {{ form_widget(form.submit) }}
     </div>
-    <div>
-        <a href="{{ path('order_checkout') }}">Check out</a>
-    </div>
+    {{ form_end(form) }}
 {% endblock %}
 
 {% block title %}
