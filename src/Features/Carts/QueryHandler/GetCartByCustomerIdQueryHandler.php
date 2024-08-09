@@ -3,6 +3,7 @@
 namespace App\Features\Carts\QueryHandler;
 
 use App\Entity\Carts\Cart;
+use App\Entity\Carts\CartStatus;
 use App\Features\Carts\Query\GetCartByCustomerId;
 use App\Repository\Carts\CartRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -19,7 +20,6 @@ class GetCartByCustomerIdQueryHandler
 
     public function __invoke(GetCartByCustomerId $query): ?Cart
     {
-        
-        return $this->cartRepository->findOneBy(['customerId' => $query->getCustomerId()]);
+        return $this->cartRepository->findOneBy(['customerId' => $query->getCustomerId(), 'cartStatus' => CartStatus::preparing]);
     }
 }

@@ -43,13 +43,12 @@
                         Tổng cộng: {{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
                     </h3>
                 {% else %}
-                    <p class="text-gray-600 mt-4">No items in the cart.</p>
+                    <p class="text-gray-600 mt-4">Không có sản phẩm trong giỏ.</p>
                 {% endif %}
             </div>
 
-            <a href="{{ path('order_checkout') }}" class="inline-block mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tiến hành thanh toán</a>
-        {% else %}
-            <p class="text-gray-600 mt-4">Giỏ hàng không tồn tại.</p>
-        {% endif %}
-    </div>
+        <a href="{{ path('order') }}" class="inline-block mt-6 mb-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tiến hành thanh toán</a>
+    {% else %}
+        <p>Giỏ hàng không tồn tại.</p>
+    {% endif %}
 {% endblock %}
