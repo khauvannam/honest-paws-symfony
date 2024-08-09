@@ -21,7 +21,7 @@ class PlaceOrderType extends AbstractType
                 'label' => 'Shipping Method',
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Place OrderBase',
+                'label' => 'Place Order',
             ]);
     }
 
