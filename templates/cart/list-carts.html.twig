@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Shopping Cart</h1>
+
+    {% if cart %}
+        <div>
+            <h2>Cart Details</h2>
+            <ul>
+                <li><strong>Cart ID:</strong> {{ cart.id }}</li>
+                <li><strong>Customer ID:</strong> {{ cart.customerId }}</li>
+                <li><strong>Status:</strong> {{ cart.cartStatus.value }}</li>
+                <li><strong>Last Updated:</strong> {{ cart.updateDate|date('Y-m-d H:i:s') }}</li>
+            </ul>
+
+            <h3>Items in Cart</h3>
+            {% if cart.getCartItems|length > 0 %}
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Product Image</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in cart.getCartItems %}
+                        <tr>
+                            <td><img src="{{ item.imageUrl }}" alt="{{ item.name }}" width="100"></td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.price|number_format(2) }}</td>
+                            <td>{{ (item.price * item.quantity)|number_format(2) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <h3>
+                    Total: {{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}</h3>
+            {% else %}
+                <p>No items in the cart.</p>
+            {% endif %}
+        </div>
+
+        <a href="">Proceed to Checkout</a>
+    {% else %}
+        <p>No cart available.</p>
+    {% endif %}
+{% endblock %}

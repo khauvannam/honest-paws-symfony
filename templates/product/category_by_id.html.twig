@@ -4,10 +4,10 @@
     {# Breadcrumb Navigation #}
     <div class="w-full pt-5 px-10 flex justify-center">
         <div class="w-full max-w-[1300px] flex items-center text-main">
-            <a href="/" class="hover:underline">Home</a>
+            <a href="/" class="hover:underline">Trang chủ</a>
             <span class="mx-2">></span>
             <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">All
-                Products</a>
+                Tất cả sản phẩm</a>
             <span class="mx-2">></span>
             {% for category in categories %}
                 {% if id == category.id %}
@@ -22,16 +22,19 @@
         <div class="w-full max-w-[1300px] justify-between flex">
             <div class="w-6/12 mt-10">
                 <p class="pt-4 text-main">
-                    Trusted, Effective Solutions
+                    Giải pháp đáng tin cậy, hiệu quả
                 </p>
                 <h1 class="text-4xl font-extrabold text-main uppercase">
-                    All Products
+                    Tất cả sản phẩm
                 </h1>
                 <p class="pt-4 pb-6 text-main max-w-[550px]">
-                    Elevate your pet's well-being with our range of products designed to support your pet’s health and
-                    happiness. From calming treats and joint support chews to grooming essentials, all crafted with
-                    natural ingredients and rigorously tested for quality. Trust Honest Paws to provide the best for
-                    your furry friend’s wellness.
+                    Nâng cao sức khỏe cho thú cưng của bạn với nhiều sản phẩm của chúng tôi được thiết kế để hỗ trợ sức
+                    khỏe và sự phát triển của thú cưng của bạn.
+                    niềm hạnh phúc. Từ những món ăn nhẹ dịu và nhai hỗ trợ khớp cho đến những thứ cần thiết cho việc
+                    chải chuốt, tất cả đều được chế tạo bằng
+                    Thành phần tự nhiên và được kiểm tra nghiêm ngặt về chất lượng. Hãy tin tưởng Honest Paws để mang
+                    đến những điều tốt nhất cho
+                    sức khỏe của người bạn lông xù của bạn.
                 </p>
             </div>
             <div class="w-6/12 ">
@@ -40,6 +43,7 @@
             </div>
         </div>
     </div>
+
     {# Categories Section #}
     <div class="w-full pt-10 px-10 flex justify-center">
         <div class="w-full max-w-[1300px] flex justify-center gap-5">

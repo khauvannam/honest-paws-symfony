@@ -4,8 +4,16 @@ namespace App\Features\Carts\Command;
 
 class UpdateCartCommand
 {
-    private string $customerId = '';
+    private string $customerId;
     private CreateCartItemCommand $cartItem;
+
+    /**
+     * @param string $customerId
+     */
+    public function __construct(string $customerId)
+    {
+        $this->customerId = $customerId;
+    }
 
     public function getCartItem(): CreateCartItemCommand
     {
@@ -29,7 +37,5 @@ class UpdateCartCommand
         return $this;
     }
 
-    public function __construct()
-    {
-    }
+
 }

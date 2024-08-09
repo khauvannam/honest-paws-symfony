@@ -13,7 +13,6 @@ use App\Features\Products\Command\DeleteProductCommand;
 use App\Features\Products\Command\UpdateProductCommand;
 use App\Features\Products\Query\GetProductCategoryId;
 use App\Features\Products\Query\GetProductQuery;
-use App\Features\Products\Query\ListProductQuery;
 use App\Features\Products\Type\CreateProductType;
 use App\Features\Products\Type\UpdateProductType;
 use App\Services\GetEnvelopeResultService;
@@ -25,7 +24,6 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ProductController extends AbstractController
 {
@@ -60,7 +58,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
+    // #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/success', name: 'product_success')]
     public function createSuccess(): Response
     {
@@ -71,7 +69,7 @@ class ProductController extends AbstractController
      * @throws ExceptionInterface
      */
 
-    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
+    // #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
     public function editAsync(Request $request, string $id): RedirectResponse|Response
     {
@@ -95,7 +93,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
+    // #[IsGranted('ROLE_ADMIN', message: 'You need admin permission to access this page')]
     #[Route('/products/delete/{id}', name: 'product_delete', methods: ['POST'])]
     public function delete(string $id): RedirectResponse
     {
@@ -145,6 +143,7 @@ class ProductController extends AbstractController
         $command = new GetProductQuery($id);
         $cartItemCommand = new CreateCartItemCommand();
         $form = $this->createForm(CreateCartItemType::class, $cartItemCommand);
+
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
         $result['id'] = $id;
