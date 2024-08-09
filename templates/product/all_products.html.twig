@@ -21,10 +21,13 @@
                     Tất cả sản phẩm
                 </h1>
                 <p class="pt-4 pb-6 text-main max-w-[550px]">
-                    Nâng cao sức khỏe cho thú cưng của bạn với nhiều sản phẩm của chúng tôi được thiết kế để hỗ trợ sức khỏe và sự phát triển của thú cưng của bạn.
- niềm hạnh phúc. Từ những món ăn nhẹ dịu và nhai hỗ trợ khớp cho đến những thứ cần thiết cho việc chải chuốt, tất cả đều được chế tạo bằng
- Thành phần tự nhiên và được kiểm tra nghiêm ngặt về chất lượng. Hãy tin tưởng Honest Paws để mang đến những điều tốt nhất cho
- sức khỏe của người bạn lông xù của bạn.
+                    Nâng cao sức khỏe cho thú cưng của bạn với nhiều sản phẩm của chúng tôi được thiết kế để hỗ trợ sức
+                    khỏe và sự phát triển của thú cưng của bạn.
+                    niềm hạnh phúc. Từ những món ăn nhẹ dịu và nhai hỗ trợ khớp cho đến những thứ cần thiết cho việc
+                    chải chuốt, tất cả đều được chế tạo bằng
+                    Thành phần tự nhiên và được kiểm tra nghiêm ngặt về chất lượng. Hãy tin tưởng Honest Paws để mang
+                    đến những điều tốt nhất cho
+                    sức khỏe của người bạn lông xù của bạn.
                 </p>
             </div>
             <div class="w-6/12 ">
@@ -68,7 +71,7 @@
     </div>
 
     {# Products Section #}
-    <div class="flex justify-center w-full pt-12">
+    <div class="flex justify-center w-full pt-12 text-main">
         <div class="flex gap-x-10 w-full max-w-[1400px] flex-wrap">
             {% for product in products %}
                 <div class="flex flex-col justify-between bg-[#f0f5ff] items-center rounded-lg w-[400px] my-6 p-4 mx-2">
@@ -83,13 +86,14 @@
                     <div class="flex items-center ">
                         <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
                     </div>
-                    <p class="pb-4 text-center mb-10">{{ product.description | slice(0,50)}}...</p>
+                    <p class="pb-4 text-center">{{ product.description | slice(0,50) }}...</p>
 
-                    <a href="{#{{ path('product_detail', {'id': product.id}) }}#}"
+                    <a href="{# {{ path('product_detail', {'id': product.id}) }} #}"
                        class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
                             Add to Cart
-                        </P>
+                        </p>
+                    </a>
                     <a href="{{ path('product_details', {'id': product.id}) }}"
                        class="mt-4 h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
@@ -107,9 +111,12 @@
         <div class="w-full max-w-[1300px] flex-col flex items-center">
             <h3 class="pb-6 text-center">
                 <span class="text-2xl text-main font-bold"> Đơn giản hóa thói quen</span>
-                
+
                 <p class="text-main pt-6 max-w-[800px]">
-                    Hãy là người đầu tiên biết về các ưu đãi mới nhất của chúng tôi và tiết kiệm trên những sản phẩm yêu thích của thú cưng của bạn. Tham gia cùng chúng tôi ngay hôm nay và biến sự chăm sóc thú cưng của bạn thành ưu tiên hàng đầu. Đăng ký ngay để không bỏ lỡ cơ hội nhận những điều tốt nhất cho người bạn thân thiết của bạn!
+                    Hãy là người đầu tiên biết về các ưu đãi mới nhất của chúng tôi và tiết kiệm trên những sản phẩm yêu
+                    thích của thú cưng của bạn. Tham gia cùng chúng tôi ngay hôm nay và biến sự chăm sóc thú cưng của
+                    bạn thành ưu tiên hàng đầu. Đăng ký ngay để không bỏ lỡ cơ hội nhận những điều tốt nhất cho người
+                    bạn thân thiết của bạn!
 
 
                 </p>
@@ -124,9 +131,10 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-Giao hàng hàng tháng, tận cửa nhà bạn                        </h3>
+                            Giao hàng hàng tháng, tận cửa nhà bạn </h3>
                         <p class="font-light">
-Đơn hàng của bạn sẽ được giao hàng tháng, đảm bảo rằng bạn luôn có sẵn các sản phẩm Dog Parasite mà bạn yêu thích.                        </p>
+                            Đơn hàng của bạn sẽ được giao hàng tháng, đảm bảo rằng bạn luôn có sẵn các sản phẩm Dog
+                            Parasite mà bạn yêu thích. </p>
                     </div>
                     <div class="flex flex-col items-center">
                         <div class="pb-5">
@@ -136,9 +144,9 @@ Giao hàng hàng tháng, tận cửa nhà bạn                        </h3>
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-Miễn phí vận chuyển cho người đăng ký                  </h3>
+                            Miễn phí vận chuyển cho người đăng ký </h3>
                         <p class="font-light">
-Ngay cả khi bạn cần tạm hoãn hoặc gấp rút xử lý đơn hàng của mình.
+                            Ngay cả khi bạn cần tạm hoãn hoặc gấp rút xử lý đơn hàng của mình.
 
                         </p>
                     </div>
@@ -150,11 +158,11 @@ Ngay cả khi bạn cần tạm hoãn hoặc gấp rút xử lý đơn hàng c�
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-Điều chỉnh ngày giao hàng theo ý bạn
+                            Điều chỉnh ngày giao hàng theo ý bạn
 
                         </h3>
                         <p class="font-light">
-Thực hiện điều chỉnh bất cứ khi nào bạn cần.
+                            Thực hiện điều chỉnh bất cứ khi nào bạn cần.
 
                         </p>
                     </div>
@@ -166,11 +174,11 @@ Thực hiện điều chỉnh bất cứ khi nào bạn cần.
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-Hủy đơn dễ dàng, bất cứ lúc nào
+                            Hủy đơn dễ dàng, bất cứ lúc nào
 
                         </h3>
                         <p class="font-light">
-Hủy đăng ký của bạn bất cứ lúc nào—hoàn toàn không ràng buộc.
+                            Hủy đăng ký của bạn bất cứ lúc nào—hoàn toàn không ràng buộc.
 
                         </p>
                     </div>
@@ -182,11 +190,11 @@ Hủy đăng ký của bạn bất cứ lúc nào—hoàn toàn không ràng bu�
                             </svg>
                         </div>
                         <h3 class="text-lg font-bold mb-2.5">
-Bảo đảm hoàn tiền trong 30 ngày
+                            Bảo đảm hoàn tiền trong 30 ngày
 
                         </h3>
                         <p class="font-light">
-Không hài lòng trong vòng 30 ngày? Chúng tôi sẽ hoàn lại tiền cho bạn.
+                            Không hài lòng trong vòng 30 ngày? Chúng tôi sẽ hoàn lại tiền cho bạn.
 
                         </p>
                     </div>
@@ -201,7 +209,7 @@ Không hài lòng trong vòng 30 ngày? Chúng tôi sẽ hoàn lại tiền cho 
                             Chó là thành viên gia đình
                         </h3>
                         <p class="font-light">
-Chắc chắn rồi                        </p>
+                            Chắc chắn rồi </p>
                     </div>
                 </div>
                 <div class="pt-10 flex justify-center">

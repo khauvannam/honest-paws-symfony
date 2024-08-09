@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4 text-center">Giỏ hàng</h1>
+
+        {% if cart %}
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-2xl font-semibold mb-2">Thông tin giỏ hàng</h2>
+                <ul class="mb-4">
+                    <li><strong>Trạng thái:</strong> {{ cart.cartStatus.value }}</li>
+                    <li><strong>Lần cập nhật cuối vào lúc:</strong> {{ cart.updateDate|date('Y-m-d H:i:s') }}</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mb-2">Sản phẩm trong giỏ</h3>
+                {% if cart.getCartItems|length > 0 %}
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 border-b-2 ">Hình ảnh</th>
+                                    <th class="px-4 py-2 border-b-2">Tên sản phẩm</th>
+                                    <th class="px-4 py-2 border-b-2">Số lượng</th>
+                                    <th class="px-4 py-2 border-b-2">Giá sản phẩm</th>
+                                    <th class="px-4 py-2 border-b-2">Tổng cộng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart.getCartItems %}
+                                    <tr class="border-t text-center">
+                                        <td class="px-4 py-2"><img src="{{ asset('img/blobs/' ~ item.imageUrl) }}" alt="{{ item.name }}" width="100" class="rounded"></td>
+                                        <td class="px-4 py-2">{{ item.name }}</td>
+                                        <td class="px-4 py-2">{{ item.quantity }}</td>
+                                        <td class="px-4 py-2">{{ item.price|number_format(2) }}</td>
+                                        <td class="px-4 py-2">{{ (item.price * item.quantity)|number_format(2) }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mt-4 text-right">
+                        Tổng cộng: {{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
+                    </h3>
+                {% else %}
+                    <p class="text-gray-600 mt-4">No items in the cart.</p>
+                {% endif %}
+            </div>
+
+            <a href="{{ path('order_checkout') }}" class="inline-block mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tiến hành thanh toán</a>
+        {% else %}
+            <p class="text-gray-600 mt-4">Giỏ hàng không tồn tại.</p>
+        {% endif %}
+    </div>
+{% endblock %}

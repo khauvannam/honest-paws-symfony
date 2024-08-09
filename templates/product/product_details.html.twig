@@ -16,30 +16,30 @@
 
                     <!-- Product Price -->
                     <div class="flex items-center mb-4">
-                        <div class="text-3xl font-bold text-red-600 mr-2">{{ product.discountPercent() }}</div>
-                        <div class="text-gray-500 line-through">{{ product.price }}</div>
+                        <div class="text-3xl font-bold text-red-600 mr-2">${{ product.getDiscountedPrice() }}</div>
+                        <div class="text-gray-500 line-through">${{ product.price }}</div>
                         <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">
                             SAVE {{ product.discountPercent }}%
                         </div>
                     </div>
                     <!-- Delivery Options -->
-                    <div class="mb-4">
-                        <label for="delivery_option">Deliver Every:</label>
-                        <select id="delivery_option" name="delivery_option">
-                            <option value="30_days">30 Days</option>
-                            <option value="60_days">60 Days</option>
-                        </select>
-                    </div>
+                    {#                    <div class="mb-4"> #}
+                    {#                        <label for="delivery_option">Deliver Every:</label> #}
+                    {#                        <select id="delivery_option" name="delivery_option"> #}
+                    {#                            <option value="30_days">30 Days</option> #}
+                    {#                            <option value="60_days">60 Days</option> #}
+                    {#                        </select> #}
+                    {#                    </div> #}
 
                     <!-- Dog Size Options -->
-                    <div class="mb-4">
-                        <label for="dog_size">Dog Size:</label>
-                        <select id="dog_size" name="dog_size">
-                            <option value="small">125 mg - Up to 25 lbs</option>
-                            <option value="medium">250 mg - 26 to 50 lbs</option>
-                            <option value="large">500 mg - 51 lbs and up</option>
-                        </select>
-                    </div>
+                    {#                    <div class="mb-4"> #}
+                    {#                        <label for="dog_size">Dog Size:</label> #}
+                    {#                        <select id="dog_size" name="dog_size"> #}
+                    {#                            <option value="small">125 mg - Up to 25 lbs</option> #}
+                    {#                            <option value="medium">250 mg - 26 to 50 lbs</option> #}
+                    {#                            <option value="large">500 mg - 51 lbs and up</option> #}
+                    {#                        </select> #}
+                    {#                    </div> #}
 
                     <!-- Quantity Selector -->
                     <div class="mb-4 flex items-center">
@@ -53,17 +53,15 @@
 
                     <!-- Stock Status -->
                     <div class="mb-4 text-green-600">Item is in stock</div>
-
-                    <!-- Add to Cart Form -->
-                        {{ form_start(cartForm, {'action' : path('cart_new', {'customerId' : app.user.id})}) }}
-                        {{ form_widget(cartForm.productId, {'value': product.id}) }}
-                        {{ form_widget(cartForm.quantity, {'value': 1, 'attr': {'id': 'hiddenQuantity'}}) }}
-                        {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}
-                        {{ form_widget(cartForm.name, {'value': product.name}) }}
-                        {{ form_widget(cartForm.price, {'value': 100}) }}
-                        {{ form_widget(cartForm.save) }}
-                        {{ form_end(cartForm) }}
-                    <div class="mt-6">
+                    {{ form_start(cartForm, {'attr': {'action': path('cart_new')}}) }}
+                    {{ form_widget(cartForm.productId, {'value': product.id}) }}
+                    {{ form_widget(cartForm.quantity, {'value': 1, 'attr': {'id': 'hiddenQuantity'}}) }}
+                    {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}
+                    {{ form_widget(cartForm.name, {'value': product.name}) }}
+                    {{ form_widget(cartForm.price, {'value': product.getDiscountedPrice}) }}
+                    {{ form_widget(cartForm.save) }}
+                    {{ form_end(cartForm) }}
+                    <div class="mt-4 pr-4">
                         <h3 class="text-xl font-semibold mb-2">Product Use Guide</h3>
                         <p>{{ product.productUseGuide }}</p>
                     </div>

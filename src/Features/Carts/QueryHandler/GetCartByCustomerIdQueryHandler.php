@@ -8,7 +8,7 @@ use App\Repository\Carts\CartRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class GetCartByCustomerIdQueryHandler 
+class GetCartByCustomerIdQueryHandler
 {
     private CartRepository $cartRepository;
 
@@ -19,6 +19,7 @@ class GetCartByCustomerIdQueryHandler
 
     public function __invoke(GetCartByCustomerId $query): ?Cart
     {
-        return $this->cartRepository->find($query->getCustomerId());
+        
+        return $this->cartRepository->findOneBy(['customerId' => $query->getCustomerId()]);
     }
 }

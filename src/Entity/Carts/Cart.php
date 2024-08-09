@@ -11,26 +11,24 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity]
 class Cart
 {
-
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column(type: 'string')]
     private string $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $CustomerId;
-
-    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart")]
+    private ?string $customerId;
+    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: "cart", cascade: ["persist", "remove"])]
     private Collection $cartItems;
 
     #[ORM\Column(type: 'datetime')]
     private DateTime $UpdateDate;
+    #[ORM\Column]
     private CartStatus $cartStatus;
 
-    private function __construct(?string $CustomerId)
+    private function __construct(?string $customerId)
     {
         $this->id = Uuid::v4()->toString();
-        $this->CustomerId = $CustomerId;
+        $this->customerId = $customerId;
         $this->UpdateDate = new DateTime();
         $this->cartItems = new ArrayCollection();
         $this->cartStatus = CartStatus::preparing;
@@ -54,10 +52,10 @@ class Cart
 
     public function getCustomerId(): string
     {
-        return $this->CustomerId;
+        return $this->customerId;
     }
 
-    public function getCartItemsList(): Collection
+    public function getCartItems(): Collection
     {
         return $this->cartItems;
     }
@@ -67,8 +65,33 @@ class Cart
         return $this->UpdateDate;
     }
 
-    public static function create(string $customerId): self
+    public static function create(?string $customerId): self
     {
         return new self($customerId);
+    }
+
+
+    public function addCartItem(CartItem $newCartItem): self
+    {
+        foreach ($this->cartItems as $cartItem) {
+            if ($cartItem->getProductId() == $newCartItem->getProductId()) {
+                $newQuantity = $cartItem->getQuantity() + $newCartItem->getQuantity();
+                $cartItem->setQuantity($newQuantity);
+                return $this;
+            }
+        }
+
+        $this->cartItems[] = $newCartItem;
+        $newCartItem->setCart($this);
+
+        return $this;
+    }
+
+    public function removeCartItem(CartItem $cartItem): self
+    {
+        if ($this->cartItems->contains($cartItem)) {
+            $this->cartItems->removeElement($cartItem);
+        }
+        return $this;
     }
 }

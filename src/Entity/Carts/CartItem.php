@@ -85,6 +85,17 @@ class CartItem
 
     }
 
+    public function getCart(): Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart): CartItem
+    {
+        $this->cart = $cart;
+        return $this;
+    }
+
 
     public function getId(): string
     {

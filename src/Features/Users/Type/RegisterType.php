@@ -29,9 +29,9 @@ class RegisterType extends AbstractType
             ->add("password", PasswordType::class, [
                 "label" => "Password",
             ])
-
             ->add("imageFile", FileType::class, [
                 "label" => "Image URL",
+                'required' => false
             ])
             ->add("register", SubmitType::class, [
                 "label" => "Đăng ký",
