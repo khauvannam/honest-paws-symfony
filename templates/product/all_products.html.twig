@@ -83,18 +83,17 @@
                     <div class="flex items-center ">
                         <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
                     </div>
-                    <p class="pb-4 text-center">{{ product.description }}</p>
+                    <p class="pb-4 text-center mb-10">{{ product.description | slice(0,50)}}...</p>
 
                     <a href="{#{{ path('product_detail', {'id': product.id}) }}#}"
                        class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
                             Add to Cart
-
+                        </P>
                     <a href="{{ path('product_details', {'id': product.id}) }}"
-                       class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
+                       class="mt-4 h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                         <p class="text-white group-hover:text-main">
                             Chi tiết
-
                         </p>
                     </a>
                 </div>
