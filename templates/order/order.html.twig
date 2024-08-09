@@ -2,31 +2,29 @@
 
 {% block body %}
     <div class="container mx-auto p-8">
-        <h1 class="text-3xl font-bold mb-6">Shopping Cart</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">Thanh toán</h1>
 
         <div class="flex flex-wrap">
             <!-- Cart Details (Left Column) -->
             <div class="w-full md:w-1/2 p-4">
                 {% if cart %}
                     <div class="mb-8">
-                        <h2 class="text-2xl font-semibold mb-4">Cart Details</h2>
+                        <h2 class="text-2xl font-semibold mb-4">Thông tin giỏ hàng</h2>
                         <ul class="list-disc pl-5 mb-4">
-                            <li><strong>Cart ID:</strong> {{ cart.id }}</li>
-                            <li><strong>Customer ID:</strong> {{ cart.customerId }}</li>
-                            <li><strong>Status:</strong> {{ cart.cartStatus.value }}</li>
-                            <li><strong>Last Updated:</strong> {{ cart.updateDate|date('Y-m-d H:i:s') }}</li>
+                            <li><strong>Trạng thái:</strong> {{ cart.cartStatus.value }}</li>
+                            <li><strong>Lần cập nhật cuối cùng vào:</strong> {{ cart.updateDate|date('Y-m-d H:i:s') }}</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mb-4">Items in Cart</h3>
+                        <h3 class="text-xl font-semibold mb-4">Sản phẩm trong giỏ</h3>
                         {% if cart.getCartItems|length > 0 %}
                             <table class="min-w-full bg-white border border-gray-200">
                                 <thead class="bg-gray-100">
                                 <tr>
-                                    <th class="px-4 py-2 border-b">Product Image</th>
-                                    <th class="px-4 py-2 border-b">Product Name</th>
-                                    <th class="px-4 py-2 border-b">Quantity</th>
-                                    <th class="px-4 py-2 border-b">Price</th>
-                                    <th class="px-4 py-2 border-b">Total</th>
+                                    <th class="px-4 py-2 border-b">Hình ảnh</th>
+                                    <th class="px-4 py-2 border-b">Tên sản phẩm</th>
+                                    <th class="px-4 py-2 border-b">Số lượng</th>
+                                    <th class="px-4 py-2 border-b">Giá sản phẩm</th>
+                                    <th class="px-4 py-2 border-b">Tổng cộng</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -45,24 +43,22 @@
                             </table>
 
                             <h3 class="text-xl font-semibold mt-6">
-                                Total: {{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
+                                Tổng cộng: {{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
                             </h3>
                         {% else %}
-                            <p class="text-red-500">No items in the cart.</p>
+                            <p class="text-red-500">Không có sản phẩm trong giỏ.</p>
                         {% endif %}
                     </div>
 
                 {% else %}
-                    <p class="text-red-500">No cart available.</p>
+                    <p class="text-red-500">Giỏ hàng không tồn tại.</p>
                 {% endif %}
             </div>
-
             <!-- Place Order (Right Column) -->
-            <div class="w-full md:w-1/2 p-4">
-                <h1 class="text-3xl font-bold mb-6">Place Order</h1>
+            <div class="w-full md:w-1/2 p-4 mt-20">
+                <h1 class="text-3xl font-bold mb-6">Thông tin giao hàng</h1>
 
-                {{ form_start(form) }}
-
+                {{ form_start(form, { 'action' : path('order_checkout') }) }}
                 <div class="mb-4">
                     {{ form_label(form.shippingAddress, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
                     {{ form_widget(form.shippingAddress, {'attr': {'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
@@ -76,15 +72,13 @@
                 </div>
 
                 <div>
-                    <a href="{{ path('order_checkout') }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Check out</a>
+                    {{ form_widget(form.submit, {'attr': {'class': 'inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'}}) }}
                 </div>
-
                 {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
-{% endblock %}
 
+        </div>
+
+{% endblock %}
 {% block title %}
     Checkout
 {% endblock %}
