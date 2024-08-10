@@ -2,7 +2,6 @@
 
 namespace App\Controller\Carts;
 
-use App\Entity\Users\User;
 use App\Features\Carts\Command\AddToCartCommand;
 use App\Features\Carts\Command\CreateCartItemCommand;
 use App\Features\Carts\Query\GetCartByCustomerId;
@@ -46,6 +45,9 @@ class CartController extends AbstractController
         return $this->render("product/product_details.html.twig", ['form' => $form->createView()]);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/cart/list', name: 'cart_list', methods: ['GET', 'POST'])]
     public function list(): Response
     {
@@ -53,5 +55,11 @@ class CartController extends AbstractController
         $cart = $this->service::invoke($this->bus->dispatch($command));
 
         return $this->render('cart/list-carts.html.twig', ['cart' => $cart]);
+    }
+
+    #[Route('/cart/update/cartId', name: 'cart_update', methods: ['POST', 'GET'])]
+    public function update(Request $request,string $cartId): Response
+    {
+       
     }
 }
