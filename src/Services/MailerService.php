@@ -67,14 +67,15 @@ class MailerService
 
         $this->mailer->send($email);
     }
-    public function sendOrderConfirmationEmail(string $to, OrderBase $order): void
+    public function sendOrderConfirmationEmail(string $to, OrderBase $order, string $userId): void
     {
         $email = (new Email())
             ->from('singaporestore220803@gmail.com')
             ->to($to)
             ->subject('Order Confirmation')
             ->html($this->twig->render('security/order_success.html.twig', [
-                'order' => $order
+                'order' => $order,
+                'userId' => $userId
             ]));
 
         $this->mailer->send($email);
