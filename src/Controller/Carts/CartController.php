@@ -44,7 +44,6 @@ class CartController extends AbstractController
         $cart->setCartItem($cartItem);
 
         $form = $this->createForm(CreateCartItemType::class, $cartItem);
-
         if ($form->handleRequest($request)->isSubmitted()) {
             $this->bus->dispatch($cart);
             return $this->redirectToRoute('cart_list', ['customerId' => $userId]);
@@ -63,6 +62,6 @@ class CartController extends AbstractController
         $command = new GetCartByCustomerId($userId);
         $cart = $this->service::invoke($this->bus->dispatch($command));
 
-        return $this->render('cart/list-carts.html.twig', ['cart' => $cart]);
+        return $this->render('cart/list-carts.html.twig', ['cart' => $cart, 'userId' => $userId]);
     }
 }
