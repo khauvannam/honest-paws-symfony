@@ -31,8 +31,8 @@
                                         <td class="px-4 py-2"><img src="{{ asset('img/blobs/' ~ item.imageUrl) }}" alt="{{ item.name }}" width="100" class="rounded"></td>
                                         <td class="px-4 py-2">{{ item.name }}</td>
                                         <td class="px-4 py-2">{{ item.quantity }}</td>
-                                        <td class="px-4 py-2">{{ item.price|number_format(2) }}</td>
-                                        <td class="px-4 py-2">{{ (item.price * item.quantity)|number_format(2) }}</td>
+                                        <td class="px-4 py-2">${{ item.price|number_format(2) }}</td>
+                                        <td class="px-4 py-2">${{ (item.price * item.quantity)|number_format(2) }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -40,7 +40,7 @@
                     </div>
 
                     <h3 class="text-xl font-semibold mt-4 text-right">
-                        Tổng cộng: {{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
+                        Tổng cộng: ${{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
                     </h3>
                 {% else %}
                     <p class="text-gray-600 mt-4">Không có sản phẩm trong giỏ.</p>

@@ -28,6 +28,7 @@ class ProductRepository extends ServiceEntityRepository
         $entityManager->persist($product);
         $entityManager->flush();
     }
+
     public function update(Product $product): Product
     {
         $entityManager = $this->getEntityManager();
@@ -71,19 +72,23 @@ class ProductRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    /**
-     * @param int $limit
-     * @param int $offset
-     * @return Product[]
-     */
-    public function findAllProducts(int $limit, int $offset = 0): array
+
+    public function findAllProducts(int $limit, int $offset = 0, ?string $search = null): array
     {
-        return $this->createquerybuilder("p")
-            ->setmaxresults($limit)
-            ->setfirstresult($offset)
-            ->getquery()
-            ->getresult();
+
+        $qb = $this->createQueryBuilder('p')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+
+        if ($search) {
+            
+            $qb->where('p.name LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        return $qb->getQuery()->getResult();
     }
+
     public function findByCategoryId(string $categoryId): array
     {
         return $this->createQueryBuilder('p')
