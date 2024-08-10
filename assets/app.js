@@ -1,4 +1,3 @@
-
 import "./styles/app.css";
 
 const avatarDropdown = document.querySelector("#avatar");
@@ -20,4 +19,22 @@ avatarDropdown.addEventListener("click", (e) => {
 overlay.addEventListener("click", () => {
   changePassword.style.display = "none";
   overlay.style.display = "none";
+});
+
+const cartIcon = document.getElementById("cart-icon");
+const cartPopup = document.getElementById("cart-popup");
+const closeCartButton = document.getElementById("close-cart");
+
+cartIcon.addEventListener("click", function (event) {
+  event.preventDefault();
+  cartPopup.classList.remove("hidden");
+});
+
+closeCartButton.addEventListener("click", function () {
+  cartPopup.classList.add("hidden");
+});
+cartPopup.addEventListener("click", function (event) {
+  if (event.target === cartPopup) {
+    cartPopup.classList.add("hidden");
+  }
 });

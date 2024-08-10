@@ -16,31 +16,12 @@
 
                     <!-- Product Price -->
                     <div class="flex items-center mb-4">
-                        <div class="text-3xl font-bold text-red-600 mr-2">${{ product.getDiscountedPrice() }}</div>
+                        <div id="totalPrice" class="text-3xl font-bold text-red-600 mr-2">${{ product.getDiscountedPrice() }}</div>
                         <div class="text-gray-500 line-through">${{ product.price }}</div>
                         <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">
                             SAVE {{ product.discountPercent }}%
                         </div>
                     </div>
-                    <!-- Delivery Options -->
-                    {#                    <div class="mb-4"> #}
-                    {#                        <label for="delivery_option">Deliver Every:</label> #}
-                    {#                        <select id="delivery_option" name="delivery_option"> #}
-                    {#                            <option value="30_days">30 Days</option> #}
-                    {#                            <option value="60_days">60 Days</option> #}
-                    {#                        </select> #}
-                    {#                    </div> #}
-
-                    <!-- Dog Size Options -->
-                    {#                    <div class="mb-4"> #}
-                    {#                        <label for="dog_size">Dog Size:</label> #}
-                    {#                        <select id="dog_size" name="dog_size"> #}
-                    {#                            <option value="small">125 mg - Up to 25 lbs</option> #}
-                    {#                            <option value="medium">250 mg - 26 to 50 lbs</option> #}
-                    {#                            <option value="large">500 mg - 51 lbs and up</option> #}
-                    {#                        </select> #}
-                    {#                    </div> #}
-
                     <!-- Quantity Selector -->
                     <div class="mb-4 flex items-center">
                         <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="decreaseQuantity">-
@@ -56,20 +37,20 @@
                         <!-- Add a valid href if "Add to Cart" should be a link, or change to a button -->
                         {{ form_start(cartForm, {'attr': {'action': path('cart_new')}}) }}
                         {{ form_widget(cartForm.productId, {'value': product.id}) }}
-                        {{ form_widget(cartForm.quantity, {'value': 1, 'attr': {'id': 'hiddenQuantity'}}) }}
+                        {{ form_widget(cartForm.quantity, {'value': 1}) }}
                         {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}
                         {{ form_widget(cartForm.name, {'value': product.name}) }}
                         {{ form_widget(cartForm.price, {'value': product.getDiscountedPrice}) }}
                         <button type="submit"
                                 class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                             <p class="text-white group-hover:text-main">
-                                Add to Cart
+                                Thêm vào giỏ
                             </p>
                         </button>
                         {{ form_end(cartForm) }}
                     </div>
                     <div class="mt-4 pr-4">
-                        <h3 class="text-xl font-semibold mb-2">Product Use Guide</h3>
+                        <h3 class="text-xl font-semibold mb-2">Hướng dẫn sử dụng</h3>
                         <p>{{ product.productUseGuide }}</p>
                     </div>
                 </div>
@@ -79,19 +60,35 @@
         <script>
             document.getElementById('increaseQuantity').addEventListener('click', function () {
                 const quantityInput = document.getElementById('quantityInput');
-                const hiddenQuantity = document.getElementById('hiddenQuantity');
-                const currentQuantity = parseInt(quantityInput.value, 10);
-                quantityInput.value = currentQuantity + 1;
-                hiddenQuantity.value = currentQuantity + 1;
+                const hiddenQuantity = document.getElementById('create_cart_item_quantity');
+                const totalPrice = document.getElementById('totalPrice');
+                const basePrice = {{ product.getDiscountedPrice()|json_encode() }};
+                
+                let currentQuantity = parseInt(quantityInput.value, 10);
+                currentQuantity += 1;
+                quantityInput.value = currentQuantity;
+                hiddenQuantity.value = currentQuantity;
+                
+                // Update the price
+                const newPrice = basePrice * currentQuantity;
+                totalPrice.textContent = `$${newPrice.toFixed(2)}`;
             });
 
             document.getElementById('decreaseQuantity').addEventListener('click', function () {
                 const quantityInput = document.getElementById('quantityInput');
-                const hiddenQuantity = document.getElementById('hiddenQuantity');
-                const currentQuantity = parseInt(quantityInput.value, 10);
+                const hiddenQuantity = document.getElementById('create_cart_item_quantity');
+                const totalPrice = document.getElementById('totalPrice');
+                const basePrice = {{ product.getDiscountedPrice()|json_encode() }};
+                
+                let currentQuantity = parseInt(quantityInput.value, 10);
                 if (currentQuantity > 1) {
-                    quantityInput.value = currentQuantity - 1;
-                    hiddenQuantity.value = currentQuantity - 1;
+                    currentQuantity -= 1;
+                    quantityInput.value = currentQuantity;
+                    hiddenQuantity.value = currentQuantity;
+                    
+                    // Update the price
+                    const newPrice = basePrice * currentQuantity;
+                    totalPrice.textContent = `$${newPrice.toFixed(2)}`;
                 }
             });
         </script>

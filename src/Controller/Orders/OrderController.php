@@ -17,9 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OrderController extends AbstractController
 {
-    public function __construct(private MessageBusInterface $bus, private GetEnvelopeResultService $service)
-    {
-    }
+    public function __construct(private MessageBusInterface $bus, private GetEnvelopeResultService $service) {}
 
     #[Route('/order_item', name: 'order_item')]
     public function order_item(): Response
@@ -39,7 +37,6 @@ class OrderController extends AbstractController
         $form = $this->createForm(PlaceOrderType::class);
 
         return $this->render('order/order.html.twig', ['cart' => $cart, 'form' => $form->createView()]);
-
     }
 
     #[Route('/order/success', name: 'order_success')]
@@ -69,5 +66,10 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('order_success');
         }
         return $this->render('order/order.html.twig', ['cart' => $cart, 'form' => $form->createView()]);
+    }
+    #[Route('/order_success', name: 'order_success')]
+    public function order_success(Request $request): Response
+    {
+        return $this->render('/security/order_success.html.twig');
     }
 }
