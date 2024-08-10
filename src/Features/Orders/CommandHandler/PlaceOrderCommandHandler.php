@@ -15,13 +15,14 @@ use App\Entity\Users\User;
 use App\Repository\Identities\UserRepository;
 
 #[AsMessageHandler]
-class PlaceOrderCommandHandler
+readonly class PlaceOrderCommandHandler
 {
 
     public function __construct(private OrderRepository $orderRepository, private CartRepository $cartRepository, private MailerService $mailerService, private UserRepository $userRepository) {}
 
     public function __invoke(PlaceOrderCommand $command): OrderBase
     {
+
         $cart = $command->getCart();
         $order = new OrderBase($cart->getCustomerId(), $command->getShippingAddress());
         /**
@@ -33,6 +34,7 @@ class PlaceOrderCommandHandler
             $orderLine = new OrderLine($cartItem->getProductId(), $cartItem->getName(), $cartItem->getImageUrl(), $cartItem->getQuantity(), $cartItem->getPrice());
             $order->addOrderLine($orderLine);
         }
+        
         $this->orderRepository->save($order);
         $cart->setCartStatus(CartStatus::checkout);
 
