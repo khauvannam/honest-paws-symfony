@@ -22,8 +22,10 @@ class CreateProductType extends AbstractType
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $categories = $this->categoryRepository->findAll();
         $categoryChoices = [];
         foreach ($categories as $category) {
@@ -45,7 +47,7 @@ class CreateProductType extends AbstractType
                 "mapped" => false,
                 "required" => true,
             ])
-            ->add("price", NumberType::class, ['label' => "Price"])
+            ->add("price", NumberType::class, ["label" => "Price"])
             ->add("discountPercent", NumberType::class, [
                 "label" => "Discount Percent",
             ])

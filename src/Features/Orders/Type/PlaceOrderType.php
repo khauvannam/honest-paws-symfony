@@ -15,13 +15,13 @@ class PlaceOrderType extends AbstractType
     {
         $builder
             ->add('shippingAddress', TextType::class, [
-                'label' => 'Shipping Address',
+                'label' => 'Địa chỉ giao hàng',
             ])
             ->add('shippingMethod', TextType::class, [
-                'label' => 'Shipping Method',
+                'label' => 'Phương thức giao hàng',
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Place OrderBase',
+                'label' => 'Tiến hành đặt hàng',
             ]);
     }
 

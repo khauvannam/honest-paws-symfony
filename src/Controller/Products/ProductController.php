@@ -114,9 +114,11 @@ class ProductController extends AbstractController
     {
         $command = new GetCategoriesAndProductsQuery($productLimit, $categoryLimit);
         $handler = $this->bus->dispatch($command);
+        $cartItemCommand = new CreateCartItemCommand();
+        $form = $this->createForm(CreateCartItemType::class, $cartItemCommand);
         $result = GetEnvelopeResultService::invoke($handler);
+        $result['cartForm'] = $form->createView();
         return $this->render('product/all_products.html.twig', $result);
-
     }
 
     /**
