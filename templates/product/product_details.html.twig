@@ -16,7 +16,8 @@
 
                     <!-- Product Price -->
                     <div class="flex items-center mb-4">
-                        <div id="totalPrice" class="text-3xl font-bold text-red-600 mr-2">${{ product.getDiscountedPrice() }}</div>
+                        <div id="totalPrice" class="text-3xl font-bold text-red-600 mr-2">
+                            ${{ '%0.2f'|format(product.getDiscountedPrice()) }}</div>
                         <div class="text-gray-500 line-through">${{ product.price }}</div>
                         <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">
                             SAVE {{ product.discountPercent }}%
@@ -57,41 +58,6 @@
             </div>
         </div>
 
-        <script>
-            document.getElementById('increaseQuantity').addEventListener('click', function () {
-                const quantityInput = document.getElementById('quantityInput');
-                const hiddenQuantity = document.getElementById('create_cart_item_quantity');
-                const totalPrice = document.getElementById('totalPrice');
-                const basePrice = {{ product.getDiscountedPrice()|json_encode() }};
-                
-                let currentQuantity = parseInt(quantityInput.value, 10);
-                currentQuantity += 1;
-                quantityInput.value = currentQuantity;
-                hiddenQuantity.value = currentQuantity;
-                
-                // Update the price
-                const newPrice = basePrice * currentQuantity;
-                totalPrice.textContent = `$${newPrice.toFixed(2)}`;
-            });
-
-            document.getElementById('decreaseQuantity').addEventListener('click', function () {
-                const quantityInput = document.getElementById('quantityInput');
-                const hiddenQuantity = document.getElementById('create_cart_item_quantity');
-                const totalPrice = document.getElementById('totalPrice');
-                const basePrice = {{ product.getDiscountedPrice()|json_encode() }};
-                
-                let currentQuantity = parseInt(quantityInput.value, 10);
-                if (currentQuantity > 1) {
-                    currentQuantity -= 1;
-                    quantityInput.value = currentQuantity;
-                    hiddenQuantity.value = currentQuantity;
-                    
-                    // Update the price
-                    const newPrice = basePrice * currentQuantity;
-                    totalPrice.textContent = `$${newPrice.toFixed(2)}`;
-                }
-            });
-        </script>
     {% else %}
         <p>Product not found.</p>
     {% endif %}
