@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order Success{% endblock %}
+
+{% block body %}
+<div class="w-full flex justify-center items-center bg-gray-100 min-h-screen">
+    <div class="w-full max-w-2xl p-8 bg-white rounded-lg shadow-md text-center" >
+        <h1 class="text-4xl font-bold text-green-600 mb-6">Đặt hàng thành công  !</h1>
+        <p class="text-xl font-medium text-gray-700 mb-6">Cảm ơn bạn đã đặt hàng</p>
+ <a href="{{ path('order_success') }}"</a>
+       
+       
+    </div>
+</div>
+{% endblock %}

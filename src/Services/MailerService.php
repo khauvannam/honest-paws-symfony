@@ -10,6 +10,7 @@ use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use App\Entity\Orders\OrderBase;
 
 class MailerService
 {
@@ -62,6 +63,19 @@ class MailerService
             ->subject('Reset Your Password')
             ->html($this->twig->render('security/reset_password.html.twig', [
                 'resetLink' => $resetLink
+            ]));
+
+        $this->mailer->send($email);
+    }
+    public function sendOrderConfirmationEmail(string $to, OrderBase $order, string $userId): void
+    {
+        $email = (new Email())
+            ->from('singaporestore220803@gmail.com')
+            ->to($to)
+            ->subject('Order Confirmation')
+            ->html($this->twig->render('security/order_success.html.twig', [
+                'order' => $order,
+                'userId' => $userId
             ]));
 
         $this->mailer->send($email);
