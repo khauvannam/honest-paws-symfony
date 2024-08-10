@@ -2,17 +2,13 @@
 
 namespace App\Features\Carts\Command;
 
-class UpdateCartCommand
+class AddToCartCommand
 {
-    private string $customerId;
     private CreateCartItemCommand $cartItem;
 
-    /**
-     * @param string $customerId
-     */
-    public function __construct(string $customerId)
+  
+    public function __construct()
     {
-        $this->customerId = $customerId;
     }
 
     public function getCartItem(): CreateCartItemCommand
@@ -20,22 +16,10 @@ class UpdateCartCommand
         return $this->cartItem;
     }
 
-    public function setCartItem(CreateCartItemCommand $cartItem): UpdateCartCommand
+    public function setCartItem(CreateCartItemCommand $cartItem): AddToCartCommand
     {
         $this->cartItem = $cartItem;
         return $this;
     }
-
-    public function getCustomerId(): string
-    {
-        return $this->customerId;
-    }
-
-    public function setCustomerId(string $customerId): UpdateCartCommand
-    {
-        $this->customerId = $customerId;
-        return $this;
-    }
-
 
 }

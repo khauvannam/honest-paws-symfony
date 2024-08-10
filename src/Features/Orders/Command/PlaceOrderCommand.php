@@ -8,10 +8,22 @@ class PlaceOrderCommand
 {
     private string $shippingAddress = '';
     private string $shippingMethod = '';
+    private ?string $email;
     private Cart $cart;
 
     public function __construct()
     {
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): PlaceOrderCommand
+    {
+        $this->email = $email;
+        return $this;
     }
 
     public function getCart(): Cart

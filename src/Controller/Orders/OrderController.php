@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Orders;
 
-use App\Entity\Users\User;
 use App\Features\Carts\Query\GetCartByCustomerId;
 use App\Features\Orders\Command\PlaceOrderCommand;
 use App\Features\Orders\Type\PlaceOrderType;
@@ -34,8 +33,7 @@ class OrderController extends AbstractController
     #[Route('/order', name: 'order')]
     public function order(): Response
     {
-        $userId = $this->getUser()->getId();
-        $command = new GetCartByCustomerId($userId);
+        $command = new GetCartByCustomerId();
         $cart = $this->service::invoke($this->bus->dispatch($command));
 
         $form = $this->createForm(PlaceOrderType::class);
@@ -56,12 +54,7 @@ class OrderController extends AbstractController
     #[Route('/order/checkout', name: 'order_checkout')]
     public function order_checkout(Request $request): Response
     {
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
-        $userId = $user->getId();
-        $cartCommand = new GetCartByCustomerId($userId);
+        $cartCommand = new GetCartByCustomerId();
 
         $cart = $this->service::invoke($this->bus->dispatch($cartCommand));
         $orderCommand = new PlaceOrderCommand();

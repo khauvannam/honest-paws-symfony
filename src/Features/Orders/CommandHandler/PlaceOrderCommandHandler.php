@@ -12,7 +12,7 @@ use App\Repository\Orders\OrderRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class PlaceOrderCommandHandler
+readonly class PlaceOrderCommandHandler
 {
 
     public function __construct(private OrderRepository $orderRepository, private CartRepository $cartRepository)
@@ -21,6 +21,7 @@ class PlaceOrderCommandHandler
 
     public function __invoke(PlaceOrderCommand $command): OrderBase
     {
+
         $cart = $command->getCart();
         /**
          * @var CartItem $cartItem
@@ -31,6 +32,7 @@ class PlaceOrderCommandHandler
             $orderLine = new OrderLine($cartItem->getProductId(), $cartItem->getName(), $cartItem->getImageUrl(), $cartItem->getQuantity(), $cartItem->getPrice());
             $order->addOrderLine($orderLine);
         }
+        
         $this->orderRepository->save($order);
         $cart->setCartStatus(CartStatus::checkout);
 

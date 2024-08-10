@@ -3,8 +3,8 @@
 namespace App\Controller\Carts;
 
 use App\Entity\Users\User;
+use App\Features\Carts\Command\AddToCartCommand;
 use App\Features\Carts\Command\CreateCartItemCommand;
-use App\Features\Carts\Command\UpdateCartCommand;
 use App\Features\Carts\Query\GetCartByCustomerId;
 use App\Features\Carts\Type\CreateCartItemType;
 use App\Services\GetEnvelopeResultService;
@@ -34,19 +34,14 @@ class CartController extends AbstractController
     #[Route('/cart/new', name: 'cart_new', methods: ['GET', 'POST'])]
     public function createAsync(Request $request): RedirectResponse|Response
     {
-        /**
-         * @var User|null $user The currently logged-in user or null if not logged in
-         */
-        $user = $this->getUser();
-        $userId = $user->getId();
         $cartItem = new CreateCartItemCommand();
-        $cart = new UpdateCartCommand($userId);
+        $cart = new AddToCartCommand();
         $cart->setCartItem($cartItem);
 
         $form = $this->createForm(CreateCartItemType::class, $cartItem);
         if ($form->handleRequest($request)->isSubmitted()) {
             $this->bus->dispatch($cart);
-            return $this->redirectToRoute('cart_list', ['customerId' => $userId]);
+            return $this->redirectToRoute('cart_list');
         }
         return $this->render("product/product_details.html.twig", ['form' => $form->createView()]);
     }
@@ -54,14 +49,9 @@ class CartController extends AbstractController
     #[Route('/cart/list', name: 'cart_list', methods: ['GET', 'POST'])]
     public function list(): Response
     {
-        /**
-         * @var User|null $user The currently logged-in user or null if not logged in
-         */
-        $user = $this->getUser();
-        $userId = $user->getId();
-        $command = new GetCartByCustomerId($userId);
+        $command = new GetCartByCustomerId();
         $cart = $this->service::invoke($this->bus->dispatch($command));
 
-        return $this->render('cart/list-carts.html.twig', ['cart' => $cart, 'userId' => $userId]);
+        return $this->render('cart/list-carts.html.twig', ['cart' => $cart]);
     }
 }
