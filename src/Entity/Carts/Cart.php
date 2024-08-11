@@ -95,4 +95,9 @@ class Cart
         }
         return $this;
     }
+
+    public function updateCartItemQuantity(CartItem $cartItem, int $newQuantity): void
+    {
+        $cartItem->setQuantity($newQuantity);
+    }
 }

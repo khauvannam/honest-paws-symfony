@@ -25,58 +25,67 @@
                                 <th class="px-4 py-2 border-b-2">Tổng cộng</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            {% for item in cart.getCartItems %}
-                                <tr class="border-t text-center">
-                                    <td class="px-4 py-2">
-                                        <a href="{{ path('product_details', {'id' : item.productId}) }}">
-                                            <img src="{{ asset('img/blobs/' ~ item.imageUrl) }}" alt="{{ item.name }}"
-                                                 width="100" class="rounded">
-                                        </a>
-                                    </td>
-                                    <td class="px-4 py-2">{{ item.name }}</td>
-                                    <td>
+                            <form action="{{ path('cart_update', {'cartId' : cart.id}) }}" method="post">
+                                <tbody>
+                                {% for item in cart.getCartItems %}
+                                    <tr class="border-t text-center">
+                                        <td class="px-4 py-2">
+                                            <a href="{{ path('product_details', {'id' : item.productId}) }}">
+                                                <img src="{{ asset('img/blobs/' ~ item.imageUrl) }}"
+                                                     alt="{{ item.name }}"
+                                                     width="100" class="rounded">
+                                            </a>
+                                        </td>
+                                        <td class="px-4 py-2">{{ item.name }}</td>
+                                        <td>
 
-                                        <div class="flex justify-center">
-                                            <label for="Quantity" class="sr-only"> Quantity </label>
-
-                                            <div class="flex items-center border border-gray-200 justify-between max-w-[100px] px-0.5 rounded-2xl hover:border-[#fadc6f]">
-                                            <button type="button"
-                                                    id="decreaseQuantity"
-                                                    class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                                                &minus;
-                                            </button>
-                                            <input
-                                                    id="quantityInput"
-                                                    type="number"
-                                                    value="{{item.quantity}}"
-                                                    min="1"
-                                                    max="20"
-                                                    class=" h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
-                                            />
-                                            <button type="button"
-                                                    id="increaseQuantity"
-                                                    class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                                                &plus;
-                                            </button>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-2">${{ item.price|number_format(2) }}</td>
-                                    <td class="px-4 py-2">${{ (item.price * item.quantity)|number_format(2) }}</td>
-                                    <td>
-                                        <a href="{{ path('cart_delete', {'cartId' : cart.id, 'cartItemId' : item.id}) }}"
-                                           class="text-red-600">Xoá</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
+                                            <div class="flex justify-center">
+                                                <label for="Quantity" class="sr-only"> Quantity </label>
+                                                <div class="flex items-center border border-gray-200 justify-between max-w-[100px] px-0.5 rounded-2xl hover:border-[#fadc6f]">
+                                                    <button type="button"
+                                                            id=""
+                                                            class="decrease-quantity size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                                        &minus;
+                                                    </button>
+                                                    <input
+                                                            name="quantities[{{ item.id }}]"
+                                                            id=""
+                                                            type="number"
+                                                            value="{{ item.quantity }}"
+                                                            min="1"
+                                                            max="20"
+                                                            class="quantity-input h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
+                                                    />
+                                                    <button type="button"
+                                                            id=""
+                                                            class=" increase-quantity size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                                        &plus;
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-2">${{ item.price|number_format(2) }}</td>
+                                        <td id="total-item-price"
+                                            data-price="{{ (item.price * item.quantity)|number_format(2) }}"
+                                            class="px-4 py-2">
+                                            ${{ (item.price * item.quantity)|number_format(2) }}</td>
+                                        <td>
+                                            <a href="{{ path('cart_delete', {'cartId' : cart.id, 'cartItemId' : item.id}) }}"
+                                               class="text-red-600">Xoá</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <button type="submit">submit</button>
+                            </form>
                         </table>
                     </div>
 
-                    <h3 class="text-xl font-semibold mt-4 text-right">
+                    <h3 class="total text-xl font-semibold mt-4 text-right">
                         Tổng cộng:
-                        ${{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
+                        <span id="total-price">
+                            ${{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
+                        </span>
                     </h3>
                 {% else %}
                     <p class="text-gray-600 mt-4">Không có sản phẩm trong giỏ.</p>

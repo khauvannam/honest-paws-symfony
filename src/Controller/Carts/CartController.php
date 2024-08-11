@@ -5,6 +5,7 @@ namespace App\Controller\Carts;
 use App\Features\Carts\Command\AddToCartCommand;
 use App\Features\Carts\Command\CreateCartItemCommand;
 use App\Features\Carts\Command\DeleteCartItemCommand;
+use App\Features\Carts\Command\UpdateCartCommand;
 use App\Features\Carts\Query\GetCartByCustomerId;
 use App\Features\Carts\Type\CreateCartItemType;
 use App\Services\GetEnvelopeResultService;
@@ -59,10 +60,19 @@ class CartController extends AbstractController
         return $this->render('cart/list-carts.html.twig', ['cart' => $cart]);
     }
 
-    #[Route('/cart/update/cartId', name: 'cart_update', methods: ['POST', 'GET'])]
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Route('/cart/update/{cartId}', name: 'cart_update', methods: ['POST', 'GET'])]
     public function update(Request $request, string $cartId): Response
     {
+        $quantities = $request->request->all('quantities');
+        $command = new UpdateCartCommand($quantities, $cartId);
+        $this->bus->dispatch($command);
+        $cartCommand = new GetCartByCustomerId();
+        $cart = $this->service::invoke($this->bus->dispatch($cartCommand));
 
+        return $this->redirectToRoute('cart_list', ['cart' => $cart]);
     }
 
     /**
@@ -72,7 +82,7 @@ class CartController extends AbstractController
     public function delete(#[MapQueryParameter] string $cartId, #[MapQueryParameter] string $cartItemId): Response
     {
         $command = new DeleteCartItemCommand($cartId, $cartItemId);
-        
+
         $this->bus->dispatch($command);
         $cartCommand = new GetCartByCustomerId();
         $cart = $this->service::invoke($this->bus->dispatch($cartCommand));

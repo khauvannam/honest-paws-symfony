@@ -18,8 +18,11 @@ readonly class DeleteCartItemCommandHandler
     public function __invoke(DeleteCartItemCommand $command): void
     {
         $cart = $this->repository->findOneBy(['id' => $command->getCartId()]);
-        $cartItem = $this->cartItemRepository->findOneBy(['id' => $command->getCartItemId()]);
+        $cartItem = $this->cartItemRepository->findOneBy(['id' => $command->getCartItemId(), 'cart' => $cart]);
         $cart->removeCartItem($cartItem);
-        $this->repository->save($cart);
+        $this->cartItemRepository->remove($cartItem);
+        if ($cart->getCartItems()->count() === 0) {
+            $this->repository->remove($cart);
+        }
     }
 }
