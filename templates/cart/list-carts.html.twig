@@ -17,38 +17,49 @@
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white">
                             <thead>
-                                <tr>
-                                    <th class="px-4 py-2 border-b-2 ">Hình ảnh</th>
-                                    <th class="px-4 py-2 border-b-2">Tên sản phẩm</th>
-                                    <th class="px-4 py-2 border-b-2">Số lượng</th>
-                                    <th class="px-4 py-2 border-b-2">Giá sản phẩm</th>
-                                    <th class="px-4 py-2 border-b-2">Tổng cộng</th>
-                                </tr>
+                            <tr>
+                                <th class="px-4 py-2 border-b-2 ">Hình ảnh</th>
+                                <th class="px-4 py-2 border-b-2">Tên sản phẩm</th>
+                                <th class="px-4 py-2 border-b-2">Số lượng</th>
+                                <th class="px-4 py-2 border-b-2">Giá sản phẩm</th>
+                                <th class="px-4 py-2 border-b-2">Tổng cộng</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {% for item in cart.getCartItems %}
-                                    <tr class="border-t text-center">
-                                        <td class="px-4 py-2"><img src="{{ asset('img/blobs/' ~ item.imageUrl) }}" alt="{{ item.name }}" width="100" class="rounded"></td>
-                                        <td class="px-4 py-2">{{ item.name }}</td>
-                                        <td class="px-4 py-2">{{ item.quantity }}</td>
-                                        <td class="px-4 py-2">${{ item.price|number_format(2) }}</td>
-                                        <td class="px-4 py-2">${{ (item.price * item.quantity)|number_format(2) }}</td>
-                                    </tr>
-                                {% endfor %}
+                            {% for item in cart.getCartItems %}
+                                <tr class="border-t text-center">
+                                    <td>
+                                        <a href="{{ path('cart_delete', {'cartId' : cart.id, 'cartItemId' : item.id}) }}"
+                                           class="bg-amber-400">delete</a>
+                                    </td>
+                                    <td class="px-4 py-2"><img src="{{ asset('img/blobs/' ~ item.imageUrl) }}"
+                                                               alt="{{ item.name }}" width="100" class="rounded"></td>
+                                    <td class="px-4 py-2">{{ item.name }}</td>
+                                    <td class="px-4 py-2">{{ item.quantity }}</td>
+                                    <td class="px-4 py-2">${{ item.price|number_format(2) }}</td>
+                                    <td class="px-4 py-2">${{ (item.price * item.quantity)|number_format(2) }}</td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
 
                     <h3 class="text-xl font-semibold mt-4 text-right">
-                        Tổng cộng: ${{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
+                        Tổng cộng:
+                        ${{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
                     </h3>
                 {% else %}
                     <p class="text-gray-600 mt-4">Không có sản phẩm trong giỏ.</p>
                 {% endif %}
             </div>
-
-        <a href="{{ path('order') }}" class="inline-block mt-6 mb-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tiến hành thanh toán</a>
-    {% else %}
-        <p>Giỏ hàng không tồn tại.</p>
-    {% endif %}
+            {% if cart.getCartItems | length > 0 %}
+                <a href="{{ path('order') }}"
+                   class="inline-block mt-6 mb-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tiến hành
+                    thanh
+                    toán</a>
+            {% endif %}
+        {% else %}
+            <p>Giỏ hàng không tồn tại.</p>
+        {% endif %}
+    </div>
 {% endblock %}
