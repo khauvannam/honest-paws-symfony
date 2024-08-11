@@ -18,7 +18,7 @@ class ChangePasswordType extends AbstractType
         $builder
             ->add('password', PasswordType::class, ['label' => 'Password'])
             ->add('newPassword', PasswordType::class, ['label' => 'New Password'])
-           ->add('save', SubmitType::class, ['label' => 'Change Password']); 
+           ->add('save', SubmitType::class, ['label' => 'Đổi mật khẩu']); 
     }
 
     public function configureOptions(OptionsResolver $resolver): void

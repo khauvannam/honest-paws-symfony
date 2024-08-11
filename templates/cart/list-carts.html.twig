@@ -28,10 +28,6 @@
                             <tbody>
                             {% for item in cart.getCartItems %}
                                 <tr class="border-t text-center">
-                                    <td>
-                                        <a href="{{ path('cart_delete', {'cartId' : cart.id, 'cartItemId' : item.id}) }}"
-                                           class="bg-amber-400">delete</a>
-                                    </td>
                                     <td class="px-4 py-2">
                                         <a href="{{ path('product_details', {'id' : item.productId}) }}">
                                             <img src="{{ asset('img/blobs/' ~ item.imageUrl) }}" alt="{{ item.name }}"
@@ -44,30 +40,34 @@
                                         <div class="flex justify-center">
                                             <label for="Quantity" class="sr-only"> Quantity </label>
 
-                                            <div class="flex items-center rounded border border-gray-200 justify-between max-w-[100px] px-0.5">
-                                                <button type="button"
-                                                        class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                                                    &minus;
-                                                </button>
-
-                                                <input
-                                                        type="number"
-                                                        id="Quantity"
-                                                        value="{{ item.quantity }}"
-                                                        min="1"
-                                                        max="20"
-                                                        class=" h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
-                                                />
-
-                                                <button type="button"
-                                                        class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                                                    &plus;
-                                                </button>
-                                            </div>
+                                            <div class="flex items-center border border-gray-200 justify-between max-w-[100px] px-0.5 rounded-2xl hover:border-[#fadc6f]">
+                                            <button type="button"
+                                                    id="decreaseQuantity"
+                                                    class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                                &minus;
+                                            </button>
+                                            <input
+                                                    id="quantityInput"
+                                                    type="number"
+                                                    value="{{item.quantity}}"
+                                                    min="1"
+                                                    max="20"
+                                                    class=" h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
+                                            />
+                                            <button type="button"
+                                                    id="increaseQuantity"
+                                                    class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                                &plus;
+                                            </button>
+                                        </div>
                                         </div>
                                     </td>
                                     <td class="px-4 py-2">${{ item.price|number_format(2) }}</td>
                                     <td class="px-4 py-2">${{ (item.price * item.quantity)|number_format(2) }}</td>
+                                    <td>
+                                        <a href="{{ path('cart_delete', {'cartId' : cart.id, 'cartItemId' : item.id}) }}"
+                                           class="text-red-600">Xoá</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
