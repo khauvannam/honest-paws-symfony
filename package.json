@@ -23,5 +23,8 @@
     "watch": "encore dev --watch",
     "all": "npm-run-all symfony watch --parallel",
     "build": "encore production --progress"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.7"
   }
 }

@@ -133,7 +133,6 @@ class ProductController extends AbstractController
         $cartItemCommand = new CreateCartItemCommand();
         $form = $this->createForm(CreateCartItemType::class, $cartItemCommand);
         $result = GetEnvelopeResultService::invoke($handler);
-        $result['id'] = $id;
         $result['cartForm'] = $form->createView();
         return $this->render('product/category_by_id.html.twig', $result);
 

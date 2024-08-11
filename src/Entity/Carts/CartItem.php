@@ -34,7 +34,7 @@ class CartItem
     #[ORM\Column]
     private string $TotalPrice;
     #[ORM\ManyToOne(targetEntity: Cart::class, inversedBy: 'cartItems')]
-    private Cart $cart;
+    private ?Cart $cart;
 
     public function __construct(
         string $productId,
@@ -85,12 +85,12 @@ class CartItem
 
     }
 
-    public function getCart(): Cart
+    public function getCart(): ?Cart
     {
         return $this->cart;
     }
 
-    public function setCart(Cart $cart): CartItem
+    public function setCart(?Cart $cart): CartItem
     {
         $this->cart = $cart;
         return $this;

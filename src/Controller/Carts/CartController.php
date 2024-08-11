@@ -4,6 +4,7 @@ namespace App\Controller\Carts;
 
 use App\Features\Carts\Command\AddToCartCommand;
 use App\Features\Carts\Command\CreateCartItemCommand;
+use App\Features\Carts\Command\DeleteCartItemCommand;
 use App\Features\Carts\Query\GetCartByCustomerId;
 use App\Features\Carts\Type\CreateCartItemType;
 use App\Services\GetEnvelopeResultService;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -58,8 +60,23 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/update/cartId', name: 'cart_update', methods: ['POST', 'GET'])]
-    public function update(Request $request,string $cartId): Response
+    public function update(Request $request, string $cartId): Response
     {
-       
+
+    }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Route('/cart/delete', name: 'cart_delete', methods: ['POST', 'GET'])]
+    public function delete(#[MapQueryParameter] string $cartId, #[MapQueryParameter] string $cartItemId): Response
+    {
+        $command = new DeleteCartItemCommand($cartId, $cartItemId);
+        
+        $this->bus->dispatch($command);
+        $cartCommand = new GetCartByCustomerId();
+        $cart = $this->service::invoke($this->bus->dispatch($cartCommand));
+
+        return $this->redirectToRoute('cart_list', ['cart' => $cart]);
     }
 }
