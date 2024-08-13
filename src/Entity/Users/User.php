@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: "json")]
     private array $roles = ["ROLE_ADMIN"];
-    #[ORM\Column]
+
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $comments;
     #[ORM\OneToMany(targetEntity: UserProvider::class, mappedBy: "user", cascade: ["persist", "remove"])]

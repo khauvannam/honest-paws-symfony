@@ -45,7 +45,6 @@ class Product
     #[ORM\Column(length: 100)]
     private string $categoryId;
 
-    #[ORM\Column]
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $comments;
 
@@ -71,6 +70,7 @@ class Product
         $this->updatedAt = new DateTime();
         $this->categoryId = $categoryId;
         $this->price = $price;
+        $this->soldQuantity = 0;
         $this->comments = new ArrayCollection();
     }
 
