@@ -41,12 +41,6 @@ class OrderController extends AbstractController
         return $this->render('order/order.html.twig', ['cart' => $cart, 'form' => $form->createView()]);
     }
 
-    #[Route('/order/success', name: 'order_success')]
-    public function createSuccess(): Response
-    {
-        return $this->render('order/success.html.twig');
-    }
-
     /**
      * @throws ExceptionInterface
      */
@@ -70,8 +64,9 @@ class OrderController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->bus->dispatch($orderCommand);
-            return $this->redirectToRoute('order_success');
+            return $this->redirectToRoute('home');
         }
+
         return $this->render('order/order.html.twig', ['cart' => $cart, 'form' => $form->createView()]);
     }
     #[Route('/order_success', name: 'order_success')]

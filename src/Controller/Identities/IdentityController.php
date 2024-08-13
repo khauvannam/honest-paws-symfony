@@ -107,5 +107,4 @@ class IdentityController extends AbstractController
         }
         return $this->render('security/change_password.html.twig', ['form' => $form->createView()]);
     }
-
 }
