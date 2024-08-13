@@ -47,23 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Search Functionality
-const searchIcon = document.querySelector("#search");
-const form = searchIcon ? searchIcon.querySelector("form") : null;
-
-if (searchIcon && form) {
-  searchIcon.addEventListener("click", () => {
-    toggleVisibility(form);
-  });
-  overlay.addEventListener("click", () => {
-    toggleVisibility(form);
-  });
-
-  form.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-}
-
 // Utility Functions
 function toggleVisibility(element) {
   element.classList.toggle("hidden");
@@ -120,5 +103,27 @@ document.addEventListener("DOMContentLoaded", function () {
       return change * basePrice; // Return positive or negative change
     }
     return 0; // No change if quantity is out of bounds
+  }
+});
+
+// Cart Popup
+document.getElementById("cartIcon").addEventListener("click", function () {
+  document.getElementById("cartPopup").classList.remove("translate-x-full");
+  document.getElementById("cartPopup").classList.add("translate-x-0");
+});
+
+document.getElementById("closeCart").addEventListener("click", function () {
+  document.getElementById("cartPopup").classList.remove("translate-x-0");
+  document.getElementById("cartPopup").classList.add("translate-x-full");
+});
+// Search Popup
+document.getElementById("search").addEventListener("click", function () {
+  const form = document.getElementById("searchForm");
+  if (form.classList.contains("hidden")) {
+    form.classList.remove("hidden", "top-[-150px]");
+    form.classList.add("top-1/2");
+  } else {
+    form.classList.remove("top-1/2");
+    form.classList.add("top-[-150px]", "hidden");
   }
 });
