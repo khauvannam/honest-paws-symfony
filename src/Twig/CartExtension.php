@@ -43,7 +43,7 @@ class CartExtension extends AbstractExtension
         return $session->get('customerId');
     }
 
-    private function getCartOrThrowNull(string $customerId): ?Cart
+    private function getCartOrThrowNull(?string $customerId): ?Cart
     {
         return $this->cartRepository->findOneBy([
             'customerId' => $customerId,

@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% set cart = cart() %}
     <div class="container mx-auto p-4 text-main">
         <h1 class="text-3xl font-bold mb-4 text-center">Giỏ hàng</h1>
 
@@ -31,12 +32,12 @@
                                     <tr class="border-t text-center">
                                         <td class="px-4 py-2">
                                             <div class="flex justify-center">
-                                            <a href="{{ path('product_details', {'id' : item.productId}) }}">
-                                                <img src="{{ asset('img/blobs/' ~ item.imageUrl) }}"
-                                                     alt="{{ item.name }}"
-                                                     width="100" class="rounded">
-                                                    
-                                            </a>
+                                                <a href="{{ path('product_details', {'id' : item.productId}) }}">
+                                                    <img src="{{ asset('img/blobs/' ~ item.imageUrl) }}"
+                                                         alt="{{ item.name }}"
+                                                         width="100" class="rounded">
+
+                                                </a>
                                             </div>
                                         </td>
                                         <td class="px-4 py-2">{{ item.name }}</td>
@@ -79,7 +80,9 @@
                                     </tr>
                                 {% endfor %}
                                 </tbody>
-                                <button type="submit" class="float-right mb-5 font-bold text-red-600">Cập nhật giỏ hàng</button>
+                                <button type="submit" class="float-right mb-5 font-bold text-red-600">Cập nhật giỏ
+                                    hàng
+                                </button>
                             </form>
                         </table>
                     </div>

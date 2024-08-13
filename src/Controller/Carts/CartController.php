@@ -48,16 +48,10 @@ class CartController extends AbstractController
         return $this->render("product/product_details.html.twig", ['form' => $form->createView()]);
     }
 
-    /**
-     * @throws ExceptionInterface
-     */
-    #[Route('/cart/list', name: 'cart_list', methods: ['GET', 'POST'])]
+    #[Route('/cart/list', name: 'cart_list', methods: ['GET'])]
     public function list(): Response
     {
-        $command = new GetCartByCustomerId();
-        $cart = $this->service::invoke($this->bus->dispatch($command));
-
-        return $this->render('cart/list-carts.html.twig', ['cart' => $cart]);
+        return $this->render('cart/list-carts.html.twig');
     }
 
     /**

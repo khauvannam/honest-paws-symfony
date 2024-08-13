@@ -5,6 +5,7 @@
     <h1 class="text-3xl font-bold mb-6 text-center">Thanh toán</h1>
 
     <div class="flex flex-wrap">
+        {% set cart = cart() %}
         <!-- Cart Details (Left Column) -->
         <div class="w-full md:w-1/2 p-4">
             {% if cart %}
@@ -36,7 +37,8 @@
                                     <td class="px-4 py-2 border-b">{{ item.name }}</td>
                                     <td class="px-4 py-2 border-b">{{ item.quantity }}</td>
                                     <td class="px-4 py-2 border-b">{{ item.price|number_format(2) }}</td>
-                                    <td class="px-4 py-2 border-b">${{ (item.price * item.quantity)|number_format(2) }}</td>
+                                    <td class="px-4 py-2 border-b">
+                                        ${{ (item.price * item.quantity)|number_format(2) }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -44,7 +46,8 @@
 
                         <h3 class="text-xl font-semibold mt-6">
                             Tổng
-                            cộng: ${{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
+                            cộng:
+                            ${{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
                         </h3>
                     {% else %}
                         <p class="text-red-500">Không có sản phẩm trong giỏ.</p>

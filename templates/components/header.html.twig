@@ -1,11 +1,12 @@
 <div class="w-full flex justify-center items-center border-b-2">
-    {% set cart = cart().getCartItems %}
-    {% if cart| length > 0 %}
-        <p>{{ cart | length }}</p>
-    {% else %}
-        <p>cart is empty</p>
+    {% if cart() %}
+        {% set cart = cart().getCartItems %}
+        {% if cart| length > 0 %}
+            <p>{{ cart | length }}</p>
+        {% else %}
+            <p>cart is empty</p>
+        {% endif %}
     {% endif %}
-
     <div class="w-full max-w-[1300px] flex justify-between">
         <a href="/" class="">
             <img src="{{ asset('/img/index/Pet_Shop_1.png') }}" alt="" class="">

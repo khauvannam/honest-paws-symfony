@@ -2,22 +2,31 @@
 
 namespace App\Features\Orders\CommandHandler;
 
+use App\Entity\Carts\Cart;
 use App\Entity\Carts\CartItem;
 use App\Entity\Carts\CartStatus;
 use App\Entity\Orders\OrderBase;
 use App\Entity\Orders\OrderLine;
+use App\Entity\Users\User;
+use App\Events\PlaceOrderEvent;
 use App\Features\Orders\Command\PlaceOrderCommand;
 use App\Repository\Carts\CartRepository;
-use App\Repository\Identities\UserRepository;
 use App\Repository\Orders\OrderRepository;
 use App\Services\MailerService;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 readonly class PlaceOrderCommandHandler
 {
 
-    public function __construct(private OrderRepository $orderRepository, private CartRepository $cartRepository, private MailerService $mailerService, private UserRepository $userRepository)
+    public function __construct(
+        private OrderRepository          $orderRepository,
+        private CartRepository           $cartRepository,
+        private MailerService            $mailerService,
+        private Security                 $security,
+        private EventDispatcherInterface $dispatcher)
     {
     }
 
@@ -29,21 +38,48 @@ readonly class PlaceOrderCommandHandler
         /**
          * @var CartItem $cartItem
          */
+        $orderEvent = new PlaceOrderEvent();
+        $productQuantity = [];
 
         foreach ($cart->getCartItems() as $cartItem) {
             $orderLine = new OrderLine($cartItem->getProductId(), $cartItem->getName(), $cartItem->getImageUrl(), $cartItem->getQuantity(), $cartItem->getPrice());
             $order->addOrderLine($orderLine);
+            $productQuantity[$cartItem->getProductId()] = $orderLine->getQuantity();
         }
 
         $this->orderRepository->save($order);
-        $cart->setCartStatus(CartStatus::checkout);
-       
-        $user = $this->userRepository->find($cart->getCustomerId());
-        if ($user) {
-            $this->mailerService->sendOrderConfirmationEmail($user->getEmail(), $order, $user->getUsername());
-        }
 
-        $this->cartRepository->save($cart);
+        // publish an event to product
+        $orderEvent->setProductQuantity($productQuantity);
+        $this->dispatcher->dispatch($orderEvent);
+        
+        
+        $this->updateCartStatusToCheckout($cart);
+
+        $this->notifyUserAboutOrder($order);
+
         return $order;
+    }
+
+    private function updateCartStatusToCheckout(Cart $cart): void
+    {
+        $cart->setCartStatus(CartStatus::checkout);
+        $this->cartRepository->save($cart);
+    }
+
+    private function notifyUserAboutOrder(OrderBase $order): void
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->security->getUser();
+
+        if ($user) {
+            $this->mailerService->sendOrderConfirmationEmail(
+                $user->getEmail(),
+                $order,
+                $user->getUsername()
+            );
+        }
     }
 }

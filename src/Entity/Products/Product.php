@@ -2,8 +2,11 @@
 
 namespace App\Entity\Products;
 
+use App\Entity\Comments\Comment;
 use App\Repository\Products\ProductRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
@@ -42,6 +45,10 @@ class Product
     #[ORM\Column(length: 100)]
     private string $categoryId;
 
+    #[ORM\Column]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'product', orphanRemoval: true)]
+    private Collection $comments;
+
     public function __construct(
         string $name,
         int    $quantity,
@@ -64,6 +71,7 @@ class Product
         $this->updatedAt = new DateTime();
         $this->categoryId = $categoryId;
         $this->price = $price;
+        $this->comments = new ArrayCollection();
     }
 
     public static function create(
@@ -232,6 +240,16 @@ class Product
     public function getInStock(): int
     {
         return $this->quantity - $this->soldQuantity;
+    }
+
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function setComments(Collection $comments): void
+    {
+        $this->comments = $comments;
     }
 
 }
