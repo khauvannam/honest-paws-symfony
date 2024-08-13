@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class CreateProductCommand
 {
     private string $name = '';
+    private int $quantity = 0;
     private float $price = 0;
     private string $description = '';
     private string $productUseGuide = '';
@@ -95,6 +96,17 @@ class CreateProductCommand
     public function getDiscountPercent(): string
     {
         return $this->discountPercent;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): CreateProductCommand
+    {
+        $this->quantity = $quantity;
+        return $this;
     }
 
 }

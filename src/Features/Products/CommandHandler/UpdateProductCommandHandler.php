@@ -16,8 +16,9 @@ class UpdateProductCommandHandler
 
     public function __construct(
         ProductRepository $productRepository,
-        BlobService $blobService
-    ) {
+        BlobService       $blobService
+    )
+    {
         $this->productRepository = $productRepository;
         $this->blobService = $blobService;
     }
@@ -41,6 +42,7 @@ class UpdateProductCommandHandler
 
         $product->update(
             $command->getName(),
+            $command->getQuantity(),
             $command->getDescription(),
             $command->getProductUseGuide(),
             $command->getDiscountPercent(),
