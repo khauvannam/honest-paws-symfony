@@ -28,6 +28,7 @@ class CreateProductCommandHandler
         $fileName = $this->blobService->upload($command->getImgFile());
         $product = Product::create(
             $command->getName(),
+            $command->getQuantity(),
             $command->getPrice(),
             $command->getDescription(),
             $command->getProductUseGuide(),

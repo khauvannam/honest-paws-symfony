@@ -13,8 +13,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
-
-
     private MessageBusInterface $bus;
 
     public function __construct(MessageBusInterface $bus)

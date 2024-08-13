@@ -8,6 +8,7 @@ class UpdateProductCommand
 {
     private string $id;
     private string $name = '';
+    private int $quantity = 0;
     private string $description = '';
     private string $productUseGuide = '';
     private ?UploadedFile $imageFile = null;
@@ -97,4 +98,16 @@ class UpdateProductCommand
         $this->discountPercent = $discountPercent;
         return $this;
     }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): UpdateProductCommand
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+    
 }

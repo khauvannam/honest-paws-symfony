@@ -16,6 +16,10 @@ class Product
 
     #[ORM\Column(length: 255)]
     private string $name;
+    #[ORM\Column]
+    private int $quantity;
+    #[ORM\Column]
+    private int $soldQuantity;
 
     #[ORM\Column(length: 2000)]
     private string $description;
@@ -40,6 +44,7 @@ class Product
 
     public function __construct(
         string $name,
+        int    $quantity,
         float  $price,
         string $description,
         string $productUseGuide,
@@ -50,6 +55,7 @@ class Product
     {
         $this->id = Uuid::v4()->toString();
         $this->name = $name;
+        $this->quantity = $quantity;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
         $this->imageUrl = $imageUrl;
@@ -62,6 +68,7 @@ class Product
 
     public static function create(
         string $name,
+        int    $quantity,
         float  $price,
         string $description,
         string $productUseGuide,
@@ -72,6 +79,7 @@ class Product
     {
         return new Product(
             $name,
+            $quantity,
             $price,
             $description,
             $productUseGuide,
@@ -83,6 +91,7 @@ class Product
 
     public function update(
         string $name,
+        int    $quantity,
         string $description,
         string $productUseGuide,
         string $discountPercent,
@@ -90,6 +99,7 @@ class Product
     ): Product
     {
         $this->name = $name;
+        $this->quantity = $quantity;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
         $this->discountPercent = $discountPercent;
@@ -190,17 +200,40 @@ class Product
         return $this;
     }
 
-    public function setCreatedAt(DateTime $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
 
     public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): Product
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+
+    public function getSoldQuantity(): int
+    {
+        return $this->soldQuantity;
+    }
+
+    public function setSoldQuantity(int $soldQuantity): Product
+    {
+        $this->soldQuantity = $soldQuantity;
+        return $this;
+    }
+
+    public function getInStock(): int
+    {
+        return $this->quantity - $this->soldQuantity;
+    }
+
 }
 
 
