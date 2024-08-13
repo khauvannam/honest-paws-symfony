@@ -91,7 +91,13 @@ class Cart
     {
         if ($this->cartItems->contains($cartItem)) {
             $this->cartItems->removeElement($cartItem);
+            $cartItem->setCart(null);
         }
         return $this;
+    }
+
+    public function updateCartItemQuantity(CartItem $cartItem, int $newQuantity): void
+    {
+        $cartItem->setQuantity($newQuantity);
     }
 }

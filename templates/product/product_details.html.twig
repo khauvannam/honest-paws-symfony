@@ -2,7 +2,19 @@
 
 {% block body %}
     {% if product %}
-        <div class="container mx-auto px-4 py-8 text-main">
+        <div class="container mx-auto text-main">
+            {# Breadcrumb Navigation #}
+            <div class="w-full pt-5 px-10 flex justify-center">
+                <div class="w-full max-w-[1300px] flex items-center text-main">
+                    <a href="/" class="hover:underline">Trang chủ</a>
+                    <span class="mx-2">></span>
+                    <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">
+                        Tất cả sản phẩm</a>
+                        <span class="mx-2">></span>
+                    <span>{{ product.name }}</span>
+                </div>
+            </div>
+            {# Details #}
             <div class="flex">
                 <!-- Product Image -->
                 <div class="w-1/2 shadow-lg">
@@ -11,90 +23,71 @@
 
                 <!-- Product Details -->
                 <div class="w-1/2 pl-8">
-                    <h2 class="text-4xl font-bold mb-4">{{ product.name }}</h2>
-                    <p class="text-lg mb-2">{{ product.description }}</p>
+                    <h2 class="text-4xl font-bold mb-12 mt-24">{{ product.name }}</h2>
+                    <p class="text-lg mb-12">{{ product.description }}</p>
 
                     <!-- Product Price -->
-                    <div class="flex items-center mb-4">
-                        <div class="text-3xl font-bold text-red-600 mr-2">${{ product.getDiscountedPrice() }}</div>
+                    <div class="flex items-center mb-12">
+                        <div id="totalPrice" class="text-3xl font-bold text-red-600 mr-2">
+                            ${{ '%0.2f'|format(product.getDiscountedPrice()) }}</div>
                         <div class="text-gray-500 line-through">${{ product.price }}</div>
                         <div class="ml-4 bg-red-100 text-red-600 px-2 py-1 rounded">
                             SAVE {{ product.discountPercent }}%
                         </div>
                     </div>
-                    <!-- Delivery Options -->
-                    {#                    <div class="mb-4"> #}
-                    {#                        <label for="delivery_option">Deliver Every:</label> #}
-                    {#                        <select id="delivery_option" name="delivery_option"> #}
-                    {#                            <option value="30_days">30 Days</option> #}
-                    {#                            <option value="60_days">60 Days</option> #}
-                    {#                        </select> #}
-                    {#                    </div> #}
-
-                    <!-- Dog Size Options -->
-                    {#                    <div class="mb-4"> #}
-                    {#                        <label for="dog_size">Dog Size:</label> #}
-                    {#                        <select id="dog_size" name="dog_size"> #}
-                    {#                            <option value="small">125 mg - Up to 25 lbs</option> #}
-                    {#                            <option value="medium">250 mg - 26 to 50 lbs</option> #}
-                    {#                            <option value="large">500 mg - 51 lbs and up</option> #}
-                    {#                        </select> #}
-                    {#                    </div> #}
-
                     <!-- Quantity Selector -->
-                    <div class="mb-4 flex items-center">
-                        <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="decreaseQuantity">-
-                        </button>
-                        <input type="text" value="1" class="w-12 text-center mx-2 border border-gray-300 rounded"
-                               id="quantityInput">
-                        <button type="button" class="bg-gray-200 text-gray-800 px-2 py-1" id="increaseQuantity">+
-                        </button>
+                    <div class="flex items-center mb-12">
+                        <div class="flex items-center border border-black justify-between max-w-[120px] px-0.5 rounded-md hover:border-[#fadc6f]">
+                                <button type="button"
+                                        id="decreaseQuantity"
+                                        class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                    &minus;
+                                </button>
+                                <input
+                                        id="quantityInput"
+                                        type="number"
+                                        value="1"
+                                        min="1"
+                                        max="20"
+                                        class=" h-12 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
+                                />
+                                <button type="button"
+                                        id="increaseQuantity"
+                                        class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                    &plus;
+                                </button>
+                        </div>
+                        <div>
+                                <p class="mx-5">Còn hàng</p>
+                        </div>
                     </div>
-
-                    <!-- Stock Status -->
-                    <div class="w-full px-5">
-                        <!-- Add a valid href if "Add to Cart" should be a link, or change to a button -->
-                        {{ form_start(cartForm, {'attr': {'action': path('cart_new')}}) }}
-                        {{ form_widget(cartForm.productId, {'value': product.id}) }}
-                        {{ form_widget(cartForm.quantity, {'value': 1, 'attr': {'id': 'hiddenQuantity'}}) }}
-                        {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}
-                        {{ form_widget(cartForm.name, {'value': product.name}) }}
-                        {{ form_widget(cartForm.price, {'value': product.getDiscountedPrice}) }}
-                        <button type="submit"
-                                class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
-                            <p class="text-white group-hover:text-main">
-                                Add to Cart
-                            </p>
-                        </button>
-                        {{ form_end(cartForm) }}
+                    <div class="flex my-8 items-center mb-12">
+                        <!-- Stock Status -->
+                        <div class="w-full">
+                            <!-- Add a valid href if "Add to Cart" should be a link, or change to a button -->
+                            {{ form_start(cartForm, {'attr': {'action': path('cart_new')}}) }}
+                            {{ form_widget(cartForm.productId, {'value': product.id}) }}
+                            {{ form_widget(cartForm.quantity, {'value': 1}) }}
+                            {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}
+                            {{ form_widget(cartForm.name, {'value': product.name}) }}
+                            {{ form_widget(cartForm.price, {'value': product.getDiscountedPrice}) }}
+                            <button type="submit"
+                                    class="h-[54px] w-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200 rounded-md">
+                                <p class="text-white group-hover:text-main">
+                                    Thêm vào giỏ
+                                </p>
+                            </button>
+                            {{ form_end(cartForm) }}
+                        </div>
                     </div>
                     <div class="mt-4 pr-4">
-                        <h3 class="text-xl font-semibold mb-2">Product Use Guide</h3>
+                        <h3 class="text-xl font-semibold mb-2">Hướng dẫn sử dụng</h3>
                         <p>{{ product.productUseGuide }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <script>
-            document.getElementById('increaseQuantity').addEventListener('click', function () {
-                const quantityInput = document.getElementById('quantityInput');
-                const hiddenQuantity = document.getElementById('hiddenQuantity');
-                const currentQuantity = parseInt(quantityInput.value, 10);
-                quantityInput.value = currentQuantity + 1;
-                hiddenQuantity.value = currentQuantity + 1;
-            });
-
-            document.getElementById('decreaseQuantity').addEventListener('click', function () {
-                const quantityInput = document.getElementById('quantityInput');
-                const hiddenQuantity = document.getElementById('hiddenQuantity');
-                const currentQuantity = parseInt(quantityInput.value, 10);
-                if (currentQuantity > 1) {
-                    quantityInput.value = currentQuantity - 1;
-                    hiddenQuantity.value = currentQuantity - 1;
-                }
-            });
-        </script>
     {% else %}
         <p>Product not found.</p>
     {% endif %}

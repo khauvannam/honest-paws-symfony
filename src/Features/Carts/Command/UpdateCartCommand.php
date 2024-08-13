@@ -4,38 +4,39 @@ namespace App\Features\Carts\Command;
 
 class UpdateCartCommand
 {
-    private string $customerId;
-    private CreateCartItemCommand $cartItem;
+    private array $cartItemList;
+    private string $cartId;
 
     /**
-     * @param string $customerId
+     * @param array $cartItemList
+     * @param string $cartId
      */
-    public function __construct(string $customerId)
+    public function __construct(array $cartItemList, string $cartId)
     {
-        $this->customerId = $customerId;
+        $this->cartItemList = $cartItemList;
+        $this->cartId = $cartId;
     }
 
-    public function getCartItem(): CreateCartItemCommand
+    public function getCartItemList(): array
     {
-        return $this->cartItem;
+        return $this->cartItemList;
     }
 
-    public function setCartItem(CreateCartItemCommand $cartItem): UpdateCartCommand
+    public function setCartItemList(array $cartItemList): UpdateCartCommand
     {
-        $this->cartItem = $cartItem;
+        $this->cartItemList = $cartItemList;
         return $this;
     }
 
-    public function getCustomerId(): string
+    public function getCartId(): string
     {
-        return $this->customerId;
+        return $this->cartId;
     }
 
-    public function setCustomerId(string $customerId): UpdateCartCommand
+    public function setCartId(string $cartId): UpdateCartCommand
     {
-        $this->customerId = $customerId;
+        $this->cartId = $cartId;
         return $this;
     }
-
 
 }

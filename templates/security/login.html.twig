@@ -6,7 +6,7 @@
         <div class="flex w-full">
             <div class="w-1/2 flex">
                 <div class="w-full h-[100vh] bg-cover bg-center"
-                     style="background-image: url('{{ asset('img/Register/login-img.jpg') }}');">
+                     style="background-image: url('{{ asset('img/register/login-img.jpg') }}');">
                 </div>
             </div>
             <div class="bg-white p-8 w-1/2 rounded-lg pt-[10%] px-[5%]">
@@ -46,7 +46,9 @@
                             </a>
                         </button>
                         <button class="hover:underline " type="submit">
-                            Quên mật khẩu?
+                            <a href="{{ path('reset_password_request') }}">
+                               Quên mật khẩu?
+                            </a>
                         </button>
                     </div>
                 </form>

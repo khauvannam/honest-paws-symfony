@@ -24,6 +24,9 @@ class UpdateProductType extends AbstractType
             ->add("name", TextType::class, [
                 "label" => "Name",
             ])
+            ->add("quantity", NumberType::class, [
+                "label" => "Quantity",
+            ])
             ->add("description", TextType::class, [
                 "label" => "Description",
             ])

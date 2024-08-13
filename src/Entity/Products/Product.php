@@ -2,8 +2,11 @@
 
 namespace App\Entity\Products;
 
+use App\Entity\Comments\Comment;
 use App\Repository\Products\ProductRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
@@ -16,6 +19,10 @@ class Product
 
     #[ORM\Column(length: 255)]
     private string $name;
+    #[ORM\Column]
+    private int $quantity;
+    #[ORM\Column]
+    private int $soldQuantity;
 
     #[ORM\Column(length: 2000)]
     private string $description;
@@ -38,18 +45,22 @@ class Product
     #[ORM\Column(length: 100)]
     private string $categoryId;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'product', orphanRemoval: true)]
+    private Collection $comments;
+
     public function __construct(
         string $name,
+        int    $quantity,
         float  $price,
         string $description,
         string $productUseGuide,
         string $imageUrl,
         string $discountPercent,
         string $categoryId
-    )
-    {
+    ) {
         $this->id = Uuid::v4()->toString();
         $this->name = $name;
+        $this->quantity = $quantity;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
         $this->imageUrl = $imageUrl;
@@ -58,20 +69,23 @@ class Product
         $this->updatedAt = new DateTime();
         $this->categoryId = $categoryId;
         $this->price = $price;
+        $this->soldQuantity = 0;
+        $this->comments = new ArrayCollection();
     }
 
     public static function create(
         string $name,
+        int    $quantity,
         float  $price,
         string $description,
         string $productUseGuide,
         string $imageUrl,
         string $discountPercent,
         string $categoryId,
-    ): self
-    {
+    ): self {
         return new Product(
             $name,
+            $quantity,
             $price,
             $description,
             $productUseGuide,
@@ -83,13 +97,14 @@ class Product
 
     public function update(
         string $name,
+        int    $quantity,
         string $description,
         string $productUseGuide,
         string $discountPercent,
         float  $price
-    ): Product
-    {
+    ): Product {
         $this->name = $name;
+        $this->quantity = $quantity;
         $this->description = $description;
         $this->productUseGuide = $productUseGuide;
         $this->discountPercent = $discountPercent;
@@ -190,17 +205,47 @@ class Product
         return $this;
     }
 
-    public function setCreatedAt(DateTime $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
 
     public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): Product
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+
+    public function getSoldQuantity(): int
+    {
+        return $this->soldQuantity;
+    }
+
+    public function setSoldQuantity(int $soldQuantity): Product
+    {
+        $this->soldQuantity = $soldQuantity;
+        return $this;
+    }
+
+    public function getInStock(): int
+    {
+        return $this->quantity - $this->soldQuantity;
+    }
+
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function setComments(Collection $comments): void
+    {
+        $this->comments = $comments;
+    }
 }
-
-

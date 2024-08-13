@@ -113,7 +113,7 @@
                         <div class="flex items-center ">
                             <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ product.name }}</p>
                         </div>
-                        <p class="pb-4">{{ product.description }}</p>
+                        <p class="pb-4">{{ product.description | slice(0,100) }}...</p>
                         <a href="{{ path('product_details', {'id' : product.id}) }}"
                            class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                             <p class="text-white group-hover:text-main">
@@ -260,7 +260,7 @@ Chắc chắn rồi                        </p>
                         <div class="flex items-center ">
                             <p class="my-4 py-3 text-xl font-bold text-center w-full">{{ category.name }}</p>
                         </div>
-                        <p class="pb-4">{{ category.description }}</p>
+                        <p class="pb-4">{{ category.description | slice(0,100) }}...</p>
                         <button class="h-[54px] w-full max-w-[355px] rounded-full flex justify-center items-center bg-[#00205c] hover:border-[#00205c] hover:border-2 hover:bg-[#FADC6F] group transition-all duration-200">
                             <a href="{{ path('category_by_id', {'id' : category.id}) }}"
                                class="text-white group-hover:text-main">
