@@ -34,18 +34,24 @@
                 </a>
             {% endif %}
             <a id="search" class="p-2.5 flex items-center cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="rgba(45,77,108,1)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
+                     fill="rgba(45,77,108,1)">
                     <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
                 </svg>
             </a>
             <form id="searchForm" action="{{ path('all_products') }}"
-                    class="flex items-center w-[1350px] absolute top-[-100px] left-1/2 transform -translate-x-1/2 transition-all duration-300 ease-in-out opacity-0 pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="rgba(45,77,108,1)">
-                        <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
-                    </svg>
-                    <input name="search" value="{{ app.request.query.get('search') }}" type="text"
-                        class="border-0 rounded-xl px-4 py-6 w-full focus:outline-none focus:ring-0" placeholder="Tìm kiếm ở đây">
-                    <svg id="closeSearchForm" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="rgba(0,32,92,1)"><path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path></svg>
+                  class="flex items-center w-[1350px] absolute top-[-100px] left-1/2 transform -translate-x-1/2 transition-all duration-300 ease-in-out opacity-0 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
+                     fill="rgba(45,77,108,1)">
+                    <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                </svg>
+                <input name="search" value="{{ app.request.query.get('search') }}" type="text"
+                       class="border-0 rounded-xl px-4 py-6 w-full focus:outline-none focus:ring-0"
+                       placeholder="Tìm kiếm ở đây">
+                <svg id="closeSearchForm" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     width="32" height="32" fill="rgba(0,32,92,1)">
+                    <path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path>
+                </svg>
             </form>
 
 
@@ -57,79 +63,95 @@
             </a>
         </div>
         <!-- Cart Popup Container -->
-        <div id="cartPopup" class=" text-main fixed top-0 right-[8px] h-full w-full max-w-md max-h-[98vh] mt-2 bg-white rounded-xl shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
+        <div id="cartPopup"
+             class=" text-main fixed top-0 right-[8px] h-full w-full max-w-md max-h-[98vh] mt-2 bg-white rounded-xl shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
             <div class="p-6">
                 <!-- Close Button -->
                 <div class="flex justify-between items-center my-8">
-                    
+
                     <h2 class="text-2xl font-semibold">Thông tin giỏ hàng</h2>
                     <button id="closeCart" class="text-gray-600 hover:text-gray-800 focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="rgba(0,32,92,1)"><path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
+                             fill="rgba(0,32,92,1)">
+                            <path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path>
+                        </svg>
                     </button>
                 </div>
 
                 <!-- Cart Content -->
-                {% if cart()%}
-                {% set cartItems = cart().getCartItems %}
-                {% set cart = cart() %}
-                <div class="flex w-full">
-                    <form action="{{ path('cart_update', {'cartId' : cart.id}) }}" method="post" class="w-full">
-                    {% for item in cartItems %}
-                    <div class="flex items-center w-full">
-                            <a href="{{ path('product_details', {'id' : item.productId}) }}">
-                                <img src="{{ asset('img/blobs/' ~ item.imageUrl) }}" alt="{{ item.name }}" width="120" class="rounded-lg">
-                            </a>
-                            <div class="ml-4 flex flex-col w-full">
-                                <div class="flex items-center justify-between">
-                                    <div class="font-semibold text-lg">{{ item.name }}</div>
-                                    <a href="{{ path('cart_delete', {'cartId' : cart.id, 'cartItemId' : item.id}) }}" class=" text-gray-400 hover:text-red-600 transition ml-4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"></path></svg></a>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center border border-gray-200 rounded-lg max-w-[120px] px-2">
-                                        <button type="button"
-                                                            id=""
-                                                            class="decrease-quantity size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                                                        &minus;
-                                                                                                </button>
-                                        <input
-                                                            name="quantities[{{ item.id }}]"
-                                                            id=""
-                                                            type="number"
-                                                            value="{{ item.quantity }}"
-                                                            min="1"
-                                                            max="20"
-                                                            class="quantity-input h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
-                                                    />
-                                        <button type="button"
-                                                            id=""
-                                                            class=" increase-quantity size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                                                        &plus;
-                                        </button>
+                {% if cart() %}
+                    {% set cartItems = cart().getCartItems %}
+                    {% set cart = cart() %}
+                    <div class="flex w-full">
+                        <form action="{{ path('cart_update', {'cartId' : cart.id}) }}" method="post" class="w-full">
+                            {% for item in cartItems %}
+                                <div class="flex items-center w-full">
+                                    <a href="{{ path('product_details', {'id' : item.productId}) }}">
+                                        <img src="{{ asset('img/blobs/' ~ item.imageUrl) }}" alt="{{ item.name }}"
+                                             width="120" class="rounded-lg">
+                                    </a>
+                                    <div class="ml-4 flex flex-col w-full">
+                                        <div class="flex items-center justify-between">
+                                            <div class="font-semibold text-lg">{{ item.name }}</div>
+                                            <a href="{{ path('cart_delete', {'cartId' : cart.id, 'cartItemId' : item.id}) }}"
+                                               class=" text-gray-400 hover:text-red-600 transition ml-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20"
+                                                     height="20" fill="currentColor">
+                                                    <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"></path>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center border border-gray-200 rounded-lg max-w-[120px] px-2">
+                                                <button type="button"
+                                                        id=""
+                                                        class="decrease-quantity size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                                    &minus;
+                                                </button>
+                                                <input
+                                                        name="quantities[{{ item.id }}]"
+                                                        id=""
+                                                        type="number"
+                                                        value="{{ item.quantity }}"
+                                                        min="1"
+                                                        max="20"
+                                                        class="quantity-input h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
+                                                />
+                                                <button type="button"
+                                                        id=""
+                                                        class=" increase-quantity size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                                    &plus;
+                                                </button>
+                                            </div>
+                                            <div id="total-item-price"
+                                                 data-price="{{ (item.price * item.quantity)|number_format(2) }}"
+                                                 class="text-red-600">
+                                                ${{ (item.price * item.quantity)|number_format(2) }}</div>
+                                        </div>
                                     </div>
-                                    <div id="total-item-price"
-                                            data-price="{{ (item.price * item.quantity)|number_format(2) }}"
-                                            class="text-red-600">
-                                            ${{ (item.price * item.quantity)|number_format(2) }}</div>
                                 </div>
-                            </div>
+                            {% endfor %}
+                            <button type="submit"
+                                    class="mt-4 float-right font-semibold text-blue-600 hover:text-blue-700 transition">
+                                Cập nhật giỏ hàng
+                            </button>
+                            <a href="{{ path('cart_list') }}"
+                               class="font-semibold text-blue-600 hover:text-blue-700 transition mt-4 float-left">Mở
+                                trang giỏ hàng</a>
+                        </form>
+
                     </div>
-                    {% endfor %}
-                    <button type="submit" class="mt-4 float-right font-semibold text-blue-600 hover:text-blue-700 transition">Cập nhật giỏ hàng</button>
-                    <a href="{{ path('cart_list') }}" class="font-semibold text-blue-600 hover:text-blue-700 transition mt-4 float-left">Mở trang giỏ hàng</a>
-                </form>
 
-                </div>
-
-                <h3 class="total text-xl font-semibold mt-4 text-right">
-                    Tổng cộng:
-                    <span id="total-price" class="text-red-600">
+                    <h3 class="total text-xl font-semibold mt-4 text-right">
+                        Tổng cộng:
+                        <span id="total-price" class="text-red-600">
                         ${{ cart.getCartItems|reduce((total, item) => total + (item.price * item.quantity), 0)|number_format(2) }}
                     </span>
-                </h3>
+                    </h3>
                 {% else %}
-                <div class="flex justify-center items-center h-96">
-                    <p class="text-lg">Giỏ hàng của bạn trống</p>
-                </div>  
+                    <div class="flex justify-center items-center h-96">
+                        <p class="text-lg">Giỏ hàng của bạn trống</p>
+                    </div>
                 {% endif %}
             </div>
         </div>
