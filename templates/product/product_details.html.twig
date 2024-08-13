@@ -8,9 +8,10 @@
                 <div class="w-full max-w-[1300px] flex items-center text-main">
                     <a href="/" class="hover:underline">Trang chủ</a>
                     <span class="mx-2">></span>
-                    <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">
+                    <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}"
+                       class="hover:underline">
                         Tất cả sản phẩm</a>
-                        <span class="mx-2">></span>
+                    <span class="mx-2">></span>
                     <span>{{ product.name }}</span>
                 </div>
             </div>
@@ -38,34 +39,34 @@
                     <!-- Quantity Selector -->
                     <div class="flex items-center mb-12">
                         <div class="flex items-center border border-black justify-between max-w-[120px] px-0.5 rounded-md hover:border-[#fadc6f]">
-                                <button type="button"
-                                        id="decreaseQuantity"
-                                        class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                                    &minus;
-                                </button>
-                                <input
-                                        id="quantityInput"
-                                        type="number"
-                                        value="1"
-                                        min="1"
-                                        max="20"
-                                        class=" h-12 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
-                                />
-                                <button type="button"
-                                        id="increaseQuantity"
-                                        class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                                    &plus;
-                                </button>
+                            <button type="button"
+                                    id="decreaseQuantity"
+                                    class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                &minus;
+                            </button>
+                            <input
+                                    id="quantityInput"
+                                    type="number"
+                                    value="1"
+                                    min="1"
+                                    max="20"
+                                    class=" h-12 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none "
+                            />
+                            <button type="button"
+                                    id="increaseQuantity"
+                                    class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+                                &plus;
+                            </button>
                         </div>
                         <div>
-                                <p class="mx-5">Còn hàng</p>
+                            <p class="mx-5">Còn hàng</p>
                         </div>
                     </div>
                     <div class="flex my-8 items-center mb-12">
                         <!-- Stock Status -->
                         <div class="w-full">
                             <!-- Add a valid href if "Add to Cart" should be a link, or change to a button -->
-                            {{ form_start(cartForm, {'attr': {'action': path('cart_new')}}) }}
+                            {{ form_start(cartForm, {'attr': {'action': path('cart_new', {'productId' : product.id})}}) }}
                             {{ form_widget(cartForm.productId, {'value': product.id}) }}
                             {{ form_widget(cartForm.quantity, {'value': 1}) }}
                             {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}

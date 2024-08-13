@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240813124537 extends AbstractMigration
+final class Version20240813131919 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -23,7 +23,7 @@ final class Version20240813124537 extends AbstractMigration
         $this->addSql('CREATE TABLE cart (id VARCHAR(255) NOT NULL, customer_id VARCHAR(255) NOT NULL, update_date DATETIME NOT NULL, cart_status VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cart_item (id VARCHAR(255) NOT NULL, cart_id VARCHAR(255) DEFAULT NULL, product_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, quantity INT NOT NULL, price DOUBLE PRECISION NOT NULL, image_url VARCHAR(255) NOT NULL, added_at DATETIME NOT NULL, total_price VARCHAR(255) NOT NULL, INDEX IDX_F0FE25271AD5CDBF (cart_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE category (id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, img_url VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE comment (id VARCHAR(255) NOT NULL, user_id VARCHAR(255) DEFAULT NULL, product_id VARCHAR(255) DEFAULT NULL, content VARCHAR(255) NOT NULL, INDEX IDX_9474526CA76ED395 (user_id), INDEX IDX_9474526C4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE comment (id VARCHAR(255) NOT NULL, user_id VARCHAR(36) NOT NULL, product_id VARCHAR(36) NOT NULL, content VARCHAR(255) NOT NULL, INDEX IDX_9474526CA76ED395 (user_id), INDEX IDX_9474526C4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE order_base (id VARCHAR(255) NOT NULL, customer_id VARCHAR(255) NOT NULL, order_date DATETIME NOT NULL, order_total NUMERIC(10, 2) NOT NULL, order_status VARCHAR(255) NOT NULL, shipping_method_id VARCHAR(255) NOT NULL, shipping_address VARCHAR(500) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE order_line (id VARCHAR(255) NOT NULL, order_id VARCHAR(255) DEFAULT NULL, product_id VARCHAR(255) NOT NULL, product_name VARCHAR(255) NOT NULL, img_url VARCHAR(255) NOT NULL, quantity INT NOT NULL, price NUMERIC(10, 2) NOT NULL, INDEX IDX_9CE58EE18D9F6D38 (order_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE product (id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, quantity INT NOT NULL, sold_quantity INT NOT NULL, description VARCHAR(2000) NOT NULL, product_use_guide VARCHAR(2000) NOT NULL, image_url VARCHAR(500) NOT NULL, discount_percent VARCHAR(500) NOT NULL, price DOUBLE PRECISION NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, category_id VARCHAR(100) NOT NULL, comments VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

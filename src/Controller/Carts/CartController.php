@@ -33,8 +33,8 @@ class CartController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/cart/new', name: 'cart_new', methods: ['GET', 'POST'])]
-    public function createAsync(Request $request): RedirectResponse|Response
+    #[Route('/cart/new/{productId}', name: 'cart_new', methods: ['GET', 'POST'])]
+    public function createAsync(Request $request, string $productId): RedirectResponse|Response
     {
         $cartItem = new CreateCartItemCommand();
         $cart = new AddToCartCommand();
@@ -43,7 +43,7 @@ class CartController extends AbstractController
         $form = $this->createForm(CreateCartItemType::class, $cartItem);
         if ($form->handleRequest($request)->isSubmitted()) {
             $this->bus->dispatch($cart);
-            return $this->redirectToRoute('cart_list');
+            return $this->redirectToRoute('product_details', ['id' => $productId]);
         }
         return $this->render("product/product_details.html.twig", ['form' => $form->createView()]);
     }
