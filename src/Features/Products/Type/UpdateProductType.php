@@ -20,7 +20,7 @@ class UpdateProductType extends AbstractType
     ): void
     {
         $builder
-            ->add("id", HiddenType::class)
+            ->add('id', HiddenType::class, [])
             ->add("name", TextType::class, [
                 "label" => "Name",
             ])

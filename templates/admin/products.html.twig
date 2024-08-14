@@ -11,121 +11,195 @@
     <!-- Main Content -->
     <div class="container mx-auto mt-8">
         <!-- Button to open the modal -->
-<a class="flex justify-between mb-4">
-    <h2 class="text-xl font-semibold">Danh sách sản phẩm</h2>
-    <button id="openModalButton" class="bg-blue-500 text-white px-4 py-2 rounded">Thêm sản phẩm</button>
-</a>
+        <a class="flex justify-between mb-4">
+            <h2 class="text-xl font-semibold">Danh sách sản phẩm</h2>
+            <button id="openCreateModalButton" class="bg-blue-500 text-white px-4 py-2 rounded">Thêm sản phẩm</button>
+        </a>
 
-<!-- The Modal with Overlay -->
-    <div id="productModal" class="fixed z-10 inset-0 hidden">
-        <!-- Overlay -->
-        <div id="overlay" class="absolute inset-0 bg-black opacity-50"></div>
+        <!-- The Modal with Overlay for Creating Product -->
+        <div id="createProductModal" class="fixed z-10 inset-0 hidden">
+            <!-- Overlay -->
+            <div id="createOverlay" class="absolute inset-0 bg-black opacity-50"></div>
 
-        <!-- Modal Content -->
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative z-20">
-                <button id="closeModalButton" class="text-gray-500 hover:text-gray-700 float-right">&times;</button>
-                <div class="w-full flex justify-center text-main">
-                    <div class="max-w-md w-full my-7 mx-10 bg-white rounded-lg">
-                        <h1 class="text-2xl font-bold mb-4 text-center">Tạo Sản Phẩm</h1>
-                        {{ form_start(form, { 'attr': { 'class': 'form' } }) }}
-                        <div class="mb-4">Tên sản phẩm:
-                            {{ form_widget(form.name, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+            <!-- Modal Content -->
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative z-20">
+                    <button id="closeCreateModalButton" class="text-gray-500 hover:text-gray-700 float-right">&times;</button>
+                    <div class="w-full flex justify-center text-main">
+                        <div class="max-w-md w-full my-7 mx-10 bg-white rounded-lg">
+                            <h1 class="text-2xl font-bold mb-4 text-center">Tạo Sản Phẩm</h1>
+                            {{ form_start(createForm, { 'attr': { 'class': 'form' } }) }}
+                            <div class="mb-4">Tên sản phẩm:
+                                {{ form_widget(createForm.name, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Số lượng sản phẩm:
+                                {{ form_widget(createForm.quantity, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Giá sản phẩm:
+                                {{ form_widget(createForm.price, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Mô tả:
+                                {{ form_widget(createForm.description, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Hướng dẫn sử dụng:
+                                {{ form_widget(createForm.productUseGuide, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Hình ảnh:
+                                {{ form_widget(createForm.imgFile, { 'attr': { 'class': 'form-control relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-gray-300 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:text-main file:border-solid file:border-inherit file:bg-transparent file:px-3 file:py-[0.32rem] file:text-surface focus:border-primary focus:text-main focus:shadow-inset focus:outline-none file:border-[#00205c]' } }) }}
+                            </div>
+                            <div class="mb-4">Giảm giá:
+                                {{ form_widget(createForm.discountPercent, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Chọn danh mục:
+                                {{ form_widget(createForm.categoryId, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div>
+                                {{ form_widget(createForm.save, { 'attr': { 'class': 'w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' } }) }}
+                            </div>
+                            {{ form_end(createForm) }}
                         </div>
-                        <div class="mb-4">Số lượng sản phẩm:
-                            {{ form_widget(form.quantity, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
-                        </div>
-                        <div class="mb-4">Giá sản phẩm:
-                            {{ form_widget(form.price, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
-                        </div>
-                        <div class="mb-4">Mô tả:
-                            {{ form_widget(form.description, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
-                        </div>
-                        <div class="mb-4">Hướng dẫn sử dụng:
-                            {{ form_widget(form.productUseGuide, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
-                        </div>
-                        <div class="mb-4">Hình ảnh:
-                            {{ form_widget(form.imgFile, { 'attr': { 'class': 'form-control relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-gray-300 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:text-main file:border-solid file:border-inherit file:bg-transparent file:px-3 file:py-[0.32rem] file:text-surface focus:border-primary focus:text-main focus:shadow-inset focus:outline-none file:border-[#00205c]' } }) }}
-                        </div>
-                        <div class="mb-4">Giảm giá:
-                            {{ form_widget(form.discountPercent, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
-                        </div>
-                        <div class="mb-4">Chọn danh mục:
-                            {{ form_widget(form.categoryId, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
-                        </div>
-                        <div>
-                            {{ form_widget(form.save, { 'attr': { 'class': 'w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' } }) }}
-                        </div>
-                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-        <!-- Product Table -->
-        <div class="bg-white shadow-md rounded">
-            <table class="min-w-full table-auto">
-                <thead class="bg-gray-200">
-                    <tr>
-                        <th class="px-4 py-2">Hình ảnh</th>
-                        <th class="px-4 py-2">Tên sản phẩm</th>
-                        <th class="px-4 py-2">Giá</th>
-                        <th class="px-4 py-2">Phần trăm giảm giá</th>
-                        <th class="px-4 py-2">Danh mục</th>
-                        <th class="px-4 py-2">Số lượng còn lại</th>
-                        <th class="px-4 py-2">Số lượng đã bán</th>
-                        <th class="px-4 py-2">Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for product in products %}
-                        <tr class="text-center">
-                            <td class="px-4 py-2">
-                                <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}" alt="{{ product.name }}" width="100" class="rounded">
-                            </td>
-                            <td class="px-4 py-2">{{ product.name }}</td>
-                            <td class="px-4 py-2">{{ product.price }}</td>
-                            <td class="px-4 py-2">{{ product.getDiscountPercent() }}</td>
-                            {% for category in categories %}
-                                {% if category.id == product.getCategoryId() %}
-                                    <td class="px-4 py-2">{{ category.name }}</td>
-                                {% endif %}
-                            {% endfor %}
-                            <td class="px-4 py-2">{{ product.quantity }}</td>
-                            <td class="px-4 py-2">{{ product.getSoldQuantity() }}</td>
-                            <td class="px-4 py-2">
-                                <a href="{{ path('product_edit', {'id': product.id}) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Sửa</a>
-                                <a href="{{ path('product_delete', {'id': product.id}) }}" class="bg-red-500 text-white px-4 py-2 rounded">Xóa</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    <!-- Thêm các dòng sản phẩm khác tương tự -->
-                </tbody>
-            </table>
+        <!-- The Modal with Overlay for Editing Product -->
+        <div id="editProductModal" class="fixed z-10 inset-0 hidden">
+            <!-- Overlay -->
+            <div id="editOverlay" class="absolute inset-0 bg-black opacity-50"></div>
+
+            <!-- Modal Content -->
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative z-20">
+                    <button id="closeEditModalButton" class="text-gray-500 hover:text-gray-700 float-right">&times;</button>
+                    <div class="w-full flex justify-center text-main">
+                        <div class="max-w-md w-full my-7 mx-10 bg-white rounded-lg">
+                            <h1 class="text-2xl font-bold mb-4 text-center">Chỉnh sửa Sản Phẩm</h1>
+                            {{ form_start(editForm, {'attr': {'action': path('admin_products_edit')}}) }}
+                            <div class="mb-4">Tên sản phẩm:
+                                {{ form_widget(editForm.name, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Số lượng sản phẩm:
+                                {{ form_widget(editForm.quantity, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Giá sản phẩm:
+                                {{ form_widget(editForm.price, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Mô tả:
+                                {{ form_widget(editForm.description, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Hướng dẫn sử dụng:
+                                {{ form_widget(editForm.productUseGuide, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Hình ảnh:
+                                {{ form_widget(editForm.imageFile, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div class="mb-4">Giảm giá:
+                                {{ form_widget(editForm.discountPercent, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                            </div>
+                            <div>
+                                {{ form_widget(editForm.save, { 'attr': { 'class': 'w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' } }) }}
+                            </div>
+                            {{ form_end(editForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Table displaying the list of products -->
+        <table class="min-w-full bg-white shadow-md rounded text-center">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="py-2">Hình Ảnh</th>
+                    <th class="py-2">ID</th>
+                    <th class="py-2">Tên sản phẩm</th>
+                    <th class="py-2">Số lượng</th>
+                    <th class="py-2">Giá</th>
+                    <th class="py-2">Giảm giá</th>
+                    <th class="py-2">Danh mục</th>
+                    <th class="py-2">Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td class="border px-4 py-2">
+                        <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}"
+                                                         alt="{{ product.name }}"
+                                                         width="80" class="rounded">
+                    <td class="border px-4 py-2">{{ product.id }}</td>
+                    <td class="border px-4 py-2">{{ product.name }}</td>
+                    <td class="border px-4 py-2">{{ product.quantity }}</td>
+                    <td class="border px-4 py-2">{{ product.price }}</td>
+                    <td class="border px-4 py-2">{{ product.discountPercent }}</td>
+                    <td class="border px-4 py-2">
+                    {% for category in categories %}
+                        {% if category.id == product.categoryId %}
+                            {{ category.name }}
+                        {% endif %}
+                    {% endfor %}
+                    </td>
+                    <td class="border px-4 py-2">
+                        <!-- Edit button to open edit modal -->
+                        <button class="bg-black text-white px-4 py-2 rounded" data-product-id="{{ product.id }}" onclick="openEditModal(this)">Chỉnh sửa</button>
+                        <a href="{{ path('admin_product_delete', { 'id': product.id }) }}" class="bg-red-500 text-white px-4 py-2 rounded">Xóa</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <script>
-        // Get the modal, open button, and close button elements
-        var modal = document.getElementById("productModal");
-        var openModalButton = document.getElementById("openModalButton");
-        var closeModalButton = document.getElementById("closeModalButton");
-        var overlay = document.getElementById("overlay");
+     function openModal(modalId) {
+    document.getElementById(modalId).classList.remove("hidden");
+    }
 
-        // Open the modal when the button is clicked
-        openModalButton.onclick = function() {
-            modal.classList.remove("hidden");
-        }
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add("hidden");
+    }
 
-        // Close the modal when the close button is clicked
-        closeModalButton.onclick = function() {
-            modal.classList.add("hidden");
-        }
+    document.getElementById('openCreateModalButton').addEventListener('click', function() {
+        openModal('createProductModal');
+    });
 
-        // Close the modal if the user clicks on the overlay
-        overlay.onclick = function() {
-            modal.classList.add("hidden");
+    document.getElementById('closeCreateModalButton').addEventListener('click', function() {
+        closeModal('createProductModal');
+    });
+
+    function openEditModal(button) {
+        let productId = button.dataset.productId;
+        let productIdInput = document.getElementById('update_product_id');
+        if (productIdInput) {
+            productIdInput.value = productId;
         }
+        console.log(productId);
+        openModal('editProductModal');
+    }
+
+    document.getElementById('closeEditModalButton').addEventListener('click', function() {
+        closeModal('editProductModal');
+    });
+
+    // Handle another general modal (e.g., productModal)
+    var generalModal = document.getElementById("productModal");
+    var openGeneralModalButton = document.getElementById("openModalButton");
+    var closeGeneralModalButton = document.getElementById("closeModalButton");
+    var overlay = document.getElementById("overlay");
+
+    openGeneralModalButton.onclick = function() {
+        openModal('productModal');
+    }
+
+    closeGeneralModalButton.onclick = function() {
+        closeModal('productModal');
+    }
+
+    // Close modal if the user clicks on the overlay
+    overlay.onclick = function() {
+        closeModal('productModal');
+    }
+
     </script>
 {% endblock %}

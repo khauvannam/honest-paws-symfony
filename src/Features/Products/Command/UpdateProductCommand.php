@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UpdateProductCommand
 {
-    private string $id;
+    private string $id ='';
     private string $name = '';
     private int $quantity = 0;
     private string $description = '';
@@ -27,10 +27,8 @@ class UpdateProductCommand
     }
 
     public function __construct(
-        string $id
     )
     {
-        $this->id = $id;
     }
 
     public function getId(): string

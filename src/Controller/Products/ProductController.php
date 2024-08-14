@@ -74,7 +74,6 @@ class ProductController extends AbstractController
     public function editAsync(Request $request, string $id): RedirectResponse|Response
     {
         $product = new UpdateProductCommand($id);
-
         $form = $this->createForm(UpdateProductType::class, $product);
         $form->handleRequest($request);
 
