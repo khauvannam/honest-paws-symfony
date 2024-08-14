@@ -22,8 +22,10 @@
             <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-1"></div>
             {% if app.user and app.user.avatarLink %}
                 <div id="avatar">
+                    <a href="/customer">
                     <img src="{{ asset('/img/blobs/' ~ app.user.avatarLink) }}" alt="User Avatar"
                          class="p-2.5 rounded-full w-16 h-16 justify-center items-center flex cursor-pointer">
+                         </a>
                 </div>
             {% else %}
                 <a href="{{ path('login') }}" class="p-2.5 justify-center items-center flex">

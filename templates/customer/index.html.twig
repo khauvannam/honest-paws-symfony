@@ -5,11 +5,11 @@
 {% block body %}
     <div class="bg-[#00205c] py-4">
         <div class="max-w-[1300px] mx-auto flex justify-center space-x-8">
-            <a href="{{ path('app_customer_customer_index') }}" class="text-white text-xl font-bold hover:underline">
-                Summary
+            <a href="/customer" class="text-white text-xl font-bold hover:underline">
+                Thông tin
             </a>
-            <a href="" class="text-white text-xl font-bold hover:underline">
-                Orders
+            <a href="{{ path('customer_order', {'id' : app.user.id}) }}" class="text-white text-xl font-bold hover:underline">
+                Đơn hàng
             </a>
         </div>
     </div>
@@ -27,10 +27,6 @@
                                               <a href="{{ path('changePassword', {'userId': app.user.id}) }}">
   <button class="mt-4 px-4 py-2 bg-gray-800 text-white rounded">Đổi mật khẩu</button> </a>
 
-            </div>
-            <div class="border rounded-lg shadow-sm p-6 bg-white">
-                <h3 class="font-bold text-gray-900 mb-4">Điểm thưởng</h3>
-                <p class="text-gray-700"><strong class="text-gray-900">Tổng điểm của bạn:</strong> 250</p>
             </div>
         </div>
         {% endif %}
