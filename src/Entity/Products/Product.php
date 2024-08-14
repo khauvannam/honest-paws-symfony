@@ -57,8 +57,7 @@ class Product
         string $imageUrl,
         string $discountPercent,
         string $categoryId
-    )
-    {
+    ) {
         $this->id = Uuid::v4()->toString();
         $this->name = $name;
         $this->quantity = $quantity;
@@ -83,8 +82,7 @@ class Product
         string $imageUrl,
         string $discountPercent,
         string $categoryId,
-    ): self
-    {
+    ): self {
         return new Product(
             $name,
             $quantity,
@@ -104,8 +102,7 @@ class Product
         string $productUseGuide,
         string $discountPercent,
         float  $price
-    ): Product
-    {
+    ): Product {
         $this->name = $name;
         $this->quantity = $quantity;
         $this->description = $description;
@@ -251,7 +248,4 @@ class Product
     {
         $this->comments = $comments;
     }
-
 }
-
-
