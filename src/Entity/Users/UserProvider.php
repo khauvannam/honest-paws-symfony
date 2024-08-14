@@ -17,6 +17,8 @@ class UserProvider
     #[ORM\Id]
     #[ORM\Column(type: 'string')]
     private string $token;
+
+    #[ORM\Column]
     private \DateTime $createdAt;
 
     public function getCreatedAt(): \DateTime

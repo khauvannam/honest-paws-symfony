@@ -16,7 +16,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "symfony": "symfony server:start ",
+    "symfony": "symfony server:start -d",
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",

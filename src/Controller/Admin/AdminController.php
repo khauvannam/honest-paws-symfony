@@ -33,7 +33,8 @@ class AdminController extends AbstractController
      * @throws ExceptionInterface
      */
     #[Route('/admin', name: 'admin')]
-    public function admin(){
+    public function admin(): Response
+    {
         return $this->render('admin.html.twig');
     }
     #[Route('/admin/dashboard', name: 'admin_dashboard')]

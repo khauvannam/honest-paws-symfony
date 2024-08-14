@@ -4,15 +4,22 @@ namespace App\Features\Users\Command;
 
 class ResetPasswordCommand
 {
-    private string $email;
-    private string $newPassword;
-    private string $token;
+    private string $email = '';
+    private string $password = '';
 
-    public function __construct(string $email, string $newPassword, string $token)
+    public function __construct()
     {
-        $this->email = $email;
-        $this->newPassword = $newPassword;
-        $this->token = $token;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): ResetPasswordCommand
+    {
+        $this->password = $password;
+        return $this;
     }
 
     public function getEmail(): string
@@ -20,13 +27,9 @@ class ResetPasswordCommand
         return $this->email;
     }
 
-    public function getNewPassword(): string
+    public function setEmail(string $email): void
     {
-        return $this->newPassword;
+        $this->email = $email;
     }
 
-    public function getToken(): string
-    {
-        return $this->token;
-    }
 }

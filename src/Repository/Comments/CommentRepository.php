@@ -18,4 +18,12 @@ class CommentRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($comment);
         $this->getEntityManager()->flush();
     }
+
+
+    public function delete(Comment $comment): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($comment);
+        $entityManager->flush();
+    }
 }
