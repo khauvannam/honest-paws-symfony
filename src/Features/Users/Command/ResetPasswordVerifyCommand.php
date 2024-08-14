@@ -10,9 +10,7 @@ class ResetPasswordVerifyCommand
     private string $token = '';
     private CaseDescription $caseDescription = CaseDescription::ResetPassword;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function getCaseDescription(): CaseDescription
     {
@@ -40,5 +38,4 @@ class ResetPasswordVerifyCommand
         $this->email = $email;
         return $this;
     }
-
 }

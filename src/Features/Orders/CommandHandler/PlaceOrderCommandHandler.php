@@ -13,9 +13,11 @@ use App\Features\Orders\Command\PlaceOrderCommand;
 use App\Repository\Carts\CartRepository;
 use App\Repository\Orders\OrderRepository;
 use App\Services\MailerService;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Bundle\SecurityBundle\Security;
+
+
 
 #[AsMessageHandler]
 readonly class PlaceOrderCommandHandler
@@ -26,15 +28,15 @@ readonly class PlaceOrderCommandHandler
         private CartRepository           $cartRepository,
         private MailerService            $mailerService,
         private Security                 $security,
-        private EventDispatcherInterface $dispatcher)
-    {
-    }
+        private EventDispatcherInterface $dispatcher
+    ) {}
 
     public function __invoke(PlaceOrderCommand $command): OrderBase
     {
 
         $cart = $command->getCart();
         $order = new OrderBase($cart->getCustomerId(), $command->getShippingAddress());
+
         /**
          * @var CartItem $cartItem
          */
@@ -52,8 +54,8 @@ readonly class PlaceOrderCommandHandler
         // publish an event to product
         $orderEvent->setProductQuantity($productQuantity);
         $this->dispatcher->dispatch($orderEvent);
-        
-        
+
+
         $this->updateCartStatusToCheckout($cart);
 
         $this->notifyUserAboutOrder($order);

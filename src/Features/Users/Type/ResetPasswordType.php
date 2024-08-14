@@ -19,7 +19,7 @@ class ResetPasswordType extends AbstractType
                 'required' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Request Password Reset',
+                'label' => 'Xác nhận',
             ]);
     }
 

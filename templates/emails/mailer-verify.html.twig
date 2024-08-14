@@ -1,12 +1,12 @@
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; background-color: #f3f4f6; padding: 2rem;">
-    <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-        <div style="width: 50%; max-width: 600px; padding: 2rem; background-color: #ffffff; border-radius: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: center;">
-            <h1 style="font-size: 2rem; font-weight: 700; color: #4a5568; margin-bottom: 1.5rem;">Registration
-                Successful</h1>
-            <p style="font-size: 1rem; color: #4a5568; margin-bottom: 2rem;">Thank you for registering. You can now <a
-                        href="{{ 'http://127.0.0.1:8000/verify/' ~ userId }}"
-                        style="color: #3182ce; text-decoration: none; font-weight: 600; transition: color 0.3s;">VERIFY</a>
-                to your account.</p>
-        </div>
+<div class="w-full flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="max-w-md w-full mx-4 bg-white rounded-lg shadow-lg text-center p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Bạn đã đặt hàng thành công</h1>
+        <p class="text-lg text-gray-600 mb-6">
+            Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi. Đơn hàng của bạn đang được xử lý và sẽ được gửi đến địa chỉ của bạn trong thời gian sớm nhất.
+        </p>
+        <a href="{{ path('order_success') }}" 
+           class="inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Tiếp tục mua hàng
+        </a>
     </div>
 </div>
