@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
-use App\Features\Orders\Query\GetOrdersByOrderDateDesc;
 use App\Features\Products\Command\CreateProductCommand;
 use App\Features\Products\Command\DeleteProductCommand;
 use App\Features\Products\Command\UpdateProductCommand;
@@ -14,7 +13,6 @@ use App\Services\GetEnvelopeResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -37,6 +35,10 @@ class AdminController extends AbstractController
     {
         return $this->render('admin.html.twig');
     }
+
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
     public function dashboard(Request $request, OrderRepository $orderRepository, int $productLimit = 100, int $categoryLimit = 100): Response
     {
@@ -46,7 +48,7 @@ class AdminController extends AbstractController
 
         $allOrders = $orderRepository->findAllOrders();
         $totalOrdersCount = count($allOrders);
-    
+
         // Pagination setup
         $limit = 8; // Number of items per page
         $currentPage = $request->query->getInt('page', 1);
@@ -66,6 +68,10 @@ class AdminController extends AbstractController
             'totalPages' => $totalPages,
         ]));
     }
+
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/admin/products', name: 'admin_products', methods: ['GET', 'POST'])]
     public function products(Request $request, int $productLimit = 20, int $categoryLimit = 20, ?string $id = ''): Response
     {
@@ -79,15 +85,15 @@ class AdminController extends AbstractController
         $createForm = $this->createForm(CreateProductType::class, $createProductCommand);
         $createForm->handleRequest($request);
 
-        $editProductCommand = new UpdateProductCommand($id);
+        $editProductCommand = new UpdateProductCommand();
         $editForm = $this->createForm(UpdateProductType::class, $editProductCommand);
         $editForm->handleRequest($request);
 
-            if ($editForm->isSubmitted() && $editForm->isValid()) {
-                $editProductCommand->setImageFile($editForm->get('imageFile')->getData());
-                $this->bus->dispatch($editProductCommand);
-                return $this->redirectToRoute('admin_products');
-            }
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $editProductCommand->setImageFile($editForm->get('imageFile')->getData());
+            $this->bus->dispatch($editProductCommand);
+            return $this->redirectToRoute('admin_products');
+        }
 
         // Handle form submissions
         if ($createForm->isSubmitted() && $createForm->isValid()) {
@@ -98,11 +104,14 @@ class AdminController extends AbstractController
 
         return $this->render('admin/products.html.twig', array_merge($result, [
             'createForm' => $createForm->createView(),
-            'editForm' => isset($editForm) ? $editForm->createView() : null,
+            'editForm' => $editForm->createView(),
 
         ]));
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/admin/products/edit', name: 'admin_products_edit', methods: ['GET', 'POST'])]
     public function editProduct(Request $request): Response
     {
@@ -121,7 +130,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-        
+
     #[Route('/admin/products/delete/{id}', name: 'admin_product_delete', methods: ['GET', 'POST'])]
     public function deleteProduct(string $id): Response
     {
@@ -134,7 +143,7 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_products');
-}
+    }
 
 
 }

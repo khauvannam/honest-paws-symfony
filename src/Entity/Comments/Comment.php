@@ -24,11 +24,11 @@ class Comment
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Product::class)]
     #[ORM\JoinColumn(name: "product_id", referencedColumnName: "id")]
-    private Product $product;
+    private ?Product $product = null;
     private DateTime $createdAt;
 
     /**

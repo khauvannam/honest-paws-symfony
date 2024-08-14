@@ -24,7 +24,8 @@
             <!-- Modal Content -->
             <div class="flex items-center justify-center min-h-screen">
                 <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative z-20">
-                    <button id="closeCreateModalButton" class="text-gray-500 hover:text-gray-700 float-right">&times;</button>
+                    <button id="closeCreateModalButton" class="text-gray-500 hover:text-gray-700 float-right">&times;
+                    </button>
                     <div class="w-full flex justify-center text-main">
                         <div class="max-w-md w-full my-7 mx-10 bg-white rounded-lg">
                             <h1 class="text-2xl font-bold mb-4 text-center">Tạo Sản Phẩm</h1>
@@ -45,7 +46,8 @@
                                 {{ form_widget(createForm.productUseGuide, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
                             </div>
                             <div class="mb-4">Hình ảnh:
-                                {{ form_widget(createForm.imgFile, { 'attr': { 'class': 'form-control relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-gray-300 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:text-main file:border-solid file:border-inherit file:bg-transparent file:px-3 file:py-[0.32rem] file:text-surface focus:border-primary focus:text-main focus:shadow-inset focus:outline-none file:border-[#00205c]' } }) }}
+                                {{ form_widget(createForm.imgFile, { 'attr': { 'class': '
+                                 form-control relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-gray-300 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:text-main file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-main focus:shadow-inset focus:outline-none file:border-[#00205c]' } }) }}
                             </div>
                             <div class="mb-4">Giảm giá:
                                 {{ form_widget(createForm.discountPercent, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
@@ -65,13 +67,14 @@
 
         <!-- The Modal with Overlay for Editing Product -->
         <div id="editProductModal" class="fixed z-10 inset-0 hidden">
-            <!-- Overlay -->
+            <!-- Overlay --
             <div id="editOverlay" class="absolute inset-0 bg-black opacity-50"></div>
 
-            <!-- Modal Content -->
+            <-- Modal Content -->
             <div class="flex items-center justify-center min-h-screen">
                 <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative z-20">
-                    <button id="closeEditModalButton" class="text-gray-500 hover:text-gray-700 float-right">&times;</button>
+                    <button id="closeEditModalButton" class="text-gray-500 hover:text-gray-700 float-right">&times;
+                    </button>
                     <div class="w-full flex justify-center text-main">
                         <div class="max-w-md w-full my-7 mx-10 bg-white rounded-lg">
                             <h1 class="text-2xl font-bold mb-4 text-center">Chỉnh sửa Sản Phẩm</h1>
@@ -92,7 +95,8 @@
                                 {{ form_widget(editForm.productUseGuide, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
                             </div>
                             <div class="mb-4">Hình ảnh:
-                                {{ form_widget(editForm.imageFile, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                                {{ form_widget(editForm.imageFile, { 'attr': { 'class': '
+form-control relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-gray-300 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal leading-[2.15] text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:text-main file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-main focus:shadow-inset focus:outline-none file:border-[#00205c]' } }) }}
                             </div>
                             <div class="mb-4">Giảm giá:
                                 {{ form_widget(editForm.discountPercent, { 'attr': { 'class': 'form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
@@ -110,96 +114,99 @@
         <!-- Table displaying the list of products -->
         <table class="min-w-full bg-white shadow-md rounded text-center">
             <thead class="bg-gray-200">
-                <tr>
-                    <th class="py-2">Hình Ảnh</th>
-                    <th class="py-2">ID</th>
-                    <th class="py-2">Tên sản phẩm</th>
-                    <th class="py-2">Số lượng</th>
-                    <th class="py-2">Giá</th>
-                    <th class="py-2">Giảm giá</th>
-                    <th class="py-2">Danh mục</th>
-                    <th class="py-2">Chức năng</th>
-                </tr>
+            <tr>
+                <th class="py-2">Hình Ảnh</th>
+                <th class="py-2">ID</th>
+                <th class="py-2">Tên sản phẩm</th>
+                <th class="py-2">Số lượng</th>
+                <th class="py-2">Giá</th>
+                <th class="py-2">Giảm giá</th>
+                <th class="py-2">Danh mục</th>
+                <th class="py-2">Chức năng</th>
+            </tr>
             </thead>
             <tbody>
-                {% for product in products %}
+            {% for product in products %}
                 <tr>
                     <td class="border px-4 py-2">
                         <img src="{{ asset('img/blobs/' ~ product.imageUrl) }}"
-                                                         alt="{{ product.name }}"
-                                                         width="80" class="rounded">
+                             alt="{{ product.name }}"
+                             width="80" class="rounded">
                     <td class="border px-4 py-2">{{ product.id }}</td>
                     <td class="border px-4 py-2">{{ product.name }}</td>
                     <td class="border px-4 py-2">{{ product.quantity }}</td>
                     <td class="border px-4 py-2">{{ product.price }}</td>
                     <td class="border px-4 py-2">{{ product.discountPercent }}</td>
                     <td class="border px-4 py-2">
-                    {% for category in categories %}
-                        {% if category.id == product.categoryId %}
-                            {{ category.name }}
-                        {% endif %}
-                    {% endfor %}
+                        {% for category in categories %}
+                            {% if category.id == product.categoryId %}
+                                {{ category.name }}
+                            {% endif %}
+                        {% endfor %}
                     </td>
                     <td class="border px-4 py-2">
                         <!-- Edit button to open edit modal -->
-                        <button class="bg-black text-white px-4 py-2 rounded" data-product-id="{{ product.id }}" onclick="openEditModal(this)">Chỉnh sửa</button>
-                        <a href="{{ path('admin_product_delete', { 'id': product.id }) }}" class="bg-red-500 text-white px-4 py-2 rounded">Xóa</a>
+                        <button class="bg-black text-white px-4 py-2 rounded" data-product-id="{{ product.id }}"
+                                onclick="openEditModal(this)">Chỉnh sửa
+                        </button>
+                        <a href="{{ path('admin_product_delete', { 'id': product.id }) }}"
+                           class="bg-red-500 text-white px-4 py-2 rounded">Xóa</a>
                     </td>
                 </tr>
-                {% endfor %}
+            {% endfor %}
             </tbody>
         </table>
     </div>
 
     <script>
-     function openModal(modalId) {
-    document.getElementById(modalId).classList.remove("hidden");
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).classList.add("hidden");
-    }
-
-    document.getElementById('openCreateModalButton').addEventListener('click', function() {
-        openModal('createProductModal');
-    });
-
-    document.getElementById('closeCreateModalButton').addEventListener('click', function() {
-        closeModal('createProductModal');
-    });
-
-    function openEditModal(button) {
-        let productId = button.dataset.productId;
-        let productIdInput = document.getElementById('update_product_id');
-        if (productIdInput) {
-            productIdInput.value = productId;
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove("hidden");
         }
-        console.log(productId);
-        openModal('editProductModal');
-    }
 
-    document.getElementById('closeEditModalButton').addEventListener('click', function() {
-        closeModal('editProductModal');
-    });
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add("hidden");
+        }
 
-    // Handle another general modal (e.g., productModal)
-    var generalModal = document.getElementById("productModal");
-    var openGeneralModalButton = document.getElementById("openModalButton");
-    var closeGeneralModalButton = document.getElementById("closeModalButton");
-    var overlay = document.getElementById("overlay");
+        document.getElementById('openCreateModalButton').addEventListener('click', function () {
+            openModal('createProductModal');
+        });
 
-    openGeneralModalButton.onclick = function() {
-        openModal('productModal');
-    }
+        document.getElementById('closeCreateModalButton').addEventListener('click', function () {
+            closeModal('createProductModal');
+        });
 
-    closeGeneralModalButton.onclick = function() {
-        closeModal('productModal');
-    }
+        function openEditModal(button) {
+            let productId = button.dataset.productId;
+            let productIdInput = document.getElementById('update_product_id');
+            if (productIdInput) {
+                productIdInput.value = productId;
+            }
+            console.log(productId);
+            openModal('editProductModal');
+        }
 
-    // Close modal if the user clicks on the overlay
-    overlay.onclick = function() {
-        closeModal('productModal');
-    }
+        document.getElementById('closeEditModalButton').addEventListener('click', function () {
+            closeModal('editProductModal');
+        });
+
+        // Handle another general modal (e.g., productModal)
+        var generalModal = document.getElementById("productModal");
+        var openGeneralModalButton = document.getElementById("openModalButton");
+        var closeGeneralModalButton = document.getElementById("closeModalButton");
+        var overlay = document.getElementById("overlay");
+
+        openGeneralModalButton.onclick = function () {
+            openModal('productModal');
+        }
+
+        closeGeneralModalButton.onclick = function () {
+            closeModal('productModal');
+        }
+
+        // Close modal if the user clicks on the overlay
+        overlay.onclick = function () {
+            closeModal('productModal');
+        }
 
     </script>
 {% endblock %}

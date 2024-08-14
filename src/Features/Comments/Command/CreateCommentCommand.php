@@ -6,9 +6,9 @@ namespace App\Features\Comments\Command;
 
 class CreateCommentCommand
 {
-    private string $productId;
-    private string $userId;
-    private string $content;
+    private string $productId = '';
+    private string $userId = '';
+    private string $content = '';
 
     public function __construct()
     {
