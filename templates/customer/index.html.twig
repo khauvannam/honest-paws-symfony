@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Customer Portal
+{% endblock %}
+{% block body %}
+    <div class="bg-[#00205c] py-4">
+        <div class="max-w-[1300px] mx-auto flex justify-center space-x-8">
+            <a href="{{ path('app_customer_customer_index') }}" class="text-white text-xl font-bold hover:underline">
+                Summary
+            </a>
+            <a href="" class="text-white text-xl font-bold hover:underline">
+                Orders
+            </a>
+        </div>
+    </div>
+
+    <div class="container mx-auto mt-8 px-6">
+        <h1 class="text-xl font-semibold text-gray-800">Chào mừng bạn</h1>
+        <h2 class="text-2xl font-bold mt-2 text-gray-900">Tài khoản của bạn</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+            <div class="border rounded-lg shadow-sm p-6 bg-white">
+            {% if app.user %}
+                <h3 class="font-bold text-gray-900 mb-4">Thông tin</h3>
+                <p class="text-gray-700"><strong class="text-gray-900">Tên của bạn:</strong> {{ app.user.username }}</p>
+                <p class="text-gray-700"><strong class="text-gray-900">Email:</strong> {{ app.user.email }}</p>
+            </div>
+            <div class="border rounded-lg shadow-sm p-6 bg-white">
+                <h3 class="font-bold text-gray-900 mb-4">Điểm thưởng</h3>
+                <p class="text-gray-700"><strong class="text-gray-900">Tổng điểm của bạn:</strong> 250</p>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="mt-8">
+            <h3 class="font-bold text-gray-900">Lịch sử đặt hàng</h3>
+            <p class="mt-4 text-gray-700">Bạn chưa đặt đơn hàng nào!</p>
+        </div>
+
+        <div class="flex justify-center mt-8">
+            <a href="/logout">
+                <button class="px-6 py-2 bg-[#00205c] text-white rounded-lg hover:bg-[#00163f] transition duration-300">
+                    Đăng xuất
+                </button>
+            </a>
+        </div>
+    </div>
+{% endblock %}

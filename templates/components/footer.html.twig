@@ -16,6 +16,9 @@
         <div class="w-5/12 relative flex flex-col justify-center">
             <div class="flex items-center text-main relative">
                 <input type="email" placeholder="Nhập email tại đây"
+                       value="{% if app.user %}
+                        {{ app.user.email }}
+                        {% endif %}"
                        class="focus:bg-[#fef5d4] rounded-full relative w-full p-5 bg-transparent border-[1px] border-solid border-[#00205c] outline-none text-main">
                 <button class="absolute top-1/2 translate-y-[-50%] underline right-[24px] font-bold">Đăng ký ngay
                 </button>

@@ -29,7 +29,6 @@ class CartController extends AbstractController
         $this->service = $service;
     }
 
-
     /**
      * @throws ExceptionInterface
      */

@@ -107,6 +107,7 @@ class IdentityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $command->setEmail($email);
             $this->bus->dispatch($command);
+            return $this->redirectToRoute('login'); 
         }
         return $this->render('security/reset-password.html.twig', ['form' => $form->createView()]);
     }
@@ -154,7 +155,7 @@ class IdentityController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->bus->dispatch($command);
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('login');
         }
         return $this->render('security/change_password.html.twig', ['form' => $form->createView()]);
     }

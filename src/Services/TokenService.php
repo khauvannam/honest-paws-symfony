@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entity\Users\UserProvider;
 use App\Repository\Identities\IdentityRepository;
 use App\Repository\Identities\UserProviderRepository;
+use DateTime;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Uid\Uuid;
 
@@ -37,7 +38,7 @@ class TokenService
         $userId = $user->getId();
 
         $existingToken = $this->userProviderRepository->findOneBy(['userId' => $userId, 'token' => $query->getToken(), 'caseDescription' => $query->getCaseDescription()]);
-        if (!$existingToken || $existingToken->getCreatedAt() < new \DateTime('-5 minutes')) return false;
+        if (!$existingToken || $existingToken->getCreatedAt() < new DateTime('-5 minutes')) return false;
         return true;
     }
 }
