@@ -1,63 +1,73 @@
 {% extends 'admin.html.twig' %}
-{% block tieude %} <p class="text-2xl font-bold">Bảng điều khiển</p> {% endblock %}
-{% block content %}
- <!-- Main Content -->
-            
-                <!-- Stats -->
-                <div class="grid grid-cols-3 gap-6 mt-6">
-                    <div class="bg-white p-6 rounded-lg shadow">
-                        <h3 class="text-gray-600 text-lg">Tổng Sản Phẩm</h3>
-                        {% if products %} 
-                        <p class="text-3xl font-semibold">{{ products|length }}</p>
-                        {% endif %}
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow">
-                        <h3 class="text-gray-600 text-lg">Tổng Danh Mục</h3>
-                        {% if categories %} 
-                        <p class="text-3xl font-semibold">{{ categories|length }}</p>
-                        {% endif %}
-                    </div>
-                </div>
-                <!-- Transactions -->
-                <div class="bg-white p-6 rounded-lg shadow mt-6">
-                    <h3 class="text-gray-600 text-lg">Đơn đặt hàng</h3>
-                    <div class="mt-4 space-y-4">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center">
-                                <img src="https://via.placeholder.com/40" class="rounded-full mr-3" alt="User Image">
-                                <div>
-                                    <h4 class="text-lg font-semibold">Robert Carter</h4>
-                                    <p class="text-gray-500 text-sm">June 14, 2023</p>
-                                </div>
-                            </div>
-                            <p class="text-green-600 font-semibold">+$2438.71</p>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center">
-                                <img src="https://via.placeholder.com/40" class="rounded-full mr-3" alt="User Image">
-                                <div>
-                                    <h4 class="text-lg font-semibold">Daniel Foster</h4>
-                                    <p class="text-gray-500 text-sm">June 12, 2023</p>
-                                </div>
-                            </div>
-                            <p class="text-red-600 font-semibold">-$526.47</p>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Additional Sections -->
-                <div class="grid grid-cols-2 gap-6 mt-6">
-                    <div class="bg-white p-6 rounded-lg shadow">
-                        <h3 class="text-gray-600 text-lg">Upcoming Event Planning Discussion</h3>
-                        <p class="text-gray-500 text-sm mt-2">16th Oct, 11:00 - 12:00</p>
-                        <p class="mt-4 text-blue-600 font-semibold">Meeting Zoom Link</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow">
-                        <h3 class="text-gray-600 text-lg">Team Performance</h3>
-                        <div class="mt-4">
-                            <img src="https://via.placeholder.com/200x100" alt="Team Performance">
+{% block tieude %}
+    <p class="text-2xl font-bold">Bảng điều khiển</p>
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-6 mt-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-gray-600 text-lg">Tổng Sản Phẩm</h3>
+            {% if products %} 
+                <p class="text-3xl font-semibold">{{ products|length }}</p>
+            {% endif %}
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-gray-600 text-lg">Tổng Danh Mục</h3>
+            {% if categories %} 
+                <p class="text-3xl font-semibold">{{ categories|length }}</p>
+            {% endif %}
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-gray-600 text-lg">Tổng Đơn Hàng</h3>
+            {% if totalOrdersCount is not null %}
+                <p class="text-3xl font-semibold">{{ totalOrdersCount }}</p>
+            {% else %}
+                <p class="text-gray-500">Không có đơn hàng nào.</p>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Transactions -->
+    <div class="bg-white p-6 rounded-lg shadow mt-6">
+        <h3 class="text-gray-600 text-lg">Đơn đặt hàng</h3>
+        <div class="mt-4 space-y-4">
+            {% for order in orders %}
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div>
+                            {% if app.user.id == order.userId %}
+                                <p class="text-xl">Tên người dùng: <span class="text-main text-lg">{{ app.user.username }}</span></p>
+                            {% endif %}
+                            <p class="text-base">Ngày đặt hàng: <span class="text-gray-500 text-sm">{{ order.getOrderDate()|date('j F, Y') }}</span></p>
                         </div>
                     </div>
+                    <p class="font-semibold">Giá trị: 
+                        <span class="text-red-600">{{ order.getOrderTotal()|number_format(2, '.', ',') }}$</span>
+                    </p>
                 </div>
+            {% else %}
+                <p class="text-gray-500">Không có đơn hàng nào.</p>
+            {% endfor %}
+        </div>
+        <!-- Pagination Links -->
+        <div class="mt-4 flex items-center justify-center">
+            <div>
+                {% if currentPage > 1 %}
+                    <a href="{{ path('admin_dashboard', {'page': 1}) }}" class="text-blue-600"></a>
+                    <a href="{{ path('admin_dashboard', {'page': currentPage - 1}) }}" class="text-blue-600">Trước</a>
+                {% endif %}
             </div>
+            <div class="text-center mx-10">
+                Trang {{ currentPage }}
+            </div>
+            <div>
+                {% if currentPage < totalPages %}
+                    <a href="{{ path('admin_dashboard', {'page': currentPage + 1}) }}" class="text-blue-600">Sau</a>
+                    <a href="{{ path('admin_dashboard', {'page': totalPages}) }}" class="text-blue-600"></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
