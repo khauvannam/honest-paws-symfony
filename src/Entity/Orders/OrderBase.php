@@ -10,7 +10,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity]
 class OrderBase
 {
-    public function __construct(string $customerId, string $shippingAddress, string $shippingMethodId = '123', OrderStatus $orderStatus = OrderStatus::pending) // OrderStatus::PENDING
+    public function __construct(string $customerId, string $shippingAddress, string $shippingMethodId, OrderStatus $orderStatus = OrderStatus::pending) // OrderStatus::PENDING
     {
         $this->id = Uuid::v4()->toString();
         $this->customerId = $customerId;
@@ -56,9 +56,10 @@ class OrderBase
     public static function create(
         string $customerId,
         string $shippingAddress,
+        string $shippingMethodId
     ): self
     {
-        return new self($customerId, $shippingAddress);
+        return new self($customerId, $shippingAddress, $shippingMethodId);
     }
 
     public function addOrderLine(OrderLine $orderLine): void

@@ -13,11 +13,18 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, OrderBase::class);
     }
 
+    public function update(): void
+    {
+        $em = $this->getEntityManager();
+        $em->flush();
+    }
+
     public function save(OrderBase $order): void
     {
         $this->getEntityManager()->persist($order);
         $this->getEntityManager()->flush();
     }
+
     /**
      * Get all orders ordered by order date in descending order.
      *
@@ -45,6 +52,7 @@ class OrderRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findOrdersWithPagination(int $limit, int $offset)
     {
         return $this->createQueryBuilder('o')
@@ -62,7 +70,7 @@ class OrderRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    
+
     public function countOrders()
     {
         return $this->createQueryBuilder('o')

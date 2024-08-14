@@ -34,6 +34,6 @@ class PlaceOrderSubscriber implements EventSubscriberInterface
             $product->setSoldQuantity($product->getSoldQuantity() + $quantity);
             $product->setQuantity($product->getQuantity() - $quantity);
         }
-        $this->productRepository->save($product);
+        $this->productRepository->update($product);
     }
 }

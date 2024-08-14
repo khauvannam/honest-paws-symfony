@@ -17,12 +17,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OrderController extends AbstractController
 {
-    public function __construct(private MessageBusInterface $bus, private GetEnvelopeResultService $service) {}
-
-    #[Route('/order_item', name: 'order_item')]
-    public function order_item(): Response
+    public function __construct(private MessageBusInterface $bus, private GetEnvelopeResultService $service)
     {
-        return $this->render('order/order_item.html.twig');
     }
 
     /**
@@ -50,7 +46,6 @@ class OrderController extends AbstractController
         $cart = $this->service::invoke($this->bus->dispatch($cartCommand));
         $orderCommand = new PlaceOrderCommand();
         $orderCommand->setCart($cart);
-        $this->bus->dispatch($orderCommand);
 
         $form = $this->createForm(PlaceOrderType::class, $orderCommand);
         $form->handleRequest($request);
