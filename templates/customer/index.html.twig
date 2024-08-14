@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Customer Portal
+{% endblock %}
+{% block body %}
+    <div class="flex justify-center items-center bg-[#00205c]">
+        <div class="w-full max-w-[1300px] flex items-center pb-8 pt-1">
+            <h1 class="text-white text-3xl font-extrabold">CUSTOMER PORTAL</h1>
+        </div>
+    </div>
+
+    <div class="text-main flex">
+        <div class="px-8">
+            <a href="{{ path('app_customer_customer_index') }}">Summary</a>
+        </div>
+        <div class="px-8">
+            <a href="">Orders</a>
+        </div>
+    </div>
+{% endblock %}
