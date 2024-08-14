@@ -25,16 +25,16 @@
                 <p class="text-gray-700"><strong class="text-gray-900">Tên của bạn:</strong> {{ app.user.username }}</p>
                 <p class="text-gray-700"><strong class="text-gray-900">Email:</strong> {{ app.user.email }}</p>
                                               <a href="{{ path('changePassword', {'userId': app.user.id}) }}">
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+                <a href="/admin/dashboard">
+                    <button class="mt-4 px-4 py-2 bg-gray-800 text-white rounded">Trang quản trị</button>
+                </a>
+            {% endif %}
   <button class="mt-4 px-4 py-2 bg-gray-800 text-white rounded">Đổi mật khẩu</button> </a>
 
             </div>
         </div>
         {% endif %}
-        
-        <div class="mt-8">
-            <h3 class="font-bold text-gray-900">Lịch sử đặt hàng</h3>
-            <p class="mt-4 text-gray-700">Bạn chưa đặt đơn hàng nào!</p>
-        </div>
 
         <div class="flex justify-center mt-8">
             <a href="/logout">

@@ -59,7 +59,11 @@
                             </button>
                         </div>
                         <div>
-                            <p class="mx-5">Còn hàng</p>
+                            {% if product.quantity > 0 %}
+                                <p class="text-green-600 ml-4">Còn hàng: {{product.quantity}}</p>
+                            {% else %}
+                                <p class="text-red-600 ml-4" >Hết hàng</p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="flex my-8 items-center mb-12">
