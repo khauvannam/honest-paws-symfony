@@ -1,20 +1,69 @@
 import "./styles/app.css";
 
-// Avatar Dropdown Functionality
-const avatarDropdown = document.querySelector("#avatar");
-const changePassword = document.querySelector("#change-password");
-const overlay = document.querySelector("#overlay");
+// Cart Popup
+document.addEventListener("DOMContentLoaded", function () {
+  const cartIcon = document.getElementById("cartIcon");
+  const cartPopup = document.getElementById("cartPopup");
+  const overlay = document.getElementById("overlay");
+  const closeCart = document.getElementById("closeCart");
 
-if (avatarDropdown) {
-  avatarDropdown.addEventListener("click", (e) => {
-    e.preventDefault();
-    toggleVisibility(changePassword);
+  // Hiển thị popup và overlay
+  cartIcon.addEventListener("click", function () {
+    cartPopup.classList.remove("translate-x-full");
+    cartPopup.classList.add("translate-x-0");
+    overlay.classList.remove("hidden");
   });
 
-  overlay.addEventListener("click", () => {
-    hideElements([changePassword, form]); // Close both changePassword and search form
+  // Đóng popup và overlay khi nhấp vào nút đóng
+  closeCart.addEventListener("click", function () {
+    cartPopup.classList.remove("translate-x-0");
+    cartPopup.classList.add("translate-x-full");
+    overlay.classList.add("hidden");
   });
-}
+
+  // Đóng popup và overlay khi nhấp ra ngoài
+  document.addEventListener("click", function (event) {
+    // Kiểm tra xem nhấp vào bên ngoài popup và overlay
+    if (
+      overlay.classList.contains("hidden") &&
+      !cartPopup.contains(event.target) &&
+      !cartIcon.contains(event.target) &&
+      !overlay.contains(event.target)
+    ) {
+      cartPopup.classList.remove("translate-x-0");
+      cartPopup.classList.add("translate-x-full");
+      overlay.classList.add("hidden");
+    }
+  });
+
+  // Ngăn chặn việc đóng khi nhấp vào overlay
+  overlay.addEventListener("click", function (event) {
+    event.stopPropagation();
+  });
+});
+
+// Search Popup
+document.addEventListener("DOMContentLoaded", function () {
+  const searchIcon = document.querySelector(
+    "a.flex.items-center.cursor-pointer",
+  );
+  searchIcon.setAttribute("id", "search");
+
+  const form = document.getElementById("searchForm");
+  const closeButton = document.getElementById("closeSearchForm");
+
+  searchIcon.addEventListener("click", function () {
+    if (form.classList.contains("opacity-0")) {
+      form.classList.remove("top-[-100px]", "opacity-0", "pointer-events-none");
+      form.classList.add("top-0", "opacity-100", "pointer-events-auto");
+    }
+  });
+
+  closeButton.addEventListener("click", function () {
+    form.classList.add("top-[-100px]", "opacity-0", "pointer-events-none");
+    form.classList.remove("top-0", "opacity-100", "pointer-events-auto");
+  });
+});
 
 // Quantity Increase/Decrease Functionality
 document.addEventListener("DOMContentLoaded", function () {
@@ -29,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateQuantity(change) {
       const quantityInput = document.getElementById("quantityInput");
       const hiddenQuantity = document.getElementById(
-        "create_cart_item_quantity"
+        "create_cart_item_quantity",
       );
 
       let currentQuantity = parseInt(quantityInput.value, 10);
@@ -47,42 +96,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Search Functionality
-const searchIcon = document.querySelector("#search");
-const form = searchIcon ? searchIcon.querySelector("form") : null;
-
-if (searchIcon && form) {
-  searchIcon.addEventListener("click", () => {
-    toggleVisibility(form);
-  });
-  overlay.addEventListener("click", () => {
-    toggleVisibility(form);
-  });
-
-  form.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-}
-
-// Utility Functions
-function toggleVisibility(element) {
-  element.classList.toggle("hidden");
-  overlay.classList.toggle("hidden");
-}
-
-function hideElements(elements) {
-  elements.forEach((element) => {
-    if (element) element.classList.add("hidden");
-  });
-  overlay.classList.add("hidden");
-}
-
 document.addEventListener("DOMContentLoaded", function () {
   const increaseButtons = document.querySelectorAll(".increase-quantity");
   const decreaseButtons = document.querySelectorAll(".decrease-quantity");
   const totalPriceElement = document.querySelector("#total-price");
   let totalPriceValue = parseFloat(
-    totalPriceElement.textContent.replace(/\s|\$/g, "")
+    totalPriceElement.textContent.replace(/\s|\$/g, ""),
   );
 
   increaseButtons.forEach((button) => attachButtonClickEvent(button, 1));
@@ -97,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const priceChange = updateQuantity(
         change,
         totalItemPriceElement,
-        quantityInput
+        quantityInput,
       );
 
       if (priceChange !== 0) {

@@ -5,7 +5,6 @@
     "@symfony/webpack-encore": "^4.0.0",
     "autoprefixer": "^10.4.19",
     "core-js": "^3.23.0",
-    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.40",
     "postcss-loader": "^7.3.4",
     "regenerator-runtime": "^0.13.9",
@@ -17,11 +16,10 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "symfony": "symfony serve -d",
+    "symfony": "symfony server:start -d",
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "all": "npm-run-all symfony watch --parallel",
     "build": "encore production --progress"
   },
   "dependencies": {

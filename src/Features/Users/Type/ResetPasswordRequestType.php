@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Features\Users\Type;
 
 use App\Features\Users\Command\ResetPasswordRequestCommand;
@@ -18,15 +19,14 @@ class ResetPasswordRequestType extends AbstractType
                 'required' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Request Password Reset',
+                'label' => 'Xác nhận',
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => ResetPasswordRequestCommand::class,
         ]);
     }
 }
-

@@ -8,7 +8,8 @@
                 <div class="w-full max-w-[1300px] flex items-center text-main">
                     <a href="/" class="hover:underline">Trang chủ</a>
                     <span class="mx-2">></span>
-                    <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}" class="hover:underline">
+                    <a href="{{ path('all_products', {'productLimit' : 10, 'categoryLimit' : 5}) }}"
+                       class="hover:underline">
                         Tất cả sản phẩm</a>
                     <span class="mx-2">></span>
                     <span>{{ product.name }}</span>
@@ -64,7 +65,8 @@
                     <div class="flex my-8 items-center mb-12">
                         <!-- Stock Status -->
                         <div class="w-full">
-                            {{ form_start(cartForm, {'attr': {'action': path('cart_new')}}) }}
+                            <!-- Add a valid href if "Add to Cart" should be a link, or change to a button -->
+                            {{ form_start(cartForm, {'attr': {'action': path('cart_new', {'productId' : product.id})}}) }}
                             {{ form_widget(cartForm.productId, {'value': product.id}) }}
                             {{ form_widget(cartForm.quantity, {'value': 1}) }}
                             {{ form_widget(cartForm.imgUrl, {'value': product.imageUrl}) }}

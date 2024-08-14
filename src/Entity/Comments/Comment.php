@@ -6,6 +6,7 @@ use App\Entity\Products\Product;
 use App\Entity\Users\User;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
 class Comment
@@ -15,26 +16,29 @@ class Comment
     private string $id;
     #[ORM\Column]
     private string $content;
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments')]
+    #[ORM\Column(type: "string", length: 36)]
+    private string $userId;
+
+    #[ORM\Column(type: "string", length: 36)]
+    private string $productId;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
     private User $user;
-    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'comments')]
+
+    #[ORM\ManyToOne(targetEntity: Product::class)]
+    #[ORM\JoinColumn(name: "product_id", referencedColumnName: "id")]
     private Product $product;
     private DateTime $createdAt;
 
     /**
-     * @param string $id
      * @param string $content
-     * @param User $user
-     * @param Product $product
-     * @param DateTime $createdAt
      */
-    public function __construct(string $id, string $content, User $user, Product $product, DateTime $createdAt)
+    public function __construct(string $content)
     {
-        $this->id = $id;
+        $this->id = Uuid::v4()->toString();
         $this->content = $content;
-        $this->user = $user;
-        $this->product = $product;
-        $this->createdAt = $createdAt;
+        $this->createdAt = new DateTime();
     }
 
     public function getId(): string
@@ -91,4 +95,27 @@ class Comment
         $this->createdAt = $createdAt;
         return $this;
     }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(string $userId): Comment
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    public function getProductId(): string
+    {
+        return $this->productId;
+    }
+
+    public function setProductId(string $productId): Comment
+    {
+        $this->productId = $productId;
+        return $this;
+    }
+   
 }

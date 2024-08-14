@@ -58,21 +58,6 @@ class ProductRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    /**
-     * @param string $name
-     * @return Product|null
-     * @throws NonUniqueResultException
-     */
-    public function findByName(string $name): ?Product
-    {
-        return $this->createQueryBuilder("p")
-            ->andWhere("p.name = :name")
-            ->setParameter("name", $name)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-
     public function findAllProducts(int $limit, int $offset = 0, ?string $search = null): array
     {
 
@@ -81,7 +66,7 @@ class ProductRepository extends ServiceEntityRepository
             ->setFirstResult($offset);
 
         if ($search) {
-            
+
             $qb->where('p.name LIKE :search')
                 ->setParameter('search', '%' . $search . '%');
         }
