@@ -16,5 +16,6 @@ class UpdateCommentCommandHandler
     {
         $comment = $this->commentRepository->findOneBy(['id' => $command->getId()]);
         $comment->setContent($command->getContent());
+        $this->commentRepository->save($comment);
     }
 }

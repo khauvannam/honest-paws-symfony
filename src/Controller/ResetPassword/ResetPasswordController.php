@@ -1,20 +1,23 @@
 <?php
+
 namespace App\Controller\ResetPassword;
 
+use App\Features\Users\Command\ResetPasswordCommand;
+use App\Features\Users\Command\ResetPasswordRequestCommand;
 use App\Features\Users\Type\ResetPasswordRequestType;
 use App\Features\Users\Type\ResetPasswordType;
-use App\Features\Tokens\Command\CreateTokenCommand;
-use App\Features\Users\Command\ResetPasswordCommand;
-use App\Entity\Users\CaseDescription;
-use App\Features\Users\Command\ResetPasswordRequestCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ResetPasswordController extends AbstractController
 {
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/reset-password/request', name: 'reset_password_request', methods: ['GET', 'POST'])]
     public function request(Request $request, MessageBusInterface $bus): Response
     {
@@ -33,11 +36,14 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('security/request_reset_password.html.twig', [
-            'form' => $form->createView(), 
+            'form' => $form->createView(),
         ]);
     }
 
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/reset-password/{token}', name: 'reset_password', methods: ['GET', 'POST'])]
     public function reset(string $token, Request $request, MessageBusInterface $bus): Response
     {
@@ -53,7 +59,7 @@ class ResetPasswordController extends AbstractController
 
             $this->addFlash('success', 'Password has been reset.');
 
-            return $this->redirectToRoute('login'); 
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('security/reset_password.html.twig', [

@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Search Popup
 document.addEventListener("DOMContentLoaded", function () {
   const searchIcon = document.querySelector(
-    "a.flex.items-center.cursor-pointer"
+    "a.flex.items-center.cursor-pointer",
   );
   searchIcon.setAttribute("id", "search");
 
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateQuantity(change) {
       const quantityInput = document.getElementById("quantityInput");
       const hiddenQuantity = document.getElementById(
-        "create_cart_item_quantity"
+        "create_cart_item_quantity",
       );
 
       let currentQuantity = parseInt(quantityInput.value, 10);
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const decreaseButtons = document.querySelectorAll(".decrease-quantity");
   const totalPriceElement = document.querySelector("#total-price");
   let totalPriceValue = parseFloat(
-    totalPriceElement.textContent.replace(/\s|\$/g, "")
+    totalPriceElement.textContent.replace(/\s|\$/g, ""),
   );
 
   increaseButtons.forEach((button) => attachButtonClickEvent(button, 1));
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const priceChange = updateQuantity(
         change,
         totalItemPriceElement,
-        quantityInput
+        quantityInput,
       );
 
       if (priceChange !== 0) {
