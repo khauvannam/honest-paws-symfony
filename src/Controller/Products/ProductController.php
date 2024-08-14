@@ -7,6 +7,7 @@ namespace App\Controller\Products;
 
 use App\Features\Carts\Command\CreateCartItemCommand;
 use App\Features\Carts\Type\CreateCartItemType;
+use App\Features\Comments\Type\CreateCommentType;
 use App\Features\Homes\Query\GetCategoriesAndProductsQuery;
 use App\Features\Products\Command\CreateProductCommand;
 use App\Features\Products\Command\DeleteProductCommand;
@@ -140,17 +141,18 @@ class ProductController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/product_details/{id}', name: 'product_details', methods: ['GET'])]
+    #[Route('/product_details/{id}', name: 'product_details', methods: ['GET', 'POST'])]
     public function GetProductId(string $id): Response
     {
         $command = new GetProductQuery($id);
         $cartItemCommand = new CreateCartItemCommand();
         $form = $this->createForm(CreateCartItemType::class, $cartItemCommand);
-
+        $commentForm = $this->createForm(CreateCommentType::class);
         $handler = $this->bus->dispatch($command);
         $result = GetEnvelopeResultService::invoke($handler);
         $result['id'] = $id;
         $result['cartForm'] = $form->createView();
+        $result['commentForm'] = $commentForm->createView();
         return $this->render('product/product_details.html.twig', $result);
     }
 }
